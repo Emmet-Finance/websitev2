@@ -37,33 +37,43 @@ function EchoSystem() {
                             <div className="imageGrid">
                                 <div className="echoImage">
                                     <img src={chain1} alt="Echo" />
+                                    <p>Ton</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain2} alt="Echo" />
+                                    <p>Ethereum</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain3} alt="Echo" />
+                                    <p>Polygon</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain4} alt="Echo" />
+                                    <p>Arbitrum</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain5} alt="Echo" />
+                                    <p>BSC</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain6} alt="Echo" />
+                                    <p>Optimism</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain7} alt="Echo" />
+                                    <p>Skale</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain8} alt="Echo" />
+                                    <p>OnlyLayer</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain9} alt="Echo" />
+                                    <p>Avalanche</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain10} alt="Echo" />
+                                    <p>Base</p>
                                 </div>
                             </div>
                         </Tab>
@@ -71,9 +81,11 @@ function EchoSystem() {
                             <div className="imageGrid">
                                 <div className="echoImage">
                                     <img src={chain11} alt="Echo" />
+                                    <p>Stone.Fi</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain12} alt="Echo" />
+                                    <p>Uniswap</p>
                                 </div>
                             </div>
                         </Tab>
@@ -81,15 +93,19 @@ function EchoSystem() {
                             <div className="imageGrid">
                                 <div className="echoImage">
                                     <img src={chain13} alt="Echo" />
+                                    <p>CAVI</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain14} alt="Echo" />
+                                    <p>NFT Moon Metaverse</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain15} alt="Echo" />
+                                    <p>Halo Pixel</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain16} alt="Echo" />
+                                    <p>Torch Finance</p>
                                 </div>
                             </div>
                         </Tab>
@@ -97,12 +113,15 @@ function EchoSystem() {
                             <div className="imageGrid">
                                 <div className="echoImage">
                                     <img src={chain17} alt="Echo" />
+                                    <p>Pyth Network</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain18} alt="Echo" />
+                                    <p>Certik</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain19} alt="Echo" />
+                                    <p>Coinvent</p>
                                 </div>
                             </div>
                         </Tab>
