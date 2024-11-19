@@ -8,6 +8,7 @@ import OneStop from "./IndexpageComponents/OneStop";
 import AccessDefi from "./IndexpageComponents/AccessDefi";
 import Security from "./IndexpageComponents/Security";
 
+
 import "./WebHome.css";
 
 // import TopArt1 from '../../assets/img/web/fire-bg.png';
@@ -15,6 +16,8 @@ import HeroImage from "../../assets/img/web/hero-content.png";
 import TopArt1 from "../../assets/img/web/bg-hero-new.webp";
 import TopArtMob from "../../assets/img/web/fire-bg2.png";
 import TopArt2 from "../../assets/img/web/line-bg.png";
+import EchoSystem from "../HomeComponents/EchoSystem";
+
 
 function WebHome() {
   // Determine whether it's a mobile device based on the screen width
@@ -35,6 +38,7 @@ function WebHome() {
             <NetworkSlider />
           </div>
           <OneStop />
+          <EchoSystem/>
           <AccessDefi />
           <Security />
         </div>

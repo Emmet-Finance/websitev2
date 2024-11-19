@@ -1,0 +1,112 @@
+.imageGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 36px;
+}
+
+.echoImage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 241px;
+    height: 186px;
+    border-radius: 16px;
+    background-color: #151516;
+}
+
+.echoTab ul.nav.nav-tabs {
+    border: 0;
+    outline: none;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 36px;
+}
+
+.echoTab .nav-tabs .nav-link {
+    background: transparent;
+    color: #fff;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.43;
+    letter-spacing: -0.3px;
+    text-align: left;
+    color: #e0e3e6;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: solid 0.6px #3c3f43;
+    background-color: #202226;
+    width: 100%;
+    text-align: center;
+    height: 38px;
+}
+
+.echoTab .nav-tabs li.nav-item {
+    width: 25%;
+    max-width: 116px;
+}
+
+.echoTab .nav-tabs .nav-link.active {
+    background-image: linear-gradient(106deg, #4a67ff -36%, #efeb00 -39%, #8940d3 51%, #4a67ff 88%);
+    border: 0;
+    border-radius: 28px;
+}
+
+.echosystemContainner h2 {
+    font-family: Inter;
+    font-size: 46px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.4;
+    letter-spacing: -1.38px;
+    text-align: center;
+    color: #fff;
+}
+
+.echosystemContainner {
+    padding: 40px 0 80px;
+}
+
+@media only screen and (max-width: 1024px) {
+    .echoImage {
+        width: 193px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .echoImage {
+        width: calc(50% - 4px);
+        max-width: 167px;
+        height: 106px;
+    }
+
+    .echoTab ul.nav.nav-tabs {
+        gap: 8px;
+    }
+
+    .echoTab .nav-tabs li.nav-item {
+        flex: 1;
+        width: auto;
+        max-width: 116px;
+    }
+    
+    .echoTab .nav-tabs .nav-link {
+        padding: 0 0;
+        height: 36px;
+    }
+
+    .echosystemContainner {
+        padding: 80px 0 0;
+    }
+    
+}
+
+
