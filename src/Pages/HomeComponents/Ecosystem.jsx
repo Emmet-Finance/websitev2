@@ -101,7 +101,7 @@ function Ecosystem() {
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain15} alt="Echo" />
-                                    <p>Halo Pixel</p>
+                                    <p>Hello Pixel</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain16} alt="Echo" />
