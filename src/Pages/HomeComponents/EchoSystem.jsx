@@ -29,7 +29,7 @@ function EchoSystem() {
     return ( 
         <div className="echosystemContainner">
             <div className="container">
-                <h2 className='text-center'>Emmet growing ecosystem</h2>
+                <h2 className='text-center'>Ecosystem</h2>
 
                 <div className="echoTab">
                     <Tabs defaultActiveKey="chains" id="echo-tab" className="">
@@ -73,7 +73,7 @@ function EchoSystem() {
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain10} alt="Echo" />
-                                    <p>Base</p>
+                                    <p>bera</p>
                                 </div>
                             </div>
                         </Tab>
