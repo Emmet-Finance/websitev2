@@ -16,7 +16,7 @@ import HeroImage from "../../assets/img/web/hero-content.png";
 import TopArt1 from "../../assets/img/web/bg-hero-new.webp";
 import TopArtMob from "../../assets/img/web/fire-bg2.png";
 import TopArt2 from "../../assets/img/web/line-bg.png";
-import EchoSystem from "../HomeComponents/EchoSystem";
+import Ecosystem from "../HomeComponents/Ecosystem";
 
 
 function WebHome() {
@@ -38,7 +38,7 @@ function WebHome() {
             <NetworkSlider />
           </div>
           <OneStop />
-          <EchoSystem/>
+          <Ecosystem/>
           <AccessDefi />
           <Security />
         </div>

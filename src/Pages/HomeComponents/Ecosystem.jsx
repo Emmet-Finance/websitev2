@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import "./EchoSystem.css";
+import "./Ecosystem.css";
 
 import chain1 from "../../assets/img/ecosystem/chains/ton.svg"
 import chain2 from "../../assets/img/ecosystem/chains/Ethereum.svg"
@@ -25,7 +25,7 @@ import chain17 from "../../assets/img/ecosystem/saas/pyth.svg"
 import chain18 from "../../assets/img/ecosystem/saas/certik.svg"
 import chain19 from "../../assets/img/ecosystem/saas/Coinvent.svg"
 
-function EchoSystem() {
+function Ecosystem() {
     return ( 
         <div className="echosystemContainner">
             <div className="container">
@@ -73,7 +73,7 @@ function EchoSystem() {
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain10} alt="Echo" />
-                                    <p>bera</p>
+                                    <p>Bera</p>
                                 </div>
                             </div>
                         </Tab>
@@ -133,4 +133,4 @@ function EchoSystem() {
      );
 }
 
-export default EchoSystem;
+export default Ecosystem;
