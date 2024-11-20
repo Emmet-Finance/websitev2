@@ -81,7 +81,7 @@ function Ecosystem() {
                             <div className="imageGrid">
                                 <div className="echoImage">
                                     <img src={chain11} alt="Echo" />
-                                    <p>Stone.Fi</p>
+                                    <p>STON.fi</p>
                                 </div>
                                 <div className="echoImage">
                                     <img src={chain12} alt="Echo" />
