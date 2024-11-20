@@ -50,13 +50,13 @@ function FooterRight() {
             <h3>Developers</h3>
             <ul className="footerLink">
               <li>
-                <a href="https://docs.emmet.finance/" target="_blank">
+                <a href="https://doc.emmet.finance/" target="_blank">
                   Docs
                 </a>
               </li>
               <li>
                 <a
-                  href="https://github.com/Emmet-Finance/emmet.sdk.v3"
+                  href="https://doc.emmet.finance/docs/SDK/dev"
                   target="_blank"
                 >
                   API / SDK
@@ -78,10 +78,10 @@ function FooterRight() {
               </li>
               <li>
                 <a
-                  href="https://docs.emmet.finance/security/bug-bounty"
+                  href="https://doc.emmet.finance/docs/category/products"
                   target="_blank"
                 >
-                  Bug Bounty
+                  Products
                 </a>
               </li>
               <li>
@@ -111,20 +111,15 @@ function FooterRight() {
               </li>
               <li>
                 <a
-                  href="https://docs.emmet.finance/intro/roadmap"
+                  href="https://doc.emmet.finance/docs/intro"
                   target="_blank"
                 >
-                  Roadmap
-                </a>
-              </li>
-              <li>
-                <a href="#" target="_blank">
-                  News
+                  Introduction
                 </a>
               </li>
               <li>
                 <a
-                  href="https://docs.emmet.finance/ecosystem-and-partnerships/brand-and-logos"
+                  href="https://doc.emmet.finance/docs/Ecosystem/brand_and_logos"
                   target="_blank"
                 >
                   Brand Assets
@@ -132,7 +127,7 @@ function FooterRight() {
               </li>
               <li>
                 <a
-                  href="https://docs.emmet.finance/team/join-us"
+                  href="https://doc.emmet.finance/docs/category/team"
                   target="_blank"
                 >
                   Careers

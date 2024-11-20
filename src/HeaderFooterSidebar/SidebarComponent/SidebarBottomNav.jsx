@@ -13,7 +13,7 @@ function SidebarBottomNav() {
         </li>
         <li>
           <a
-            href="https://docs.emmet.finance/"
+            href="https://doc.emmet.finance/"
             target="_blank"
             className="navLink"
           >
