@@ -20,6 +20,7 @@ import chain13 from "../../assets/img/ecosystem/dapps/cavi.svg"
 import chain14 from "../../assets/img/ecosystem/dapps/moon.svg"
 import chain15 from "../../assets/img/ecosystem/dapps/halo.svg"
 import chain16 from "../../assets/img/ecosystem/dapps/torch.svg"
+import chain20 from "../../assets/img/ecosystem/dapps/grabcoin_icon.svg"
 
 import chain17 from "../../assets/img/ecosystem/saas/pyth.svg"
 import chain18 from "../../assets/img/ecosystem/saas/certik.svg"
@@ -89,7 +90,7 @@ function Ecosystem() {
                                 </div>
                             </div>
                         </Tab>
-                        <Tab eventKey="Dapps" title="Dapps">
+                        <Tab eventKey="Dapps" title="dApps">
                             <div className="imageGrid">
                                 <div className="echoImage">
                                     <img src={chain13} alt="Echo" />
@@ -106,6 +107,10 @@ function Ecosystem() {
                                 <div className="echoImage">
                                     <img src={chain16} alt="Echo" />
                                     <p>Torch Finance</p>
+                                </div>
+                                <div className="echoImage">
+                                    <img src={chain20} alt="Echo" />
+                                    <p>GrabCoin</p>
                                 </div>
                             </div>
                         </Tab>
