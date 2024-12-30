@@ -6,6 +6,12 @@ export const BridgeTokens = [
   //   "price": 2062.25
   // },
   {
+    cmc_id: 0,
+    name: "Bolgur",
+    icon: "img/coin/Bolgur.png",
+    price: 0.0002106,
+  },
+  {
     cmc_id: 3408,
     name: "USDC",
     icon: "img/coin/usdc.svg",
@@ -66,12 +72,6 @@ export const BridgeTokens = [
     price: 1,
   },
   // {
-  //   cmc_id: 26960,
-  //   name: "TRT",
-  //   icon: "img/coin/testRED.svg",
-  //   price: 1,
-  // },
-  // {
   //   cmc_id: 26961,
   //   name: "$CAVI",
   //   icon: "img/coin/cavi.png",
@@ -82,9 +82,9 @@ export const BridgeTokens = [
 export const CHAIN_TO_TOKENS: {[key:string]: string[]} = {
   // Mainnets
   Avalanche: ["USDC", "EMMET"],
-  BSC: ["NTM"],
+  BSC: ["NTM", "Bolgur"],
   Polygon: ["USDC", "EMMET", "GrabClub", "TON"],
-  TON: ["TON", "NTM", "GrabClub"],
+  TON: ["TON", "NTM", "GrabClub", "Bolgur"],
   // Testnets
 };
 
@@ -103,7 +103,7 @@ export const CHAIN_TO_TOKENS_TREE: {[key:TSupportedChain]:{
   BSC: {
     Avalanche: [],
     Polygon:[],
-    TON:["NTM"]
+    TON:["NTM", "Bolgur"]
   },
   Polygon: {
     Avalanche: ["USDC", "EMMET"],
@@ -113,13 +113,14 @@ export const CHAIN_TO_TOKENS_TREE: {[key:TSupportedChain]:{
   },
   TON: {
     Avalanche: [],
-    BSC:["NTM"],
+    BSC:["NTM", "Bolgur"],
     Polygon: ["TON", "GrabClub"],
     TON: [],
   },
 };
 
 export const TOKEN_TO_TOKEN = {
+  Bolgur: ["Bolgur"],
   GrabClub: ["GrabClub"],
   EMMET: ["EMMET"],
   NTM:["NTM"],
@@ -129,6 +130,7 @@ export const TOKEN_TO_TOKEN = {
 
 export const TOKEN_DECIMALS = {
   BERA: 18,
+  Bolgur: 9,
   $CAVI: 9,
   DAI: 18,
   GrabClub: 18,
@@ -148,6 +150,7 @@ export type TTokenName = keyof typeof TOKEN_DECIMALS;
 
 export const TOKEN_SYMBOL_TO_TOKEN = {
   BERA: "BERA",
+  Bolgur: "Bolgur",
   $CAVI: "CAVI",
   DAI: "DAI",
   GrabClub: "GrabClub",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./TokenSelectorBox.css";
 // Components
+import ButtonSpinner from "../../CommonComponents/Spinner/ButtonSpinner";
 import WalletBalance from "../WalletBalance";
 import TokenSelectionDropdown from "./TokenSelectionDropdown";
 import { removeTrailingZeroes } from "../../../utils";
@@ -15,16 +16,12 @@ export default function TokenSelectorBox({ type }) {
   // Global state
   const bridge = useAppSelector((state) => state.bridge);
 
-  const { fromBalance, toBalance } = useBalance();
-
-  // useEffect(() => {
-  //   console.log({
-  //     fromChain: bridge.fromChain,
-  //     toChain: bridge.toChain,
-  //     fromBalance,
-  //     toBalance,
-  //   });
-  // }, [fromBalance, toBalance]);
+  const { 
+    fromBalance, 
+    toBalance, 
+    isZeroBalance,
+    isZeroToBalance 
+  } = useBalance();
 
   const [amount, setAmount] = useState("");
   const [oldAmount, setOldAmount] = useState("");
@@ -109,6 +106,7 @@ export default function TokenSelectorBox({ type }) {
             parent="lock-and-mint"
             name={isFromType() ? bridge.fromToken : bridge.toToken}
             balance={isFromType() ? fromBalance : toBalance}
+            showSpinner={isFromType() ? fromBalance === 0 && !isZeroBalance : toBalance === 0 && !isZeroToBalance}
           />
           <TokenSelectionDropdown type={type} />
         </div>

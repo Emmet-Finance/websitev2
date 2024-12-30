@@ -33,8 +33,8 @@ const initialState: IExplorerState = {
   bridgeTransaction: {
     sentAmount: 0,
     receivedAmount: 0,
-    fromToken: "USDC",
-    toToken: "USDC",
+    fromToken: "USDT",
+    toToken: "USDT",
     destinationHash: "",
     originalHash: "",
     fromChainId: 0,

@@ -26,19 +26,13 @@ interface IPoolState {
   dataLoading: boolean;
 }
 
-const chain = chainList[0].name;
-const token = coinsData[0].name;
+const chain = "TON"; //chainList[0].name;
+const token = "USDT";//coinsData[0].name;
 
 export const CHAIN_TO_TOKENS = {
-  Avalanche:["USDC", "EMMET"],
-  BSC:["NTM"],
-  Polygon: ["GrabClub", "EMMET"],
-  TON: ["TON", "GrabClub"],
-  // TONTestnet: ["USDC", "TON"],
-  // Sepolia: ["USDC"],
-  // Amoy: ["USDC"],
-  // Bartio: ["USDC"],
-  // OnlyTestnet: ["USDC"],
+  BSC:["TON", "USDT"],
+  Polygon: ["TON", "USDT"],
+  TON: ["TON", "USDT"],
 };
 
 const initialState = {
@@ -74,15 +68,16 @@ export const poolslice = createSlice({
   reducers: {
     setPoolChain(state: IPoolState, action: PayloadAction<string>) {
       state.chain = action.payload;
+      const mapExists: boolean = Object.keys(CHAIN_TO_TOKENS).includes(action.payload);
       state.tokens = coinsData.filter(
         (token) =>
-          token.name !== state.token &&
+          token.name !== state.token && mapExists &&
           //@ts-ignore
           CHAIN_TO_TOKENS[action.payload].includes(token.name),
       );
       //@ts-ignore
-      if (!CHAIN_TO_TOKENS[action.payload].includes(state.token)) {
-        state.token = "EMMET";
+      if (mapExists && !CHAIN_TO_TOKENS[action.payload].includes(state.token)) {
+        state.token = "USDT";
       }
     },
     setPoolToken: (state: IPoolState, action: PayloadAction<string>) => {

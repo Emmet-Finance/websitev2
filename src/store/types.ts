@@ -7,5 +7,5 @@ export type TChainType = {
 export type TokenType = {
   icon: string;
   name: string;
-  price: number;
+  price?: number;
 };

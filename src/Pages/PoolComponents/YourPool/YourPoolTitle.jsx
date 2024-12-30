@@ -20,9 +20,9 @@ function YourPoolTitle() {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const _data = await getData("TONTestnet", "USDC");
+      const _data = await getData("TON", "USDT");
       setTonRewards(_data.pendingRewards);
-      const _data2 = await getData("TONTestnet", "TON");
+      const _data2 = await getData("TON", "TON");
       setTonTonRewards(_data2.pendingRewards);
       setLoading(false);
     })();

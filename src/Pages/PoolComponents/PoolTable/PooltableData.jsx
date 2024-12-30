@@ -23,22 +23,29 @@ const PoolTable = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([
     {
-      token: "USDC",
-      chain: "Sepolia",
+      token: "USDT",
+      chain: "BSC",
       apy: 0,
       volume: "$43,432.00",
       totalLiquidity: 0,
     },
     {
-      token: "USDC",
-      chain: "TONTestnet",
+      token: "USDT",
+      chain: "Polygon",
+      apy: 0,
+      volume: "$43,432.00",
+      totalLiquidity: 0,
+    },
+    {
+      token: "USDT",
+      chain: "TON",
       apy: 0,
       volume: "$43,432.00",
       totalLiquidity: 0,
     },
     {
       token: "TON",
-      chain: "TONTestnet",
+      chain: "TON",
       apy: 0,
       volume: "$43,432.00",
       totalLiquidity: 0,
@@ -46,11 +53,11 @@ const PoolTable = () => {
   ]);
 
   const getTokenIcon = (token) => {
-    return poolTokens.find((i) => i.name === token).icon;
+    return poolTokens ? poolTokens.find((i) => i.name === token)?.icon : "";
   };
 
   const getChainIcon = (chain) => {
-    return poolChains.find((i) => i.name === chain).icon;
+    return poolChains ? poolChains.find((i) => i.name === chain)?.icon : "";
   };
 
   const handleSort = (key) => {
@@ -183,12 +190,12 @@ function TableDataRow({
   return (
     <tr>
       <td>
-        <span class="poolCoin">
+        <span className="poolCoin">
           <img src={getTokenIcon(item.token)} alt={item.token} /> {item.token}
         </span>
       </td>
       <td>
-        <span class="poolCoin">
+        <span className="poolCoin">
           <img src={getChainIcon(item.chain)} alt="eth" /> {item.chain}
         </span>
       </td>
@@ -199,7 +206,7 @@ function TableDataRow({
       </td>
       {/* <td>$43,432.00</td> */}
       <td>
-        <span class="totleLiqui">
+        <span className="totleLiqui">
           {loading ? (
             <Skeleton height={16} width={100} />
           ) : (

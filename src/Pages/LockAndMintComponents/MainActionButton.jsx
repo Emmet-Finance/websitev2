@@ -16,7 +16,6 @@ import lockAndMintChains from "../../hooks/chains";
 import { Address } from "@ton/core";
 import Modal from "react-modal";
 import { useWallet } from "@solana/wallet-adapter-react";
-// import useBridgeAllowance from "../../hooks/useAllowance"
 
 const pattern = /^[0x]{0,2}[0-9a-fA-F]{0,40}$/;
 

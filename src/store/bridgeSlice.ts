@@ -315,6 +315,7 @@ export const bridgeSlice = createSlice({
       state.toChain = action.payload.toChain;
       state.fromToken = action.payload.fromToken;
       state.toToken = action.payload.toToken;
+      [state.senderAddress, state.receiver] = [state.receiver, state.senderAddress];
       state.fromChains = filterFromChains(state.fromChain, state.toChain);
       state.toChains = filterToChains(state.fromChain, state.toChain);
 

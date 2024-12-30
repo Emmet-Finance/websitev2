@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import USDT from "../../../assets/img/coin/usdc.svg";
+import USDT from "../../../assets/img/coin/usdt.svg";
 import ETH from "../../../assets/img/coin/eth.svg";
 import Target from "../../../assets/img/target.svg";
 import { useAppSelector } from "../../../hooks/storage";
@@ -30,12 +30,12 @@ function PoolBox1() {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const _data = await getData("Sepolia", "USDC", address);
+      const _data = await getData("Polygon", "USDT", address);
       setData(_data);
       const _stakedBalance = await getBalance(
         "Withdraw",
-        "Sepolia",
-        "USDC",
+        "Polygon",
+        "USDT",
         address,
       );
       setStakedBalance(_stakedBalance);
@@ -52,8 +52,8 @@ function PoolBox1() {
             <img src={ETH} alt="ETH" className="onChain" />
           </div>
           <div className="">
-            <h2>USDC</h2>
-            on Sepolia
+            <h2>USDT</h2>
+            on Polygon
           </div>
         </div>
         <div className="poolboxTopRight">

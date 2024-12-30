@@ -28,13 +28,18 @@ function BridgeDetails() {
     <div className="bridgeDetails">
       <BridgeFee />
       <BridgingTimeEstimation />
-      <div className="detialItem">
-        <div className="detialItemLeft">Token allowance</div>
-        <div className="detialItemRight">
-          <img src={CheckGreen} alt="CheckGreen" />
-          {bnWithoutDecimals(allowance, bridge.fromToken)} {TOKEN_SYMBOL_TO_TOKEN[tokenName]}
-        </div>
-      </div>
+      {/* NO ALLOWANCE ON TON */}
+      {bridge.fromChain.toLocaleLowerCase() !== 'ton'
+        ? (<div className="detialItem">
+          <div className="detialItemLeft">Token allowance</div>
+          <div className="detialItemRight">
+            <img src={CheckGreen} alt="CheckGreen" />
+            {bnWithoutDecimals(allowance, bridge.fromToken)} {TOKEN_SYMBOL_TO_TOKEN[tokenName]}
+          </div>
+        </div>)
+        : ""
+      }
+
     </div>
   );
 }

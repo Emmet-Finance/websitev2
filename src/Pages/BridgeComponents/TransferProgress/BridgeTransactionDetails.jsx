@@ -50,14 +50,14 @@ function BridgeTransactionDetails() {
           {TOKEN_SYMBOL_TO_TOKEN[bridge.toToken]}
         </div>
       </li>
-      <li className="bridgeTransactionDetailsList">
+      {/* <li className="bridgeTransactionDetailsList">
         <div className="bridgeTransDetLeft">Protocol Fee</div>
         <div className="bridgeTransDetRight">
           {protocolFee} {nativeCurrency}
-          {/* {formattedFee && formattedFee.toFixed(6)} {nativeCurrency} */}
+           {formattedFee && formattedFee.toFixed(6)} {nativeCurrency}
         </div>
       </li>
-      {/* <li className='bridgeTransactionDetailsList'>
+      <li className='bridgeTransactionDetailsList'>
                 <div className="bridgeTransDetLeft">
                     Destination Gas Fee (Est.)
                 </div>

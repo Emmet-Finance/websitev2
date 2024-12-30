@@ -1,3 +1,14 @@
+import { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "./storage";
+import {
+  setBridgeBalance,
+  setBridgeError,
+  setBridgeToBalance,
+} from "../store/bridgeSlice";
+import { chainFactory } from "../store/chainFactory";
+import { Web3Helper } from "emmet.js/dist/chains/web3";
+import { TChainName } from "emmet.js";
+import { TonHelper } from "emmet.js/dist/chains/ton";
 import {
   ChainNameToTypeChainName,
   SUPPORTED_CHAINS,
@@ -6,18 +17,8 @@ import {
   ChainToDestinationDomain,
   TDirection,
 } from "../types";
-import { useAppDispatch, useAppSelector } from "./storage";
-import { useState, useEffect } from "react";
-import {
-  setBridgeBalance,
-  setBridgeError,
-  setBridgeToBalance,
-} from "../store/bridgeSlice";
-import { chainFactory } from "../store/chainFactory";
-import { Web3Helper } from "emmet.js/dist/chains/web3";
-import { sleep } from "../utils";
-import { TChainName } from "emmet.js";
-import { TonHelper } from "emmet.js/dist/chains/ton";
+
+const checkBalanceInterval: number = 6_000;
 
 export default function useBalance() {
 
@@ -27,10 +28,11 @@ export default function useBalance() {
   const [txFeeCoinBalance, setTxFeeCoinbalance] = useState<number>(0);
   const [balance, setBalance] = useState<number>(0);
   const [balanceTo, setBalanceTo] = useState<number>(0);
+  const [isZeroBalance, setIsZeroBalance] = useState<boolean>(false);
+  const [isZeroToBalance, setIsZeroToBalance] = useState<boolean>(false);
 
   async function getCoinBalance(direction: TDirection) {
     try {
-
       const handler =
         direction === "from"
           ? await chainFactory.inner(
@@ -112,9 +114,11 @@ export default function useBalance() {
     const formattedBalance = bal / 10 ** TOKEN_DECIMALS[tokenName as TTokenName];
 
     if (direction === "from") {
+      setIsZeroBalance(formattedBalance === 0 ? true : false);
       dispatch(setBridgeBalance(formattedBalance));
       setBalance(formattedBalance);
     } else {
+      setIsZeroToBalance(formattedBalance === 0 ? true : false);
       dispatch(setBridgeToBalance(formattedBalance));
       setBalanceTo(formattedBalance);
     }
@@ -123,43 +127,52 @@ export default function useBalance() {
 
   }
 
+  useEffect(() => {
+    setBalance(0);
+  }, [bridge.fromChain, bridge.fromToken, bridge.senderAddress]);
+
+  useEffect(() => {
+    setBalanceTo(0);
+  }, [bridge.toToken, bridge.toChain, bridge.receiver]);
+
   useEffect(() => { // ORIGIN BALANCE
-    // setBalance(0);
-    const { fromChain, fromToken, senderAddress, isSwapping } = bridge;
-    if (fromChain && fromToken && senderAddress && !isSwapping)
-      (async () => {
-        await readBalance("from", fromChain as TChainName);
-      })().catch(async (e) => {
-        const formattedError = `useCoinBalanceFrom:Error: ${e}`;
-        // console.error(formattedError);
-        dispatch(setBridgeError(formattedError));
-      });
+    const interval = setInterval(() => {
+      const { fromChain, fromToken, senderAddress, isSwapping } = bridge;
+      if(fromChain && fromToken && senderAddress && !isSwapping){
+        readBalance("from", fromChain as TChainName)
+        .catch(e => {
+          const formattedError = `useCoinBalanceFrom:Error: ${e}`;
+          dispatch(setBridgeError(formattedError));
+        });
+      } 
+    }, checkBalanceInterval);
+
+    return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     bridge.fromChain,
     bridge.fromToken,
     bridge.toToken,
-    // bridge.amount,
     bridge.senderAddress,
     bridge.isSwapping
   ]);
 
   useEffect(() => { // DESTINATION BALANCE
-    // setBalanceTo(0);
-    if (bridge.receiver && bridge.toChain && bridge.toToken && !bridge.isSwapping) {
-
-      (async () => {
-        await readBalance("to", bridge.toChain as TChainName);
-      })().catch(async (e) => {
+    const interval = setInterval(() => {
+      const {receiver, toChain, toToken, isSwapping} = bridge;
+    if(receiver && toChain && toToken && !isSwapping){
+      readBalance("to", toChain as TChainName)
+      .catch( e => {
         const formattedError = `useCoinBalanceTo:Error: ${e}`;
-        // console.error(formattedError);
-        dispatch(setBridgeError(formattedError));
+      dispatch(setBridgeError(formattedError));
       });
     }
+    }, checkBalanceInterval);
+
+    return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     bridge.toChain,
-    // bridge.amount,
     bridge.fromToken,
     bridge.toToken,
     bridge.receiver,
@@ -170,5 +183,7 @@ export default function useBalance() {
     coinBalance: txFeeCoinBalance,
     fromBalance: balance,
     toBalance: balanceTo,
+    isZeroBalance,
+    isZeroToBalance
   };
 }

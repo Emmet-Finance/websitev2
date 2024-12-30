@@ -98,10 +98,15 @@ export function filterTokens(
   fromChain: TSupportedChain,
   toChain: TSupportedChain,
 ): TokenType[] {
+  // Get the list of allowed tokens from the CHAIN_TO_TOKENS_TREE
+  const allowedTokens = CHAIN_TO_TOKENS_TREE?.[fromChain]?.[toChain] || [];
+
+  console.log({fromChain, toChain, allowedTokens, })
+
+  // Filter BridgeTokens based on allowed tokens
   return BridgeTokens.filter(
     (token: TokenType) =>
-      token.name !== selectedToken &&
-      CHAIN_TO_TOKENS_TREE?.[fromChain]?.[toChain]?.includes(token.name)
+      token.name !== selectedToken && allowedTokens.includes(token.name)
   );
 }
 
