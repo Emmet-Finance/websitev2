@@ -38,13 +38,13 @@ function SidebarNav() {
         </li>
         <li>
           <Link
-            to="/#"
+            to="/pool"
             className={`navLink ${isActive("/pool") && "active"}`}
             onClick={handleLinkClick}
           >
             <img src={"/img/nav-icon/Pool.svg"} alt="NavIcon" />
             <span>Pool</span>
-            <span className="soon">Soon</span>
+            {/* <span className="soon">Soon</span> */}
           </Link>
         </li>
         <li>
