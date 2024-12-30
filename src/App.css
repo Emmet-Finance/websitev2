@@ -290,6 +290,7 @@ ul.selectCoinList.hidden {
 .coinNameIcon img {
   width: 24px;
   height: 24px;
+  border-radius: 50%
 }
 
 .swapMenuBtn {

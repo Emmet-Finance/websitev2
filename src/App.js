@@ -127,7 +127,7 @@ function App() {
                       {/* <Route path="/explorer" element={<ExplorerPage />} /> */}
                       <Route path="/bridge" element={<LockAndMint />} />
                       {/* <Route path="/swap" element={<HomePage />} /> */}
-                      {/* <Route path="/pool" element={<PoolPage />} /> */}
+                      <Route path="/pool" element={<PoolPage />} />
                       <Route
                         path="/pool/your-liquidity"
                         element={<YourLiquidityPage />}
