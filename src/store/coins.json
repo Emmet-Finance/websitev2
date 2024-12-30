@@ -47,5 +47,11 @@
     "name":"GrabClub",
     "icon":"img/coin/grabclub.png",
     "price":0.00003932
+  },
+  {
+    "cmc_id":0,
+    "name":"Bolgur",
+    "icon":"img/coin/Bolgur.png",
+    "price":0.0002106
   }
 ]
