@@ -14,6 +14,10 @@ import {
     setPoolTokenFee,
     setPoolTotalSupply,
 } from "../store/poolSlice";
+import {
+    ChainNameToTypeChainName,
+    ChainToDestinationDomain,
+  } from "../types";
 
 export default function usePoolData() {
 
@@ -163,5 +167,10 @@ export default function usePoolData() {
 
         return () => clearInterval(interval);
     }, [pool.chain, pool.token, bridge.senderAddress]);
+
+    return {
+        error,
+        getData
+    }
 
 }
