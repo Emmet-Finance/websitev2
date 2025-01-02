@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import YourPoolTitle from "./YourPoolTitle";
 import PoolBox from "./PoolBox";
-import usePool from "../../../hooks/usePool";
 
 const supportedPools = [
   {
@@ -23,6 +22,7 @@ const supportedPools = [
 ];
 
 function YourPool() {
+
   return (
     <div className="yourPool">
       <YourPoolTitle />
