@@ -20,7 +20,6 @@ import {
   ChainToDestinationDomain,
 } from "../../../types";
 import { chainFactory } from "../../../store/chainFactory";
-import usePool from "../../../hooks/usePool";
 
 const findChain = (chainId) => {
   return chainData.find((c) => chainId && chainId === c.id);
@@ -37,7 +36,6 @@ export default function ChainSelectorDropdown({ parent, direction }) {
 
   // Global State
   const bridge = useAppSelector((state) => state.bridge);
-  const { getData } = usePool();
 
   const dispatch = useAppDispatch();
 
@@ -52,23 +50,6 @@ export default function ChainSelectorDropdown({ parent, direction }) {
 
   const [chainArray, setChainArray] = useState(chainData);
 
-  // useEffect(() => {
-  //   if (selectedChain) {
-  //     if (parent === "header") {
-  //       setChainArray(
-  //         chainData.filter((chain) => chain.name !== selectedChain.name),
-  //       );
-  //     } else {
-  //       setChainArray(
-  //         chainData.filter(
-  //           (chain) =>
-  //             chain.name !== selectedChain.name &&
-  //             chain.name !== bridge.toChain,
-  //         ),
-  //       );
-  //     }
-  //   }
-  // }, [selectedChain, bridge.toChain]);
 
   useEffect(() => {
     (async () => {
@@ -96,32 +77,6 @@ export default function ChainSelectorDropdown({ parent, direction }) {
       }
     })();
   }, [bridge.fromChain, bridge.toChain, bridge.fromToken, bridge.toToken]);
-
-  useEffect(() => {
-    (async () => {
-      if (bridge.isTransferFromLp) {
-        try {
-          const data = await getData(
-            bridge.toChain,
-            bridge.fromToken,
-            bridge.senderAddress,
-          );
-
-          console.log({ LpData: data });
-
-          dispatch(setBridgeTokenFee(data.tokenFee / data.feeDecimals));
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    })();
-  }, [
-    bridge.isTransferFromLp,
-    bridge.fromChain,
-    bridge.toChain,
-    bridge.fromToken,
-    bridge.senderAddress,
-  ]);
 
   useEffect(() => {
     if (bridge.amount) {
@@ -170,10 +125,6 @@ export default function ChainSelectorDropdown({ parent, direction }) {
   useEffect(() => {
     const selChain = findChain(chainId);
     if (selChain) {
-      // setSelectedChain({
-      //   icon: selChain.icon,
-      //   name: selChain.name,
-      // });
       dispatchChain(selChain.name);
     }
   }, [chainId]);
