@@ -109,12 +109,12 @@ export const CHAIN_TO_TOKENS_TREE: {[key:TSupportedChain]:{
     Avalanche: ["USDC", "EMMET"],
     BSC:[],
     Polygon: [],
-    TON: ["TON", "GrabClub"],
+    TON: ["GrabClub"],
   },
   TON: {
     Avalanche: [],
     BSC:["NTM", "Bolgur"],
-    Polygon: ["TON", "GrabClub"],
+    Polygon: ["GrabClub"],
     TON: [],
   },
 };
@@ -142,7 +142,7 @@ export const TOKEN_DECIMALS = {
   TON: 9,
   TRT: 9,
   USDC: 6,
-  USDT: 18,
+  USDT: 6,
   WBTC: 18,
 };
 
