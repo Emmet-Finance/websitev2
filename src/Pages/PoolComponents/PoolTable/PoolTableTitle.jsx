@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../../hooks/storage";
-import usePool from "../../../hooks/usePool";
+import usePoolData from "../../../hooks/usePoolData";
 import Skeleton from "../../CommonComponents/Skeleton/Skeleton";
 
 function PoolTableTitle() {
@@ -9,14 +9,16 @@ function PoolTableTitle() {
   const [tontonLiquidityPoolInUSD, setTonTonLiquidityPoolInUSD] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const { getData } = usePool();
+  const { getData } = usePoolData();
+
+  // TODO: FIX - inject the correft array & request / compute once
 
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const _data = await getData("TONTestnet", "USDC");
+      const _data = await getData("TON", "USDT");
       setTonLiquidityPoolInUSD(parseFloat(_data.liquidityPoolInUSD));
-      const _data2 = await getData("TONTestnet", "TON");
+      const _data2 = await getData("TON", "TON");
       setTonTonLiquidityPoolInUSD(parseFloat(_data2.liquidityPoolInUSD));
       setLoading(false);
     })();

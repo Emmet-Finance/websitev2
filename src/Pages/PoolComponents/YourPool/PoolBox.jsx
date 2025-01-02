@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import usePool from "../../../hooks/usePool";
 import { useAccount } from "wagmi";
 import Skeleton from "../../CommonComponents/Skeleton/Skeleton";
 import Target from "../../../assets/img/target.svg";
@@ -10,6 +9,8 @@ import ETH from "../../../assets/img/coin/eth.svg";
 import Polygon from "../../../assets/img/coin/polygon.svg";
 import TON from "../../../assets/img/ton.svg";
 import USDT from "../../../assets/img/coin/usdt.svg";
+import usePoolData from "../../../hooks/usePoolData";
+import usePool from "../../../hooks/usePool";
 
 const CHAIN_LOGOS = {
     BSC,
@@ -23,7 +24,8 @@ const TOKEN_LOGOS = {
 }
 
 export default function PoolBox({ chainName, tokenName }) {
-    const { getData, getBalance } = usePool();
+    const { getBalance } = usePool();
+    const { getData } = usePoolData();
     const { address, isConnected } = useAccount();
     const [data, setData] = useState({
         decimals: 1,

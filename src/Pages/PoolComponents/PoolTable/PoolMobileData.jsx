@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../hooks/storage";
 import poolTokens from "../../../store/poolCoins.json";
 import poolChains from "../../../store/poolChains.json";
-import usePool from "../../../hooks/usePool";
+import usePoolData from "../../../hooks/usePoolData";
 import Skeleton from "../../CommonComponents/Skeleton/Skeleton";
 
 function PoolMobileData() {
@@ -97,7 +97,7 @@ const TableData = ({
   getChainIcon,
   handleAddPollClick,
 }) => {
-  const { getData } = usePool();
+  const { getData } = usePoolData();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     decimals: 1,

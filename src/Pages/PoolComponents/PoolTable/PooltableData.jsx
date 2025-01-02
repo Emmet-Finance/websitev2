@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import poolTokens from "../../../store/poolCoins.json";
 import poolChains from "../../../store/poolChains.json";
 import { useNavigate } from "react-router-dom";
-import usePool from "../../../hooks/usePool";
+import usePoolData from "../../../hooks/usePoolData";
 import { useAccount } from "wagmi";
 import { useTonAddress } from "@tonconnect/ui-react";
 import Skeleton from "../../CommonComponents/Skeleton/Skeleton";
@@ -19,7 +19,7 @@ const PoolTable = () => {
   const pool = useAppSelector((state) => state.pool);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { getData } = usePool();
+  const { getData } = usePoolData();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([
     {

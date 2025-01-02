@@ -3,7 +3,7 @@ import Yourliquidity from "../PoolTable/Yourliquidity";
 import { useAppSelector } from "../../../hooks/storage";
 import { Link } from "react-router-dom";
 import Skeleton from "../../CommonComponents/Skeleton/Skeleton";
-import usePool from "../../../hooks/usePool";
+import usePoolData from "../../../hooks/usePoolData";
 
 function YourPoolTitle() {
   const [isYourLiquidityVisible, setYourLiquidityVisible] = useState(false);
@@ -15,7 +15,7 @@ function YourPoolTitle() {
   const [tontonRewards, setTonTonRewards] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const { getData } = usePool();
+  const { getData } = usePoolData();
 
   useEffect(() => {
     (async () => {
