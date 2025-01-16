@@ -37,7 +37,7 @@ export default function usePool() {
 
   // ======= H E L P E R  F U N C T I O N S =======
 
-  const isPoolPath = location.pathname.includes('/pool');
+  const isPoolPath = location.pathname.includes('/your-liquidity');
   // ----------------------------------------------
   const getHandler = async (): Promise<Web3Helper | TonHelper> => {
     const handler = await chainFactory.inner(

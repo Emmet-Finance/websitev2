@@ -17,11 +17,16 @@ import {
 import {
     ChainNameToTypeChainName,
     ChainToDestinationDomain,
-  } from "../types";
+} from "../types";
+import { sleep, TLPData, TLPPosition, TonHelper, Web3Helper } from "emmet.js";
+import { useEthersSigner } from "./useEthersSigner";
+import { useTonConnect } from "./useTonConnect";
 
 export default function usePoolData() {
 
     const dispatch = useAppDispatch();
+    const signer = useEthersSigner();
+    const { sender: tonSender } = useTonConnect();
 
     const pool = useAppSelector((state) => state.pool);
     const bridge = useAppSelector((state) => state.bridge);
@@ -31,107 +36,100 @@ export default function usePoolData() {
 
     const [error, setError] = useState("");
 
-    const getData = async (
-        chain = pool.chain,
-        token = pool.token,
-        senderAddress = bridge.senderAddress,
-    ) => {
+    const getHandler = async (): Promise<Web3Helper | TonHelper> => {
+        const handler = await chainFactory.inner(
+            // @ts-ignore
+            ChainToDestinationDomain[ChainNameToTypeChainName[pool.chain]],
+        );
+        return handler;
+    }
+
+    const isValidAddress = async (address: string): Promise<boolean> => {
+        const handler: Web3Helper | TonHelper = await getHandler();
+        const validAddress: boolean = await handler.validateAddress(bridge.senderAddress);
+        return validAddress;
+    }
+
+    const getData = async () => {
 
         try {
-            const handler = await chainFactory.inner(
-                // @ts-ignore
-                ChainToDestinationDomain[ChainNameToTypeChainName[chain]],
-            );
+            const handler = await getHandler();
 
             if ("address" in handler) {
-                const poolAddress = await handler.address(`elp${token}`);
 
-                const decimals = await handler.decimals(poolAddress).catch(() => 1);
+                const data: TLPData = await handler.getLpData(`elp${pool.token}`);
 
-                const totalSupply = await handler
-                    .getLpTotalSupply(poolAddress)
-                    .catch(() => 0n);
+                await sleep(1000); // let time to update the address
 
-                const apy = await handler
-                    .getLpCurrentAPY(poolAddress)
-                    .catch(() => 0n);
+                const validAddress = await isValidAddress(bridge.senderAddress);
 
-                const protocolFee = await handler
-                    .getLpProtocolFee(poolAddress)
-                    .catch(() => 0n);
+                let stakerPosition: TLPPosition = {} as TLPPosition;
 
-                const protocolFeeAmount = await handler
-                    .getLpProtocolFeeAmount(poolAddress)
-                    .catch(() => 0n);
+                if (validAddress) {
+                    stakerPosition = await handler.getPosition(`elp${pool.token}`, bridge.senderAddress);
+                }
 
-                const tokenFee = await handler
-                    .getLpTokenFee(poolAddress)
-                    .catch(() => 0n);
 
-                const feeGrowthGlobal = await handler
-                    .getLpFeeGrowthGlobal(poolAddress)
-                    .catch(() => 0n);
+                // const tokenPrice: bigint = await chainFactory.getTokenPrice(token);
+                // console.log("tokenPrice", tokenPrice)
 
-                const feeDecimals = await handler
-                    .getLpFeeDecimals(poolAddress)
-                    .catch(() => 0n);
+                // const tokenPriceDecimals =
+                //     await chainFactory.getPriceDecimals(token);
+                //     console.log("tokenPriceDecimals", tokenPriceDecimals)
 
-                const validAddress = await handler.validateAddress(senderAddress);
+                // const liquidityPoolInUSD: bigint =
+                //     data.total_supply * tokenPrice /
+                //     10n ** (data.decimals + tokenPriceDecimals);
 
-                const pendingRewards = await handler
-                    .getLpProviderRewards(poolAddress, senderAddress)
-                    .catch(() => 0n);
-
-                const tokenPrice = await chainFactory.getTokenPrice(token);
-
-                const tokenPriceDecimals =
-                    await chainFactory.getPriceDecimals(token);
-
-                const liquidityPoolInUSD =
-                    Number(totalSupply * tokenPrice) /
-                    10 ** (decimals + Number(tokenPriceDecimals));
+                const decimalAmount: bigint = 10n ** data.decimals;
 
                 return {
-                    decimals,
-                    apy: Number(apy) / 100,
-                    totalSupply: Number(totalSupply) / 10 ** decimals,
-                    protocolFee: Number(protocolFee),
-                    protocolFeeAmount: Number(protocolFeeAmount),
-                    tokenFee: Number(tokenFee),
-                    feeGrowthGlobal: Number(feeGrowthGlobal) / 10 ** decimals,
-                    feeDecimals: Number(feeDecimals),
+                    decimals: Number(data.decimals),
+                    apy: Number(data.apy) / 100,
+                    totalSupply: Number(data.total_supply / decimalAmount),
+                    protocolFee: Number(data.protocol_fee),
+                    protocolFeeAmount: Number(data.protocol_fee_amount),
+                    tokenFee: Number(data.token_fee),
+                    feeGrowthGlobal: Number(data.fee_growth_global / decimalAmount),
+                    feeDecimals: Number(data.fee_decimals),
                     pendingRewards: validAddress
-                        ? Number(pendingRewards) / 10 ** decimals
+                        ? (Number(stakerPosition.rewards) / Number(decimalAmount))
                         : 0,
-                    liquidityPoolInUSD: Number(liquidityPoolInUSD).toFixed(2),
+                    liquidityPoolInUSD: 0n // Number(liquidityPoolInUSD).toFixed(2),
                 };
             }
         } catch (error: { message: string } | any) {
             setError(error.message);
-            console.error(error);
-            return {
-                decimals: 1,
-                apy: 0,
-                totalSupply: 0,
-                protocolFee: 0,
-                protocolFeeAmount: 0,
-                tokenFee: 0,
-                feeGrowthGlobal: 0,
-                feeDecimals: 0,
-                pendingRewards: 0,
-                liquidityPoolInUSD: 0,
-            };
+            console.error("usePoolData::getData:", error);
+            await sleep(1000);
+            return await getData()
         }
     };
 
+    const getPositions = async (): Promise<TLPPosition> => {
+        try {
+            const handler = await getHandler();
+            const validAddress = await isValidAddress(bridge.senderAddress);
+
+            let stakerPosition: TLPPosition = {} as TLPPosition;
+
+            if (validAddress) {
+                stakerPosition = await handler.getPosition(`elp${pool.token}`, bridge.senderAddress);
+            }
+
+            return stakerPosition;
+        } catch (error: { message: string } | any) {
+            setError(error.message);
+            console.error("usePoolData::getPositions:", error);
+            await sleep(1000);
+            return await getPositions()
+        }
+    }
+
     const fetchPoolData = async () => {
         dispatch(setPoolDataLoading(true));
-
-        const data = await getData(
-            pool.chain,
-            pool.token,
-            bridge.senderAddress,
-        );
+        await sleep(1000);
+        const data = await getData();
 
         if (data) {
             dispatch(setPoolApy(data.apy));
@@ -142,7 +140,9 @@ export default function usePoolData() {
             dispatch(setPoolFeeGrowthGlobal(data.feeGrowthGlobal));
             dispatch(setPoolFeeDecimals(data.feeDecimals));
             dispatch(setPoolPendingRewards(data.pendingRewards));
-            dispatch(setPoolLiquidityInUSD(data.liquidityPoolInUSD));
+            dispatch(setPoolLiquidityInUSD(data.totalSupply
+                // data.liquidityPoolInUSD
+            ));
         }
 
         dispatch(setPoolDataLoading(false));
@@ -170,7 +170,8 @@ export default function usePoolData() {
 
     return {
         error,
-        getData
+        getData,
+        getPositions
     }
 
 }
