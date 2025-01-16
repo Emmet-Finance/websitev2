@@ -101,7 +101,7 @@ export function filterTokens(
   // Get the list of allowed tokens from the CHAIN_TO_TOKENS_TREE
   const allowedTokens = CHAIN_TO_TOKENS_TREE?.[fromChain]?.[toChain] || [];
 
-  console.log({fromChain, toChain, allowedTokens, })
+  // console.log({fromChain, toChain, allowedTokens, })
 
   // Filter BridgeTokens based on allowed tokens
   return BridgeTokens.filter(

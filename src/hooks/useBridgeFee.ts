@@ -10,7 +10,7 @@ import { setBridgeError, setBridgeFee } from "../store/bridgeSlice";
 import { chainFactory } from "../store/chainFactory";
 import { sleep } from "../utils";
 import { Chain } from "emmet.js/dist/factory/types";
-import { Web3Helper } from "emmet.js/dist/chains/web3";
+import { Web3Helper } from "emmet.js/dist/chains";
 import { ChainFactoryBuilder, ChainFactoryConfigs } from "emmet.js";
 
 export default function useBridgeFee() {

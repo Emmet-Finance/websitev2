@@ -9,7 +9,7 @@ import { setBridgeError, setBridgeAllowance } from "../store/bridgeSlice";
 import { useAppDispatch, useAppSelector } from "./storage";
 import { useEthersSigner } from "./useEthersSigner";
 import { chainFactory } from "../store/chainFactory";
-import { Web3Helper } from "emmet.js/dist/chains/web3";
+import { Web3Helper } from "emmet.js/dist/chains";
 import { AddressBookKeys, TonHelper } from "emmet.js";
 import { setPoolAllowance } from "../store/poolSlice";
 
@@ -48,7 +48,7 @@ export default function useBridgeApproveERC20() {
 
           await chainFactory.preTransfer(
             handler,
-            signer,
+            signer!!,
             tokenAddress,
             poolAddress,
             BigInt(Math.ceil(formattedAmount)),

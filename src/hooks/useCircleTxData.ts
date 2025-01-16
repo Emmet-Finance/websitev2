@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "./storage";
 import { Transaction } from "emmet.js/dist/factory/types";
-import { Web3Helper } from "emmet.js/dist/chains/web3";
 import { CrossChainTransaction } from "@emmet-contracts/web3/dist/contracts/consensus/Consensus";
 import { ccmHashByOriginalHash, getConsensus, ReceiveParams, getTransaction } from "emmet.js";
 

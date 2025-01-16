@@ -6,7 +6,7 @@ import {
   setBridgeToBalance,
 } from "../store/bridgeSlice";
 import { chainFactory } from "../store/chainFactory";
-import { Web3Helper } from "emmet.js/dist/chains/web3";
+import { Web3Helper } from "emmet.js/dist/chains";
 import { TChainName } from "emmet.js";
 import { TonHelper } from "emmet.js/dist/chains/ton";
 import {
