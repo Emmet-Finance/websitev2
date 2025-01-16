@@ -1,0 +1,13 @@
+[
+  {
+    "cmc_id": 11419,
+    "name": "TON",
+    "icon": "img/chain/ton.svg",
+    "price": 5.2998
+  },
+  {
+    "cmc_id": 825,
+    "name": "USDT",
+    "icon": "img/coin/usdt.svg"
+  }
+]
