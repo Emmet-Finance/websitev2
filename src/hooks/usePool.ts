@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
+import { AddressBookKeys, sleep, TonHelper, Web3Helper } from "emmet.js";
 import { useAppDispatch, useAppSelector } from "./storage";
 import {
   ChainNameToTypeChainName,
   ChainToDestinationDomain,
   SUPPORTED_CHAINS,
-  TChainName,
   TOKEN_DECIMALS,
   TTokenName,
 } from "../types";
@@ -15,32 +15,47 @@ import {
   setPoolBalance,
   setPoolStakedBalance,
 } from "../store/poolSlice";
-import { AddressBookKeys } from "emmet.js";
 import { useTonConnect } from "./useTonConnect";
-import { sleep } from "../utils";
 
 export default function usePool() {
 
+  // Hooks
   const location = useLocation();
-
-  const isPoolPath = location.pathname.includes('/pool');
-
   const dispatch = useAppDispatch();
 
+  // Injected accounts
   const signer = useEthersSigner();
   const { sender: tonSender } = useTonConnect();
 
+  // State Slices
   const pool = useAppSelector((state) => state.pool);
   const bridge = useAppSelector((state) => state.bridge);
 
+  // Local state
   const [error, setError] = useState("");
   const [isLoadingBalance, setIsLoadingBalance] = useState<boolean>(false);
 
-  const stake = async () => {
+  // ======= H E L P E R  F U N C T I O N S =======
+
+  const isPoolPath = location.pathname.includes('/pool');
+  // ----------------------------------------------
+  const getHandler = async (): Promise<Web3Helper | TonHelper> => {
     const handler = await chainFactory.inner(
       // @ts-ignore
       ChainToDestinationDomain[ChainNameToTypeChainName[pool.chain]],
     );
+    return handler;
+  }
+  // ----------------------------------------------
+  const isValidAddress = async (address: string): Promise<boolean> => {
+    const handler: Web3Helper | TonHelper = await getHandler();
+    const validAddress: boolean = await handler.validateAddress(bridge.senderAddress);
+    return validAddress;
+  }
+  // ----------------------------------------------
+  const stake = async () => {
+    const handler = await getHandler();
+
     try {
       await chainFactory.stakeLiqiduity(
         // @ts-ignore
@@ -66,12 +81,10 @@ export default function usePool() {
       setError(error.message);
     }
   };
-
+  // ----------------------------------------------
   const withdraw = async () => {
-    const handler = await chainFactory.inner(
-      // @ts-ignore
-      ChainToDestinationDomain[ChainNameToTypeChainName[pool.chain]],
-    );
+    const handler = await getHandler();
+
     try {
       await chainFactory.withdrawLiqiduity(
         // @ts-ignore
@@ -97,12 +110,10 @@ export default function usePool() {
       setError(error.message);
     }
   };
-
+  // ----------------------------------------------
   const withdrawFees = async () => {
-    const handler = await chainFactory.inner(
-      // @ts-ignore
-      ChainToDestinationDomain[ChainNameToTypeChainName[pool.chain]],
-    );
+    const handler = await getHandler();
+
     try {
       await chainFactory.withdrawFees(
         // @ts-ignore
@@ -124,41 +135,40 @@ export default function usePool() {
       setError(error.message);
     }
   };
-
+  // ----------------------------------------------
   const getBalance = async (
     type: "Deposit" | "Withdraw",
-    chain = pool.chain,
-    token = pool.token,
-    address = bridge.senderAddress,
   ) => {
-    await sleep(10000);
+
     try {
-      const handler = await chainFactory.inner(
-        // @ts-ignore
-        ChainToDestinationDomain[ChainNameToTypeChainName[chain as TChainName]],
-      );
+      const handler = await getHandler();
+
       const _chain = SUPPORTED_CHAINS[ChainNameToTypeChainName[pool.chain]];
-      if (token === _chain.nativeCurrency.symbol && type === "Deposit") {
+
+      //  Get & return coint balance
+      if (pool.token === _chain.nativeCurrency.symbol && type === "Deposit") {
         return (
-          Number(await handler.balance(address)) /
-          10 ** TOKEN_DECIMALS[token as TTokenName]
+          Number(await handler.balance(bridge.senderAddress)) /
+          10 ** TOKEN_DECIMALS[pool.token as TTokenName]
         );
       }
+
+      // Get & return Token balance
       if ("address" in handler) {
         if (type === "Deposit") {
-          const tokenAddress = await handler.address(token as AddressBookKeys);
+          const tokenAddress = await handler.address(pool.token as AddressBookKeys);
 
           return (
-            Number(await handler.tokenBalance(tokenAddress, address)) /
-            10 ** Number(TOKEN_DECIMALS[token as TTokenName])
+            Number(await handler.tokenBalance(tokenAddress, bridge.senderAddress)) /
+            10 ** Number(TOKEN_DECIMALS[pool.token as TTokenName])
           );
         } else { // Withdraw
           const tokenAddress = await handler.address(
-            `elp${token}` as AddressBookKeys,
+            `elp${pool.token}` as AddressBookKeys,
           );
           return (
-            Number(await handler.tokenBalance(tokenAddress, address)) /
-            10 ** Number(TOKEN_DECIMALS[token as TTokenName])
+            Number(await handler.tokenBalance(tokenAddress, bridge.senderAddress)) /
+            10 ** Number(TOKEN_DECIMALS[pool.token as TTokenName])
           );
         }
       }
@@ -166,10 +176,9 @@ export default function usePool() {
     } catch (error: { message: string } | any) {
       console.error(error);
       setError(error.message);
-      return 0;
     }
   };
-
+  // ----------------------------------------------
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
@@ -177,23 +186,21 @@ export default function usePool() {
       try {
         // Start the spinner
         setIsLoadingBalance(true);
-  
+
+        await sleep(1000);
+
         const balance = await getBalance(
           "Deposit",
-          pool.chain,
-          pool.token,
-          bridge.senderAddress,
         );
-        dispatch(setPoolBalance(balance));
-  
+        dispatch(setPoolBalance(balance ? balance : 0));
+
+        await sleep(1000);
+
         const stakedBalance = await getBalance(
           "Withdraw",
-          pool.chain,
-          pool.token,
-          bridge.senderAddress,
         );
-        dispatch(setPoolStakedBalance(stakedBalance));
-  
+        dispatch(setPoolStakedBalance(stakedBalance ? stakedBalance : 0));
+
         // Stop the spinner
         setIsLoadingBalance(false);
       } catch (error) {
@@ -202,20 +209,23 @@ export default function usePool() {
       }
     };
 
-
-
     (async () => {
-      
-      if (pool.chain && pool.token && isPoolPath) {
-        if (bridge.senderAddress) {
-          interval = setInterval(fetchData, 60_000);
-        }
+
+      if (
+        isPoolPath
+        && pool.chain
+        && pool.token
+        && bridge.senderAddress
+        && await isValidAddress(bridge.senderAddress)
+      ) {
+        await fetchData();
+        interval = setInterval(fetchData, 60_000);
       }
     })();
 
     return () => clearInterval(interval);
   }, [pool.chain, pool.token, bridge.senderAddress]);
-
+  // ----------------------------------------------
   return {
     error,
     isLoadingBalance,
