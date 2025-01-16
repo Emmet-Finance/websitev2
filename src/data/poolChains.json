@@ -1,0 +1,12 @@
+[
+  {
+    "id":137,
+    "name": "Polygon",
+    "icon":"img/chain/polygon.svg"
+  },
+  {
+    "id":65534,
+    "name": "TON",
+    "icon":"img/chain/ton.svg"
+  }
+]
