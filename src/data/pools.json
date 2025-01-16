@@ -1,0 +1,10 @@
+[
+    {
+        "chain": "Polygon",
+        "token": "USDT"
+    },
+    {
+        "chain": "TON",
+        "token": "USDT"
+    }
+]
