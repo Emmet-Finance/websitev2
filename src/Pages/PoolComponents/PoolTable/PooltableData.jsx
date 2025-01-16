@@ -22,13 +22,13 @@ const PoolTable = () => {
   const { getData } = usePoolData();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([
-    {
-      token: "USDT",
-      chain: "BSC",
-      apy: 0,
-      volume: "$43,432.00",
-      totalLiquidity: 0,
-    },
+    // {
+    //   token: "USDT",
+    //   chain: "BSC",
+    //   apy: 0,
+    //   volume: "$43,432.00",
+    //   totalLiquidity: 0,
+    // },
     {
       token: "USDT",
       chain: "Polygon",
@@ -43,13 +43,13 @@ const PoolTable = () => {
       volume: "$43,432.00",
       totalLiquidity: 0,
     },
-    {
-      token: "TON",
-      chain: "TON",
-      apy: 0,
-      volume: "$43,432.00",
-      totalLiquidity: 0,
-    },
+    // {
+    //   token: "TON",
+    //   chain: "TON",
+    //   apy: 0,
+    //   volume: "$43,432.00",
+    //   totalLiquidity: 0,
+    // },
   ]);
 
   const getTokenIcon = (token) => {
@@ -96,11 +96,11 @@ const PoolTable = () => {
       setData(
         await Promise.all(
           data.map(async (i) => {
-            const _data = await getData(i.chain, i.token);
+            const _data = await getData();
             return {
               ...i,
               apy: _data.apy,
-              totalLiquidity: _data.liquidityPoolInUSD,
+              totalLiquidity: Number(_data.liquidityPoolInUSD),
             };
           }),
         ),

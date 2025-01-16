@@ -49,9 +49,9 @@ export default function PoolBox({ chainName, tokenName }) {
             const _stakedBalance = isConnected
                 ? await getBalance(
                     "Withdraw",
-                    chainName,
-                    tokenName,
-                    address,
+                    // chainName,
+                    // tokenName,
+                    // address,
                 )
                 : 0;
                 _stakedBalance && setStakedBalance(_stakedBalance);

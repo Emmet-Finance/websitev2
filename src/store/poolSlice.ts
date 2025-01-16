@@ -30,9 +30,9 @@ const chain = "TON"; //chainList[0].name;
 const token = "USDT";//coinsData[0].name;
 
 export const CHAIN_TO_TOKENS = {
-  BSC:["TON", "USDT"],
-  Polygon: ["TON", "USDT"],
-  TON: ["TON", "USDT"],
+  // BSC:["TON", "USDT"],
+  Polygon: ["USDT"],
+  TON: ["USDT"],
 };
 
 const initialState = {
