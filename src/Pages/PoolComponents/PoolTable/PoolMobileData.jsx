@@ -6,6 +6,7 @@ import poolTokens from "../../../data/poolCoins.json";
 import poolChains from "../../../data/poolChains.json";
 import usePoolData from "../../../hooks/usePoolData";
 import Skeleton from "../../CommonComponents/Skeleton/Skeleton";
+import data from "../../../data/pools.json";
 
 function PoolMobileData() {
   const [isYourLiquidityVisible, setYourLiquidityVisible] = useState(false);
@@ -33,23 +34,6 @@ function PoolMobileData() {
       (pool.byToken === "Show All" || pool.byToken === item.token)
     );
   };
-
-  const data = [
-    {
-      token: "USDT",
-      chain: "Polygon",
-      apy: 0,
-      volume: "$43,432.00",
-      totalLiquidity: 0,
-    },
-    {
-      token: "USDT",
-      chain: "TON",
-      apy: 0,
-      volume: "$43,432.00",
-      totalLiquidity: 0,
-    },
-  ];
 
   return (
     <>

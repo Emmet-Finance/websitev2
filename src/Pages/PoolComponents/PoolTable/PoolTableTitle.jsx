@@ -18,7 +18,7 @@ function PoolTableTitle() {
       setLoading(true);
       const _data = await getData("TON", "USDT");
       setTonLiquidityPoolInUSD(parseFloat(_data.liquidityPoolInUSD));
-      const _data2 = await getData("TON", "TON");
+      const _data2 = await getData("Polygon", "USDT");
       setTonTonLiquidityPoolInUSD(parseFloat(_data2.liquidityPoolInUSD));
       setLoading(false);
     })();
@@ -27,7 +27,7 @@ function PoolTableTitle() {
   return (
     <div className="poolTableTitle explorerTransactionsTitle">
       <h2>Active pools</h2>
-      <p>
+      <div>
         {loading ? (
           <Skeleton height={12} width={80} />
         ) : (
@@ -37,7 +37,7 @@ function PoolTableTitle() {
             tontonLiquidityPoolInUSD
           }`
         )}
-      </p>
+      </div>
     </div>
   );
 }
