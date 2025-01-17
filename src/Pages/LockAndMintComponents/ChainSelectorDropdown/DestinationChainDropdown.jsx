@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import Ethereum from "../../../assets/img/Ethereum.svg";
 import DownArrow from "../../../assets/img/down-white.svg";
-import chainData from "../../../store/lockAndMintChain.json";
+import chainData from "../../../data/lockAndMintChain.json";
 import { useAppSelector, useAppDispatch } from "../../../hooks/storage";
 import { setBridgeToChain } from "../../../store/bridgeSlice";
 import ReactGA from "react-ga";
-import { CHAIN_NAME_TO_ID } from "../../../types";
 
 export default function DestinationChainDropdown() {
   const bridge = useAppSelector((state) => state.bridge);

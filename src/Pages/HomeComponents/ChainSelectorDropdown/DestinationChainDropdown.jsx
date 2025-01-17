@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Ethereum from "../../../assets/img/Ethereum.svg";
 import DownArrow from "../../../assets/img/down-white.svg";
-import chainData from "../../../store/Chain.json";
+import chainData from "../../../data/swapChains.json";
 import { useAppSelector, useAppDispatch } from "../../../hooks/storage";
 import { setBridgeToChain } from "../../../store/bridgeSlice";
 import ReactGA from "react-ga";

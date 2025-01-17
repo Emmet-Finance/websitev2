@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useConfig, useSwitchChain, useChainId } from "wagmi";
 
 import DownArrow from "../../../assets/img/down-white.svg";
-import chainData from "../../../store/lockAndMintChain.json";
+import chainData from "../../../data/lockAndMintChain.json";
 import ReactGA from "react-ga";
 import { useAppSelector, useAppDispatch } from "../../../hooks/storage";
 import {
