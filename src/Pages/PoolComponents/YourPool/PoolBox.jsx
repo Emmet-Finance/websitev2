@@ -10,10 +10,9 @@ import Polygon from "../../../assets/img/coin/polygon.svg";
 import TON from "../../../assets/img/ton.svg";
 import USDT from "../../../assets/img/coin/usdt.svg";
 import usePoolData from "../../../hooks/usePoolData";
-import usePool from "../../../hooks/usePool";
-import { isValidAddress } from "../../../utils";
 import { useTonConnect } from "../../../hooks/useTonConnect";
 import { sleep } from "emmet.js";
+import TOKEN_DECIMALS from "../../../data/tokenDecimals.json";
 
 const CHAIN_LOGOS = {
     BSC,
@@ -72,7 +71,6 @@ export default function PoolBox({ chainName, tokenName }) {
     useEffect(() => {
 
         if (account) {
-          console.log("PoolBox", "chainName", chainName, "tokenName", tokenName, "account", account);
 
           const collectData = async () => {
             setLoading(true);
@@ -87,8 +85,8 @@ export default function PoolBox({ chainName, tokenName }) {
               if(_position){
                 setPosition({
                     ..._position,
-                    balance: Number(_position.balance) / 10 ** Number(_data.decimals),
-                    rewards: Number(_position.rewards) / 10 ** Number(_data.decimals)
+                    balance: Number(_position.balance) / 10 ** Number(TOKEN_DECIMALS[tokenName]),
+                    rewards: Number(_position.rewards) / 10 ** Number(TOKEN_DECIMALS[tokenName])
                 });
               }
               
