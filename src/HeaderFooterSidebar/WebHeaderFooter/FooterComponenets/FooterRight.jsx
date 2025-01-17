@@ -15,11 +15,11 @@ function FooterRight() {
                   Bridge
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a href="#" target="_blank">
                   Swap
                 </a>
-              </li>
+              </li> */}
               {/* <li><a href="/swap" target='_blank'>Swap</a></li> */}
               <li>
                 <a href="#" target="_blank">
@@ -27,7 +27,7 @@ function FooterRight() {
                 </a>
               </li>
               {/* <li><a href="/pool" target='_blank'>Pool</a></li> */}
-              <li>
+              {/* <li>
                 <a href="/explorer" target="_blank">
                   Explorer
                 </a>
@@ -36,11 +36,11 @@ function FooterRight() {
                 <a href="#" target="_blank">
                   Stake
                 </a>
-              </li>
+              </li> */}
               {/* <li><a href="/pool/your-liquidity" target='_blank'>Stake</a></li> */}
-              <li>
+              {/* <li>
                 <a href="#">Lend</a>
-              </li>
+              </li> */}
               {/* <li><a href="#">Lend</a></li> */}
             </ul>
           </div>
