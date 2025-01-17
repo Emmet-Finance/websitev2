@@ -1,10 +1,14 @@
+import TOKEN_DECIMALS from "../data/tokenDecimals.json";
+import TOKEN_SYMBOL_TO_TOKEN from "../data/tokenSymbols.json";
+import TOKEN_TO_TOKEN from "../data/bridgeTokenMap.json";
+
+export {
+  TOKEN_DECIMALS,
+  TOKEN_SYMBOL_TO_TOKEN,
+  TOKEN_TO_TOKEN
+};
+
 export const BridgeTokens = [
-  // {
-  //   "cmc_id": 20641,
-  //   "name": "EURC",
-  //   "icon": "img/coin/eurc.svg",
-  //   "price": 2062.25
-  // },
   {
     cmc_id: 0,
     name: "Bolgur",
@@ -41,12 +45,6 @@ export const BridgeTokens = [
     "icon": "img/coin/emmet.svg",
     "price": 1
   },
-  // {
-  //   "cmc_id":15489,
-  //   "name": "SCRL",
-  //   "icon": "img/coin/scoll.svg",
-  //   "price": 0.000145
-  // },
   // {
   //   "cmc_id":11840,
   //   "name": "OP",
@@ -90,8 +88,8 @@ export const CHAIN_TO_TOKENS: {[key:string]: string[]} = {
 
 export type TSupportedChain = keyof typeof CHAIN_TO_TOKENS;
 
-export const CHAIN_TO_TOKENS_TREE: {[key:TSupportedChain]:{
-  [key:TSupportedChain]: string[]
+export const CHAIN_TO_TOKENS_TREE: {[key:TSupportedChain|string]:{
+  [key:TSupportedChain|string]: string[]
 }} = {
   // Mainnets
   Avalanche: {
@@ -119,47 +117,5 @@ export const CHAIN_TO_TOKENS_TREE: {[key:TSupportedChain]:{
   },
 };
 
-export const TOKEN_TO_TOKEN = {
-  Bolgur: ["Bolgur"],
-  GrabClub: ["GrabClub"],
-  EMMET: ["EMMET"],
-  NTM:["NTM"],
-  TON: ["TON"],
-  USDC: ["USDC"]
-}
-
-export const TOKEN_DECIMALS = {
-  BERA: 18,
-  Bolgur: 9,
-  $CAVI: 9,
-  DAI: 18,
-  GrabClub: 18,
-  EMMET: 18,
-  ETH: 18,
-  EURC: 6,
-  MATIC: 18,
-  NTM: 18,
-  TON: 9,
-  TRT: 9,
-  USDC: 6,
-  USDT: 6,
-  WBTC: 18,
-};
-
 export type TTokenName = keyof typeof TOKEN_DECIMALS;
 
-export const TOKEN_SYMBOL_TO_TOKEN = {
-  BERA: "BERA",
-  Bolgur: "Bolgur",
-  $CAVI: "CAVI",
-  DAI: "DAI",
-  GrabClub: "GrabClub",
-  EMMET: "EMMET",
-  ETH: "ETH",
-  MATIC: "MATIC",
-  NTM: "NTM",
-  TON: "TON",
-  TRT: "TestRED",
-  USDC: "USDC",
-  USDT: "USDT",
-};
