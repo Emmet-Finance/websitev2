@@ -11,6 +11,9 @@ import TON from "../../../assets/img/ton.svg";
 import USDT from "../../../assets/img/coin/usdt.svg";
 import usePoolData from "../../../hooks/usePoolData";
 import usePool from "../../../hooks/usePool";
+import { isValidAddress } from "../../../utils";
+import { useTonConnect } from "../../../hooks/useTonConnect";
+import { sleep } from "emmet.js";
 
 const CHAIN_LOGOS = {
     BSC,
@@ -23,41 +26,85 @@ const TOKEN_LOGOS = {
     USDT
 }
 
+const EMPTY_DATA = {
+    apy: 0,
+    balance: 0,
+    decimals: 1,
+    totalSupply: 0,
+    protocolFee: 0,
+    protocolFeeAmount: 0,
+    tokenFee: 0,
+    feeGrowthGlobal: 0,
+    feeDecimals: 0,
+    pendingRewards: 0,
+};
+
+const EMPTY_POSITION = {
+    $$type: "Position",
+    balance: 0,
+    last_fee_growth: 0,
+    rewards: 0
+}
+
 export default function PoolBox({ chainName, tokenName }) {
-    const { getBalance } = usePool();
-    const { getData } = usePoolData();
+    // Hooks
+    const { getData, getPositions } = usePoolData();
+
+    // Accounts
     const { address, isConnected } = useAccount();
-    const [data, setData] = useState({
-        decimals: 1,
-        apy: 0,
-        totalSupply: 0,
-        protocolFee: 0,
-        protocolFeeAmount: 0,
-        tokenFee: 0,
-        feeGrowthGlobal: 0,
-        feeDecimals: 0,
-        pendingRewards: 0,
-    });
-    const [stakedBalance, setStakedBalance] = useState(0);
+    const { sender: tonSender, connected: isTonConnected } = useTonConnect();
+
+    // Local State
+    const [data, setData] = useState(EMPTY_DATA);
     const [loading, setLoading] = useState(false);
+    const [position, setPosition] = useState(EMPTY_POSITION);
+
+    const isTon = String(chainName).toLowerCase() === "ton";
+    const isEVM = !isTon;
+
+    const tonAddress = tonSender ? tonSender?.address?.toString() : "";
+    const account = isTon && isTonConnected
+        ? tonAddress
+        : isEVM && isConnected
+            ? address
+            : undefined;
 
     useEffect(() => {
-        (async () => {
+
+        if (account) {
+          console.log("PoolBox", "chainName", chainName, "tokenName", tokenName, "account", account);
+
+          const collectData = async () => {
             setLoading(true);
-            const _data = isConnected && await getData(chainName, tokenName, address);
-            isConnected && setData(_data);
-            const _stakedBalance = isConnected
-                ? await getBalance(
-                    "Withdraw",
-                    // chainName,
-                    // tokenName,
-                    // address,
-                )
-                : 0;
-                _stakedBalance && setStakedBalance(_stakedBalance);
-            setLoading(false);
-        })();
-    }, [address]);
+
+            try {
+              const _data = await getData(chainName, tokenName, account);
+              setData(_data);
+
+              await sleep(1000);
+
+              const _position = await getPositions(chainName, tokenName, account);
+              if(_position){
+                setPosition({
+                    ..._position,
+                    balance: Number(_position.balance) / 10 ** Number(_data.decimals),
+                    rewards: Number(_position.rewards) / 10 ** Number(_data.decimals)
+                });
+              }
+              
+            } catch (error) {
+              console.error("Error collecting data:", error);
+              await sleep(1000);
+            } finally {
+              setLoading(false);
+              await sleep(2000);
+            }
+          };
+
+          collectData();
+        }
+      }, [account]);
+
 
     return (
         <div className="poolBox">
@@ -76,7 +123,7 @@ export default function PoolBox({ chainName, tokenName }) {
                     <Link to="./your-liquidity" className="tragetLink">
                         <img src={Target} alt="Target" />
                     </Link>
-                    <p>
+                    <div>
                         {loading ? (
                             <Skeleton height={16} width={50} />
                         ) : (
@@ -84,7 +131,7 @@ export default function PoolBox({ chainName, tokenName }) {
                                 <b>APY</b> {data?.apy}%
                             </>
                         )}
-                    </p>
+                    </div>
                 </div>
             </div>
             <div className="poolboxBottom">
@@ -95,7 +142,7 @@ export default function PoolBox({ chainName, tokenName }) {
                             {loading ? (
                                 <Skeleton height={20} width={80} />
                             ) : (
-                                `$${stakedBalance}`
+                                `${tokenName} ${position.balance.toLocaleString()}`
                             )}
                         </h3>
                     </div>
@@ -106,7 +153,7 @@ export default function PoolBox({ chainName, tokenName }) {
                                 loading ? (
                                     <Skeleton height={20} width={80} />
                                 ) : (
-                                    `$${data.pendingRewards}`
+                                    `${tokenName} ${position.rewards.toLocaleString()}`
                                 )
                             ) : (
                                 "---"
