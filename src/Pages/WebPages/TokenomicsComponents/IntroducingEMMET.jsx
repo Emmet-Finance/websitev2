@@ -1,8 +1,6 @@
 import React from "react";
 
 import "./IntroducingEMMET.css";
-import EmmetIntro from "../../../assets/img/web/Tokenomics/card.png";
-import EmmetIntroMob from "../../../assets/img/web/Tokenomics/card-mob.png";
 import IntroArt from "../../../assets/img/web/Tokenomics/IntroArt.png";
 import BuyEmmet from "./BuyEmmet";
 
@@ -23,7 +21,12 @@ function IntroducingEMMET() {
                 giving you access to a growing ecosystem of cutting-edge DeFi
                 tools and innovative blockchain applicatios.
               </p>
-              <a href="#" className="whiteBtn">
+              <a
+                href="https://doc.emmet.finance/docs/Tokenomics/"
+                className="whiteBtn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Explore $EMMET Tokenomics
               </a>
             </div>
