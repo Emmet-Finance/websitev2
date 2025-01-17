@@ -7,7 +7,7 @@ import Fox from "../../../assets/img/fox.svg";
 import CoinLinkAddress from "../../HomeComponents/CoinLinkAddress";
 import { useAppSelector, useAppDispatch } from "../../../hooks/storage";
 import { setPoolByChain } from "../../../store/poolSlice";
-import poolChains from "../../../store/poolChains.json";
+import poolChains from "../../../data/poolChains.json";
 
 const showAll = {
   name: "Show All",

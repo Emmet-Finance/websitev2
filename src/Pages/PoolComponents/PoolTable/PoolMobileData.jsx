@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Yourliquidity from "./Yourliquidity";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../hooks/storage";
-import poolTokens from "../../../store/poolCoins.json";
-import poolChains from "../../../store/poolChains.json";
+import poolTokens from "../../../data/poolCoins.json";
+import poolChains from "../../../data/poolChains.json";
 import usePoolData from "../../../hooks/usePoolData";
 import Skeleton from "../../CommonComponents/Skeleton/Skeleton";
 
@@ -37,13 +37,6 @@ function PoolMobileData() {
   const data = [
     {
       token: "USDT",
-      chain: "BSC",
-      apy: 0,
-      volume: "$43,432.00",
-      totalLiquidity: 0,
-    },
-    {
-      token: "USDT",
       chain: "Polygon",
       apy: 0,
       volume: "$43,432.00",
@@ -51,13 +44,6 @@ function PoolMobileData() {
     },
     {
       token: "USDT",
-      chain: "TON",
-      apy: 0,
-      volume: "$43,432.00",
-      totalLiquidity: 0,
-    },
-    {
-      token: "TON",
       chain: "TON",
       apy: 0,
       volume: "$43,432.00",
@@ -146,7 +132,7 @@ const TableData = ({
               {loading ? (
                 <Skeleton height={16} width={80} />
               ) : (
-                `$${data.liquidityPoolInUSD}`
+                `${data.totalSupply}`
               )}
             </h3>
           </div>

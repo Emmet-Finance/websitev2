@@ -3,12 +3,12 @@ import ReactGA from "react-ga";
 // Icons
 import DownArrow from "../../../assets/img/down-white.svg";
 import Fox from "../../../assets/img/fox.svg";
-import coins from "./../../../store/coins.json";
+import coins from "./../../../data/coins.json";
 // Components
 import CoinLinkAddress from "../../HomeComponents/CoinLinkAddress";
 import { useAppSelector, useAppDispatch } from "../../../hooks/storage";
 import { setPoolByToken } from "../../../store/poolSlice";
-import poolTokens from "../../../store/poolCoins.json";
+import poolTokens from "../../../data/poolCoins.json";
 
 const showAll = {
   name: "Show All",
