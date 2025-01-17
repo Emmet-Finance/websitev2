@@ -21,15 +21,15 @@ function MobileFooterNav() {
         </li>
         <li>
           <Link
-            to="/#"
+            to="/pool"
             className={`navLink ${isActive("/pool") && "active"}`}
           >
             <img src={"/img/nav-icon/Pool.svg"} alt="NavIcon" />
             <span>Pool</span>
-            <span className="soon">Soon</span>
+            {/* <span className="soon">Soon</span> */}
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link
             to="/#"
             className={`navLink ${isActive("/explorer") && "active"}`}
@@ -74,7 +74,7 @@ function MobileFooterNav() {
             <span>Governance</span>
             <span className="soon">Soon</span>
           </Link>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

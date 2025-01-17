@@ -47,7 +47,7 @@ function SidebarNav() {
             {/* <span className="soon">Soon</span> */}
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link
             to="/#"
             className={`navLink ${isActive("/explorer") && "active"}`}
@@ -90,7 +90,7 @@ function SidebarNav() {
             <span>Loans</span>
             <span className="soon">Soon</span>
           </Link>
-        </li>
+        </li> 
         <li>
           <Link
             to="#"
@@ -112,7 +112,7 @@ function SidebarNav() {
             <span>Governance</span>
             <span className="soon">Soon</span>
           </Link>
-        </li>
+        </li>*/}
       </ul>
     </div>
   );
