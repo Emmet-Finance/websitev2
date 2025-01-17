@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
-import { AddressBookKeys, sleep, TonHelper, Web3Helper } from "emmet.js";
+import { AddressBookKeys, sleep } from "emmet.js";
 import { useAppDispatch, useAppSelector } from "./storage";
 import {
   ChainNameToTypeChainName,
-  ChainToDestinationDomain,
   SUPPORTED_CHAINS,
   TOKEN_DECIMALS,
   TTokenName,
@@ -16,6 +15,7 @@ import {
   setPoolStakedBalance,
 } from "../store/poolSlice";
 import { useTonConnect } from "./useTonConnect";
+import { getHandler, isValidAddress } from "../utils/emmetjs";
 
 export default function usePool() {
 
@@ -37,24 +37,10 @@ export default function usePool() {
 
   // ======= H E L P E R  F U N C T I O N S =======
 
-  const isPoolPath = location.pathname.includes('/your-liquidity');
-  // ----------------------------------------------
-  const getHandler = async (): Promise<Web3Helper | TonHelper> => {
-    const handler = await chainFactory.inner(
-      // @ts-ignore
-      ChainToDestinationDomain[ChainNameToTypeChainName[pool.chain]],
-    );
-    return handler;
-  }
-  // ----------------------------------------------
-  const isValidAddress = async (address: string): Promise<boolean> => {
-    const handler: Web3Helper | TonHelper = await getHandler();
-    const validAddress: boolean = await handler.validateAddress(bridge.senderAddress);
-    return validAddress;
-  }
+  const isPoolPath = location.pathname.includes('/pool');
   // ----------------------------------------------
   const stake = async () => {
-    const handler = await getHandler();
+    const handler = pool.chain && await getHandler(pool.chain);
 
     try {
       await chainFactory.stakeLiqiduity(
@@ -83,7 +69,7 @@ export default function usePool() {
   };
   // ----------------------------------------------
   const withdraw = async () => {
-    const handler = await getHandler();
+    const handler = pool.chain && await getHandler(pool.chain);
 
     try {
       await chainFactory.withdrawLiqiduity(
@@ -112,7 +98,7 @@ export default function usePool() {
   };
   // ----------------------------------------------
   const withdrawFees = async () => {
-    const handler = await getHandler();
+    const handler = pool.chain && await getHandler(pool.chain);
 
     try {
       await chainFactory.withdrawFees(
@@ -138,41 +124,48 @@ export default function usePool() {
   // ----------------------------------------------
   const getBalance = async (
     type: "Deposit" | "Withdraw",
+    chain: string,
+    token: string,
+    account: string
   ) => {
 
     try {
-      const handler = await getHandler();
+      const handler = pool.chain && await getHandler(chain);
 
-      const _chain = SUPPORTED_CHAINS[ChainNameToTypeChainName[pool.chain]];
+      if (handler) {
+        const _chain = SUPPORTED_CHAINS[ChainNameToTypeChainName[chain]];
 
-      //  Get & return coint balance
-      if (pool.token === _chain.nativeCurrency.symbol && type === "Deposit") {
-        return (
-          Number(await handler.balance(bridge.senderAddress)) /
-          10 ** TOKEN_DECIMALS[pool.token as TTokenName]
-        );
-      }
-
-      // Get & return Token balance
-      if ("address" in handler) {
-        if (type === "Deposit") {
-          const tokenAddress = await handler.address(pool.token as AddressBookKeys);
-
+        //  Get & return coint balance
+        if (token === _chain.nativeCurrency.symbol && type === "Deposit") {
           return (
-            Number(await handler.tokenBalance(tokenAddress, bridge.senderAddress)) /
-            10 ** Number(TOKEN_DECIMALS[pool.token as TTokenName])
-          );
-        } else { // Withdraw
-          const tokenAddress = await handler.address(
-            `elp${pool.token}` as AddressBookKeys,
-          );
-          return (
-            Number(await handler.tokenBalance(tokenAddress, bridge.senderAddress)) /
-            10 ** Number(TOKEN_DECIMALS[pool.token as TTokenName])
+            Number(await handler.balance(account)) /
+            10 ** TOKEN_DECIMALS[token as TTokenName]
           );
         }
+
+        // Get & return Token balance
+        if ("address" in handler) {
+          if (type === "Deposit") {
+            const tokenAddress = await handler.address(token as AddressBookKeys);
+
+            return (
+              Number(await handler.tokenBalance(tokenAddress, account)) /
+              10 ** Number(TOKEN_DECIMALS[token as TTokenName])
+            );
+          } else { // Withdraw
+            const tokenAddress = await handler.address(
+              `elp${token}` as AddressBookKeys,
+            );
+            return (
+              Number(await handler.tokenBalance(tokenAddress, account)) /
+              10 ** Number(TOKEN_DECIMALS[token as TTokenName])
+            );
+          }
+        }
       }
+
       return 0;
+      
     } catch (error: { message: string } | any) {
       console.error(error);
       setError(error.message);
@@ -191,6 +184,9 @@ export default function usePool() {
 
         const balance = await getBalance(
           "Deposit",
+          pool.chain,
+          pool.token,
+          bridge.senderAddress
         );
         dispatch(setPoolBalance(balance ? balance : 0));
 
@@ -198,6 +194,9 @@ export default function usePool() {
 
         const stakedBalance = await getBalance(
           "Withdraw",
+          pool.chain,
+          pool.token,
+          bridge.senderAddress
         );
         dispatch(setPoolStakedBalance(stakedBalance ? stakedBalance : 0));
 
@@ -216,7 +215,7 @@ export default function usePool() {
         && pool.chain
         && pool.token
         && bridge.senderAddress
-        && await isValidAddress(bridge.senderAddress)
+        && await isValidAddress(pool.chain, bridge.senderAddress)
       ) {
         await fetchData();
         interval = setInterval(fetchData, 60_000);
