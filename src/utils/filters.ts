@@ -1,6 +1,6 @@
 // Mock Data
-import chainList from "../store/lockAndMintChain.json";
-import coinsData from "../store/coins.json";
+import chainList from "../data/lockAndMintChain.json";
+import coinsData from "../data/coins.json";
 import { BridgeTokens, CHAIN_TO_TOKENS_TREE, TOKEN_TO_TOKEN, TSupportedChain } from "../types/tokens";
 import { TChainType, TokenType } from "../store/types";
 import { CHAIN_TO_TOKENS } from "../types";

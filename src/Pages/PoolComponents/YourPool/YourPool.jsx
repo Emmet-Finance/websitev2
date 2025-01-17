@@ -1,27 +1,9 @@
 import React from "react";
 import YourPoolTitle from "./YourPoolTitle";
 import PoolBox from "./PoolBox";
+import supportedPools from "../../../data/pools.json"
 
-const supportedPools = [
-  {
-    chain: "BSC",
-    token: "USDT"
-  },
-  {
-    chain: "Polygon",
-    token: "USDT"
-  },
-  {
-    chain: "TON",
-    token: "USDT"
-  },
-  {
-    chain: "TON",
-    token: "TON"
-  },
-];
-
-function YourPool() {
+export default function YourPool() {
 
   return (
     <div className="yourPool">
@@ -41,5 +23,3 @@ function YourPool() {
     </div>
   );
 }
-
-export default YourPool;
