@@ -4,8 +4,9 @@ import Updown from "../../../assets/img/table-updown.svg";
 import Yourliquidity from "./Yourliquidity";
 import { useAppDispatch, useAppSelector } from "../../../hooks/storage";
 import { Link } from "react-router-dom";
-import poolTokens from "../../../store/poolCoins.json";
-import poolChains from "../../../store/poolChains.json";
+import poolTokens from "../../../data/poolCoins.json";
+import poolChains from "../../../data/poolChains.json";
+import poolData from "../../../data/pools.json";
 import { useNavigate } from "react-router-dom";
 import usePoolData from "../../../hooks/usePoolData";
 import { useAccount } from "wagmi";
@@ -21,36 +22,8 @@ const PoolTable = () => {
   const navigate = useNavigate();
   const { getData } = usePoolData();
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([
-    // {
-    //   token: "USDT",
-    //   chain: "BSC",
-    //   apy: 0,
-    //   volume: "$43,432.00",
-    //   totalLiquidity: 0,
-    // },
-    {
-      token: "USDT",
-      chain: "Polygon",
-      apy: 0,
-      volume: "$43,432.00",
-      totalLiquidity: 0,
-    },
-    {
-      token: "USDT",
-      chain: "TON",
-      apy: 0,
-      volume: "$43,432.00",
-      totalLiquidity: 0,
-    },
-    // {
-    //   token: "TON",
-    //   chain: "TON",
-    //   apy: 0,
-    //   volume: "$43,432.00",
-    //   totalLiquidity: 0,
-    // },
-  ]);
+  const [populated, setPopulated] = useState(false);
+  const [data, setData] = useState(poolData);
 
   const getTokenIcon = (token) => {
     return poolTokens ? poolTokens.find((i) => i.name === token)?.icon : "";
@@ -91,23 +64,27 @@ const PoolTable = () => {
   }, [sortBy, sortOrder]);
 
   useEffect(() => {
-    (async () => {
-      setLoading(true);
-      setData(
-        await Promise.all(
-          data.map(async (i) => {
-            const _data = await getData();
-            return {
-              ...i,
-              apy: _data.apy,
-              totalLiquidity: Number(_data.liquidityPoolInUSD),
-            };
-          }),
-        ),
-      );
-      setLoading(false);
-    })();
-  }, []);
+    if(!populated){
+      (async () => {
+        setLoading(true);
+        setData(
+          await Promise.all(
+            data.map(async (i) => {
+              const _data = await getData(i.chain, i.token);
+              return {
+                ...i,
+                apy: _data && _data.apy ? _data.apy : 0,
+                totalLiquidity: _data && _data.totalSupply ? Number(_data.totalSupply) : 0,
+              };
+            }),
+          ),
+        );
+        setLoading(false);
+        setPopulated(true)
+      })();
+    }
+    
+  }, [pool.chain]);
 
   const handleAddPollClick = (item) => {
     navigate("./your-liquidity", {
@@ -210,7 +187,7 @@ function TableDataRow({
           {loading ? (
             <Skeleton height={16} width={100} />
           ) : (
-            `$${item.totalLiquidity}`
+            `${Number(item.totalLiquidity).toLocaleString()}`
           )}
         </span>
       </td>
