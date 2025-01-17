@@ -2,6 +2,7 @@ export * from "./address";
 export * from "./approve";
 export * from "./bnWithoutDecimals";
 export * from "./chain";
+export * from "./emmetjs";
 export * from "./explorer";
 export * from "./filters";
 export * from "./getContract";
