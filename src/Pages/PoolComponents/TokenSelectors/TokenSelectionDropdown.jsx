@@ -4,7 +4,7 @@ import ReactGA from "react-ga";
 // Icons
 import DownArrow from "../../../assets/img/down-white.svg";
 import Fox from "../../../assets/img/fox.svg";
-import coins from "./../../../store/poolCoins.json";
+import coins from "./../../../data/poolCoins.json";
 // Components
 import CoinLinkAddress from "../../HomeComponents/CoinLinkAddress";
 import { useAppSelector, useAppDispatch } from "../../../hooks/storage";

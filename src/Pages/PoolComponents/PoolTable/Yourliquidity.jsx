@@ -9,7 +9,6 @@ import TokenSelectorBox from "../TokenSelectors/TokenSelectorBox";
 import usePool from "../../../hooks/usePool";
 import {
   setPoolAmount,
-  setPoolBalance,
   setPoolChain,
   setPoolToken,
 } from "../../../store/poolSlice";
@@ -26,16 +25,14 @@ import {
   setBridgeIsApproving,
 } from "../../../store/bridgeSlice";
 import ConnectWalletModal from "../../../HeaderFooterSidebar/ConnectWalletModal";
-import { CHAIN_NAME_TO_ID, TOKEN_DECIMALS } from "../../../types";
+import { TOKEN_DECIMALS } from "../../../types";
 import usePoolAllowance from "../../../hooks/usePoolAllowance";
 import { useLocation } from "react-router-dom";
 import { useSwitchChain } from "wagmi";
-import { chainFactory } from "../../../store/chainFactory";
-import { removeTrailingZeroes } from "../../../utils";
+import usePoolData from "../../../hooks/usePoolData";
 
 function Yourliquidity() {
   const [activeButton, setActiveButton] = useState("Deposit");
-  const [isYourLiquidityVisible, setYourLiquidityVisible] = useState(true);
   const [disabled, setDisabled] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [caption, setCaption] = useState("");
@@ -49,13 +46,10 @@ function Yourliquidity() {
   const location = useLocation();
   const { switchChain } = useSwitchChain();
   usePoolAllowance();
+  usePoolData()
 
   const handleButtonClick = (buttonType) => {
     setActiveButton(buttonType);
-  };
-
-  const handleCloseClick = () => {
-    setYourLiquidityVisible(false);
   };
 
   function isApproveRequired() {
@@ -161,7 +155,7 @@ function Yourliquidity() {
     window.history.back();
   };
 
-  return isYourLiquidityVisible ? (
+  return (
     <>
       <div className="yourliquidityArea">
         <div className="yourliquidity">
@@ -269,7 +263,7 @@ function Yourliquidity() {
               <li>
                 <div className="LiquidityleftText">Liquidity Pool</div>
                 <div className="LiquidityrightText">
-                  ${pool.liquidityPoolInUSD}
+                  {pool.liquidityPoolInUSD} {pool.token}
                 </div>
               </li>
             </ul>
@@ -292,7 +286,7 @@ function Yourliquidity() {
         </div>
       </div>
     </>
-  ) : null;
+  );
 }
 
 export default Yourliquidity;
