@@ -4,7 +4,7 @@ import YourPool from "./YourPool/YourPool";
 import PoolTableArea from "./PoolTable/PoolTableArea";
 import ExplorerHeaderSearch from "../../HeaderFooterSidebar/ExplorerHeaderSearch";
 
-function PoolPageContainer() {
+export default function PoolPageContainer() {
   const [showHeaderSearch, setShowHeaderSearch] = useState(true);
 
   useEffect(() => {
@@ -32,5 +32,3 @@ function PoolPageContainer() {
     </div>
   );
 }
-
-export default PoolPageContainer;
