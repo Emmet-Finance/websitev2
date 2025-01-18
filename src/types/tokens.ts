@@ -57,12 +57,12 @@ export const BridgeTokens = [
   //   icon: "img/coin/dai.svg",
   //   price: 1,
   // },
-  // {
-  //   "cmc_id":825,
-  //   "name": "USDT",
-  //   "icon": "img/coin/usdt.svg",
-  //   "price": 1
-  // }
+  {
+    "cmc_id":825,
+    "name": "USDT",
+    "icon": "img/coin/usdt.svg",
+    "price": 1
+  },
   {
     cmc_id: 26960,
     name: "GrabClub",
@@ -81,8 +81,8 @@ export const CHAIN_TO_TOKENS: {[key:string]: string[]} = {
   // Mainnets
   Avalanche: ["USDC", "EMMET"],
   BSC: ["NTM", "Bolgur"],
-  Polygon: ["USDC", "EMMET", "GrabClub", "TON"],
-  TON: ["TON", "NTM", "GrabClub", "Bolgur"],
+  Polygon: ["USDT", "USDC", "EMMET", "GrabClub", "TON"],
+  TON: ["USDT", "TON", "NTM", "GrabClub", "Bolgur"],
   // Testnets
 };
 
@@ -107,12 +107,12 @@ export const CHAIN_TO_TOKENS_TREE: {[key:TSupportedChain|string]:{
     Avalanche: ["USDC", "EMMET"],
     BSC:[],
     Polygon: [],
-    TON: ["GrabClub"],
+    TON: ["USDT", "GrabClub"],
   },
   TON: {
     Avalanche: [],
     BSC:["NTM", "Bolgur"],
-    Polygon: ["GrabClub"],
+    Polygon: ["USDT", "GrabClub"],
     TON: [],
   },
 };
