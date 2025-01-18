@@ -7,9 +7,10 @@ export function useTonConnect(): {
   hash: string;
 } {
   const [tonConnectUI] = useTonConnectUI();
-  const address = useTonAddress();
+  const address: string = useTonAddress();
 
   return {
+    address,
     sender: {
       // @ts-ignore
       send: async (args: SenderArguments) => {
