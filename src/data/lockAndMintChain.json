@@ -15,6 +15,11 @@
     "icon":"img/chain/polygon.svg"
   },
   {
+    "id": 19,
+    "name": "Songbird",
+    "icon": "img/chain/songbird.svg"
+  },
+  {
     "id":65534,
     "name":"TON",
     "icon":"img/chain/ton.svg"
