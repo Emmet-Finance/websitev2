@@ -5,11 +5,11 @@ import { TonClient } from "@ton/ton";
 
 export function getProvider(chainName: TChainName) {
   const chain = findChain(chainName);
-
   const provider = createPublicClient({
     chain,
     transport: fallback(
-      chain!.rpcUrls.public.http.map((RPC) => {
+      // @ts-ignore
+      chain!.rpcUrls!.public!.http.map((RPC:string) => {
         return http(RPC);
       }),
     ),

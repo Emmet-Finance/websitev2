@@ -4,7 +4,6 @@ import coinsData from "../data/coins.json";
 import { BridgeTokens, CHAIN_TO_TOKENS_TREE, TOKEN_TO_TOKEN, TSupportedChain } from "../types/tokens";
 import { TChainType, TokenType } from "../store/types";
 import { CHAIN_TO_TOKENS } from "../types";
-import { TChainName } from "emmet.js";
 
 /**
  * Used by the bridge to disable sending inside the same chain
@@ -17,6 +16,13 @@ export function filterTwoChains(chain1: string, chain2: string): TChainType[] {
     (chain: TChainType) => chain.name !== chain1 && chain.name !== chain2,
   );
 }
+
+/**
+ * Excludes the from & to chains from the list of selectable
+ * @param selectedFromChain the from chain name
+ * @param selectedToChain the to chain name
+ * @returns a filtered list
+ */
 export function filterFromChains(
   selectedFromChain: string,
   selectedToChain: string,
@@ -27,6 +33,12 @@ export function filterFromChains(
   );
 }
 
+/**
+ * Excludes the from & to chains from the list of selectable
+ * @param selectedFromChain the from chain name
+ * @param selectedToChain the to chain name
+ * @returns a filtered list
+ */
 export function filterToChains(
   selectedFromChain: TSupportedChain,
   selectedToChain: TSupportedChain,
@@ -46,6 +58,8 @@ export function filterToChains(
     }
   }
 
+  destChains.filter((chain: TChainType) => selectedToChain === chain.name)
+
   return destChains;
 }
 
@@ -62,6 +76,12 @@ export function filterTwoTokens(name1: string, name2: string): TokenType[] {
 
 }
 
+/**
+ * Fetches supported tokens
+ * @param fromChain 
+ * @param toChain 
+ * @returns a filtered list of chains
+ */
 export function getSupportedTokens(fromChain: string, toChain: string) {
   // @ts-ignore
   const fromChainSupportedTokens = new Set<string>(CHAIN_TO_TOKENS[fromChain]);
@@ -93,6 +113,13 @@ export function filterOneToken(
   );
 }
 
+/**
+ * Filters BridgeTokens based on allowed tokens
+ * @param selectedToken 
+ * @param fromChain 
+ * @param toChain 
+ * @returns 
+ */
 export function filterTokens(
   selectedToken: string,
   fromChain: TSupportedChain,
@@ -101,26 +128,50 @@ export function filterTokens(
   // Get the list of allowed tokens from the CHAIN_TO_TOKENS_TREE
   const allowedTokens = CHAIN_TO_TOKENS_TREE?.[fromChain]?.[toChain] || [];
 
-  // console.log({fromChain, toChain, allowedTokens, })
-
-  // Filter BridgeTokens based on allowed tokens
-  return BridgeTokens.filter(
+  let tokens = BridgeTokens.filter(
     (token: TokenType) =>
-      token.name !== selectedToken && allowedTokens.includes(token.name)
+      // token.name !== selectedToken && allowedTokens.includes(token.name)
+      CHAIN_TO_TOKENS[fromChain]?.includes(token.name)
   );
+
+  tokens = tokens.filter(i => i.name == selectedToken);
+
+  return tokens;
 }
 
-/**
- * Finds a chain object by a chain's name
- * @param name the name of
- * @returns the chain object if found | undefined otherwise
- */
-export function getChainidByName(name: string): number {
-  const foundChain: TChainType | undefined = chainList.find(
-    (chain: TChainType) => chain.name === name,
-  );
-  if (foundChain) {
-    return foundChain.id;
+export function getTokenByName(tokenName: string): TokenType {
+  return coinsData.find(i => i.name === tokenName) as TokenType;
+}
+
+// ==================== BRAND NEW FILTERS ====================
+
+export function filterAvailableToChain(fromChain: TSupportedChain): TChainType[] {
+  const keys = Object.keys(CHAIN_TO_TOKENS_TREE[fromChain]) as string[];
+  let available: TChainType[] = []
+  for (const key of keys) {
+    available.push(chainList.find(i => i.name === key) as TChainType)
   }
-  return 0;
+  return available;
+}
+
+export function filterAvailableFromTokens(fromChain: TSupportedChain, toChain: TSupportedChain): TokenType[] {
+
+  const available: TokenType[] = [];
+
+  const tokenList = CHAIN_TO_TOKENS_TREE[fromChain][toChain];
+
+  if (tokenList) {
+
+    for (const token of tokenList) {
+      available.push(BridgeTokens.filter(i => i.name === token)[0])
+    }
+  }
+
+  // console.log("filterAvailableFromTokens", "from", fromChain, "to",toChain,  "available", available)
+
+  return available;
+}
+
+export function filterAvailableToTokens(fromToken: string) {
+  return TOKEN_TO_TOKEN[fromToken as keyof typeof TOKEN_TO_TOKEN];
 }

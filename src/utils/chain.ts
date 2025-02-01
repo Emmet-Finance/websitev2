@@ -7,10 +7,32 @@ import {
   CHAIN_LOGOS,
   DomainToChainNameTestnet,
 } from "../types";
+import chainList from "../data/lockAndMintChain.json";
+import { TChainType, TokenType } from "../store/types";
 
 export function findChain(chinName: TChainName) {
+  console.log("findChain", chinName, "is supported", isChainSupported(chinName))
   if (!isChainSupported(chinName)) return undefined;
   return SUPPORTED_CHAINS[chinName as TChainName];
+}
+
+export const findChainByName = (chainName:string) => {
+  return chainList.find((c) => chainName && chainName === c.name);
+};
+
+/**
+ * Finds a chain object by a chain's name
+ * @param name the name of
+ * @returns the chain object if found | undefined otherwise
+ */
+export function getChainidByName(name: string): number {
+  const foundChain: TChainType | undefined = chainList.find(
+    (chain: TChainType) => chain.name === name,
+  );
+  if (foundChain) {
+    return foundChain.id;
+  }
+  return 0;
 }
 
 export function isChainSupported(chinName: TChainName): boolean {

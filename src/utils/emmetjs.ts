@@ -39,16 +39,16 @@ export async function getData(chain: string, token: string, address: string = ""
                 }
             }
 
-            const decimalAmount: bigint = 10n ** data.decimals;
+            const decimalAmount: number = 10 ** Number(data.decimals);
 
             return {
                 decimals: data.decimals ? Number(data.decimals) : 0,
                 apy: data.apy ? Number(data.apy) / 100 : 0,
-                totalSupply: data.total_supply ? Number(data.total_supply / decimalAmount) : 0,
+                totalSupply: data.total_supply ? Number(data.total_supply) / decimalAmount : 0,
                 protocolFee: data.protocol_fee ? Number(data.protocol_fee) : 0,
                 protocolFeeAmount: data.protocol_fee_amount ? Number(data.protocol_fee_amount) : 0,
                 tokenFee: data.token_fee ? Number(data.token_fee) : 0,
-                feeGrowthGlobal: data.fee_growth_global ? Number(data.fee_growth_global / decimalAmount) : 0,
+                feeGrowthGlobal: data.fee_growth_global ? Number(data.fee_growth_global) / decimalAmount : 0,
                 feeDecimals: data.fee_decimals ? Number(data.fee_decimals) : 0,
                 pendingRewards: validAddress && stakerPosition.rewards
                     ? (Number(stakerPosition.rewards) / Number(decimalAmount))
