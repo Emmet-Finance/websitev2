@@ -3,6 +3,7 @@ import swapSliceReducer from "./swapSlice";
 import bridgeSlice from "./bridgeSlice";
 import explorerReducer from "./explorerSlice";
 import poolSlice from "./poolSlice";
+import poolsReducer from "./poolsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     swap: swapSliceReducer,
     explorer: explorerReducer,
     pool: poolSlice,
+    pools: poolsReducer,
   },
 });
 

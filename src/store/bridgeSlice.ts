@@ -2,9 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BridgeTokens, TOKEN_TO_TOKEN } from "../types";
 import { TChainType, TokenType } from "./types";
 import {
+  filterAvailableFromTokens,
+  filterAvailableToChain,
+  filterAvailableToTokens,
   filterFromChains,
   filterToChains,
   filterTokens,
+  getTokenByName,
 } from "../utils/filters";
 
 export interface IBridgeState {
@@ -47,12 +51,22 @@ export interface IBridgeState {
 }
 
 // FROM
-const fromChain = "Avalanche";
-const fromToken = "EMMET";
+const fromChain = "Polygon";
+const fromToken = "USDC";
 
 // TO
-const toChain = "Polygon";
-const toToken = fromToken;
+const toChain = "Avalanche";
+const toToken = "USDC";
+
+let fromTokens = filterAvailableFromTokens(fromChain, toChain);
+fromTokens = fromTokens.length > 1
+  ? fromTokens.splice(1,)
+  : [];
+
+let toChains = filterToChains(fromChain, toChain);
+toChains = toChains.length > 1
+  ? toChains.splice(1,)
+  : [];
 
 const initialState = {
   allowance: 0,
@@ -68,7 +82,7 @@ const initialState = {
   fromContractAddress: "",
   fromHash: "",
   fromToken,
-  fromTokens: filterTokens(fromToken, fromChain, toChain),
+  fromTokens,
   isApproving: false,
   isFailure: false,
   isLoading: false,
@@ -84,7 +98,7 @@ const initialState = {
   timeElapsed: 0,
   toBalance: 0,
   toChain,
-  toChains: filterToChains(fromChain, toChain),
+  toChains,
   toHash: "",
   toToken,
   toTokens: filterTokens(toToken, fromChain, toChain),
@@ -132,33 +146,37 @@ export const bridgeSlice = createSlice({
 
       state.fromChain = action.payload;
 
-      state.fromTokens = filterTokens(
-        state.fromToken,
+      const toCh = filterAvailableToChain(action.payload);
+
+      state.toChain = toCh[0].name;
+
+      const fromTok = filterAvailableFromTokens(action.payload, toCh[0].name);
+
+      state.fromTokens = fromTok.length > 1 ? fromTok.slice(1,) : [];
+      state.fromToken = fromTok[0].name;
+      state.toToken = filterAvailableToTokens(fromTok[0].name)[0];
+
+      const destTokens = filterTokens(
+        fromTok[0].name,
         state.fromChain,
-        state.toChain,
+        toCh[0].name,
       );
-      state.toTokens = filterTokens(
-        state.toToken,
-        state.fromChain,
-        state.toChain,
-      );
-      state.fromChains = filterFromChains(state.fromChain, state.toChain);
-      state.toChains = filterToChains(state.fromChain, state.toChain);
+      
+      state.toTokens = destTokens.length > 0 ? destTokens.slice(1,): [];
+      state.fromChains = filterFromChains(action.payload, state.toChain);
+      state.toChains = toCh.length > 0 ? toCh.slice(1,) : [];
+
       if (
         state.toChains.length &&
         !state.toChains.find((i) => i.name === state.toChain)
       ) {
         state.toChain = state.toChains[0].name;
       }
-      if (state.fromChain === state.toChain) {
+      if (action.payload === state.toChain) {
         state.toChain = state.toChains[0].name;
       }
-      state.fromChains = filterFromChains(state.fromChain, state.toChain);
-      state.toChains = filterToChains(state.fromChain, state.toChain);
-
-      // Set from Account
-
-      // Set to Account
+      state.fromChains = filterFromChains(action.payload, state.toChain);
+      state.toChains = filterToChains(action.payload, state.toChain);
 
       state.isSwapping = false;
     },
@@ -191,6 +209,16 @@ export const bridgeSlice = createSlice({
       state.toToken = TOKEN_TO_TOKEN[state.fromToken as keyof typeof TOKEN_TO_TOKEN][0];
 
       state.isSwapping = false;
+
+      // if(state.fromChain === "Polygon" && state.toChain === "Songbird"){
+      //   state.fromToken = "USDT"
+      //   state.toToken = "USDTem"
+      // }
+
+      // if(state.fromChain === "Songbird"  && state.toChain === "Polygon"){
+      //   state.fromToken = "USDTem"
+      //   state.toToken =  "USDT"
+      // }
     },
     setBridgeIsApproving(state: IBridgeState, action: PayloadAction<boolean>) {
       state.isApproving = action.payload;
@@ -246,20 +274,40 @@ export const bridgeSlice = createSlice({
       state.isSwapping = true;
 
       state.toChain = action.payload;
+
       state.fromChains = filterFromChains(state.fromChain, state.toChain);
-      state.toChains = filterToChains(state.fromChain, state.toChain);
-      state.fromTokens = filterTokens(
-        state.fromToken,
-        state.fromChain,
-        state.toChain,
-      );
-      state.toTokens = filterTokens(
-        state.toToken,
-        state.fromChain,
-        state.toChain,
-      );
+
+      state.toChains = filterToChains(state.fromChain, action.payload);
+
+      const fromTok = filterAvailableFromTokens(state.fromChain, action.payload);
+      console.log(state.fromChain, action.payload, "fromTok", fromTok)
+
+      if(fromTok.length > 0){
+        state.fromTokens = fromTok.length > 1 ? fromTok.slice(1,) : [];
+        state.fromToken = fromTok[0].name;
+        state.toToken = filterAvailableToTokens(fromTok[0].name)[0];
+        console.log(
+          "Inside if(fromTok.length > 0)",
+          "state.fromToken", state.fromToken, 
+          "state.toToken", state.toToken
+        )
+      }
 
       state.isSwapping = false;
+
+      // if(state.fromChain === "Polygon" && action.payload === "Songbird"){
+      //   state.fromToken = "USDT"
+      //   state.toToken = "USDTem"
+      // }
+
+      // if(state.fromChain === "Songbird"  && (action.payload === "Polygon" || action.payload === "TON")){
+      //   state.fromToken = "USDTem"
+      //   state.toToken =  "USDT"
+      //   console.log(
+      //     "Inside if(state.fromChain === \"Songbird\"  &&...", 
+      //     "state.fromToken", state.fromToken, 
+      //     "state.toToken", state.toToken)
+      // }
 
     },
     setBridgeToBalance(state: IBridgeState, action: PayloadAction<number>) {
