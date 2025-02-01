@@ -9,6 +9,7 @@ export * from "./getContract";
 export * from "./getProvider";
 export * from "./getSigner";
 export * from "./getTxReceipt";
+export * from "./href";
 export * from "./numbers";
 export * from "./sanitizeNumber";
 export * from "./time";
