@@ -59,6 +59,7 @@ export default function useBridgeTransferEmmet() {
           )) as TonHelper;
 
           console.log({
+            ton: "transferring from Ton",
             handler,
             tonSender,
             amount: BigInt(Math.ceil(formattedAmount)),
@@ -86,6 +87,7 @@ export default function useBridgeTransferEmmet() {
         } else if ( // S e n d i n g   t o   E V M s
           fromChainID === Chain.AVALANCHE ||
           fromChainID === Chain.POLYGON ||
+          fromChainID === Chain.SONGBIRD ||
           fromChainID === Chain.ETHEREUM ||
           fromChainID === Chain.BSC ||
           fromChainID === Chain.BERACHAIN ||

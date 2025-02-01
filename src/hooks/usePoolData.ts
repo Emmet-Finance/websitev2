@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "./storage";
 import { useLocation } from 'react-router-dom';
-import { chainFactory } from "../store/chainFactory";
 import {
     setPoolApy,
     setPoolDataLoading,
@@ -19,6 +18,7 @@ import { useEthersSigner } from "./useEthersSigner";
 import { useTonConnect } from "./useTonConnect";
 import { getData, getPositions } from "../utils/emmetjs";
 
+
 export default function usePoolData() {
 
     const dispatch = useAppDispatch();
@@ -31,12 +31,15 @@ export default function usePoolData() {
     const location = useLocation();
     const isPoolPath = location.pathname.includes('/pool');
 
-    const [error, setError] = useState("");
-
     const fetchPoolData = async () => {
         dispatch(setPoolDataLoading(true));
         await sleep(1000);
-        const data = await getData(pool.chain, pool.token, bridge.senderAddress);
+        let data;
+        if(pool.chain.toLowerCase() == "ton"){
+            data = await getData(pool.chain, pool.token, tonSender.address?.toString());
+        }else {
+            data = await getData(pool.chain, pool.token, bridge.senderAddress);
+        }
 
         if (data) {
             dispatch(setPoolApy(data.apy));
@@ -76,7 +79,6 @@ export default function usePoolData() {
     }, [pool.chain, pool.token, bridge.senderAddress]);
 
     return {
-        error,
         getData,
         getPositions
     }

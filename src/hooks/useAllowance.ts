@@ -50,7 +50,7 @@ export default function useBridgeAllowance() {
         const token: string = await handler.getTokenAddress(bridge.fromToken);
         const tokenDecimals: number = TOKEN_DECIMALS[bridge.fromToken as keyof typeof TOKEN_DECIMALS];
 
-        console.log("fromToken", bridge.fromToken, "tokenAddress:", token, "tokenDecimals", tokenDecimals)
+        // console.log("fromToken", bridge.fromToken, "tokenAddress:", token, "tokenDecimals", tokenDecimals)
 
         if (
           token !== ethers.ZeroAddress &&
