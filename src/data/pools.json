@@ -1,16 +1,10 @@
 [
     {
         "chain": "Polygon",
-        "token": "USDT",
-        "apy": 0,
-        "volume": 0,
-        "totalLiquidity": 0
+        "token": "USDT"
     },
     {
         "chain": "TON",
-        "token": "USDT",
-        "apy": 0,
-        "volume": 0,
-        "totalLiquidity": 0
+        "token": "USDT"
     }
 ]

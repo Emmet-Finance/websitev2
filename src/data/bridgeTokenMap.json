@@ -1,10 +1,4 @@
 {
-    "Bolgur": [
-        "Bolgur"
-    ],
-    "GrabClub": [
-        "GrabClub"
-    ],
     "EMMET": [
         "EMMET"
     ],
@@ -18,6 +12,9 @@
         "USDC"
     ],
     "USDT": [
+        "USDT", "USDTem"
+    ],
+    "USDTem": [
         "USDT"
     ]
 }

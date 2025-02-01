@@ -1,15 +1,8 @@
 {
-    "BERA": "BERA",
-    "Bolgur": "Bolgur",
-    "$CAVI": "CAVI",
-    "DAI": "DAI",
-    "GrabClub": "GrabClub",
     "EMMET": "EMMET",
-    "ETH": "ETH",
-    "MATIC": "MATIC",
     "NTM": "NTM",
     "TON": "TON",
-    "TRT": "TestRED",
     "USDC": "USDC",
-    "USDT": "USDT"
+    "USDT": "USDT",
+    "USDTem": "USDT.em"
 }
