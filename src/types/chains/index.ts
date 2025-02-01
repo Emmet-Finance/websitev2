@@ -13,6 +13,7 @@ import { sepolia } from "./sepolia";
 import { ton } from "./ton";
 import { tonTestnet } from "./tonTestnet";
 import { solana } from "./solana";
+import { songbird } from "viem/chains";
 import { bsc } from "./bsc";
 import { bscTestnet } from "./bscTestnet";
 import { berachainBartio } from "./berachainBartio";
@@ -28,6 +29,7 @@ export * from "./ethereum";
 export * from "./optimism";
 export * from "./polygon";
 export * from "./solana";
+export * from "./songbird";
 export * from "./bsc";
 
 // TESTNETS:
@@ -47,6 +49,7 @@ export const MAINNETS = {
   ethereum: ethereum,
   optimism: optimism,
   polygon: polygon,
+  songbird: songbird,
   ton: ton,
   solana: solana,
   bsc: bsc,
@@ -85,6 +88,7 @@ export const CHAIN_NAME_TO_ID: { [key in TChainName]: number } = {
   ethereum: 1, // 0x1
   optimism: 10, // 0xa (OP Mainnet)
   polygon: 137, // 0x89
+  songbird: 19,
   ton: 65534, // 0xfffe
   solana: 5426,
   bsc: 56,
@@ -109,6 +113,7 @@ export const ChainNameToTypeChainName: { [key: string]: TChainName } = {
   Ethereum: "ethereum",
   Optimism: "optimism",
   Polygon: "polygon",
+  Songbird: "songbird",
   TON: "ton",
   BSC: "bsc",
   // Testnets:
@@ -142,6 +147,7 @@ export const ChainToDestinationDomain: { [key in TChainName]: number } = {
   tonTestnet: 65535,
   solana: 102, // TODO: change
   // CCTP unsupported chains
+  songbird: 19,
   bscTestnet: 56,
   berachainBartio: 80084,
   onlylayerTestnet: 728696,
@@ -156,6 +162,7 @@ export const DomainToChainName: { [key: number]: TChainName } = {
   7: "polygon",
   65534: "ton",
   5: "solana", // TODO: change
+  19: "songbird",
   56: "bsc",
 };
 
@@ -178,6 +185,7 @@ export const CHAIN_ID_TO_NAME: { [key: number]: TChainName } = {
   65534: "ton",
   5426: "solana",
   56: "bsc",
+  19: "songbird",
   // Testnets:
   421614: "arbitrumSepolia",
   43113: "avalancheFuji",
@@ -191,7 +199,7 @@ export const CHAIN_ID_TO_NAME: { [key: number]: TChainName } = {
   728696: "onlylayerTestnet",
 };
 
-export const SupportedDomains = [0, 1, 2, 3, 6, 7, 65534, 65535, 56, 4]; // TODO: add solana
+export const SupportedDomains = [0, 1, 2, 3, 6, 7, 65534, 65535, 56, 4, 19]; // TODO: add solana
 
 export const supportedChainnames: TChainName[] = Object.keys(
   SUPPORTED_CHAINS,
@@ -207,6 +215,7 @@ export const CHAIN_LOGOS: { [key: string|TChainName]: string } = {
   polygon: "img/chain/polygon.svg",
   ton: "img/chain/ton.svg",
   solana: "img/chain/solana.svg",
+  songbird: "img/chain/songbird.svg",
   bsc: "img/chain/bsc.svg",
   // Testnets:
   arbitrumSepolia: "img/chain/arbitrum.svg",

@@ -1,1 +1,1 @@
-export const STABLECOINS = ["DAI", "EURC", "USDC", "USDT"];
+export const STABLECOINS = ["DAI", "EURC", "USDC", "USDT", "USDTem"];

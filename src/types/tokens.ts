@@ -10,12 +10,6 @@ export {
 
 export const BridgeTokens = [
   {
-    cmc_id: 0,
-    name: "Bolgur",
-    icon: "img/coin/Bolgur.png",
-    price: 0.0002106,
-  },
-  {
     cmc_id: 3408,
     name: "USDC",
     icon: "img/coin/usdc.svg",
@@ -33,30 +27,6 @@ export const BridgeTokens = [
     icon: "img/coin/NTM.png",
     price: 0.001
   },
-  // {
-  //   cmc_id: 1027,
-  //   name: "ETH",
-  //   icon: "img/coin/eth.svg",
-  //   price: 2062.25,
-  // },
-  {
-    "cmc_id":0,
-    "name": "EMMET",
-    "icon": "img/coin/emmet.svg",
-    "price": 1
-  },
-  // {
-  //   "cmc_id":11840,
-  //   "name": "OP",
-  //   "icon": "img/coin/op.svg",
-  //   "price": 1.73
-  // },
-  // {
-  //   cmc_id: 4943,
-  //   name: "DAI",
-  //   icon: "img/coin/dai.svg",
-  //   price: 1,
-  // },
   {
     "cmc_id":825,
     "name": "USDT",
@@ -64,26 +34,19 @@ export const BridgeTokens = [
     "price": 1
   },
   {
-    cmc_id: 26960,
-    name: "GrabClub",
-    icon: "img/coin/grabclub.png",
-    price: 1,
-  },
-  // {
-  //   cmc_id: 26961,
-  //   name: "$CAVI",
-  //   icon: "img/coin/cavi.png",
-  //   price: 1,
-  // },
+    "cmc_id": 0,
+    "name": "USDTem",
+    "icon": "img/coin/usdtem.svg",
+    "price": 1
+  }
 ];
 
 export const CHAIN_TO_TOKENS: {[key:string]: string[]} = {
-  // Mainnets
-  Avalanche: ["USDC", "EMMET"],
-  BSC: ["NTM", "Bolgur"],
-  Polygon: ["USDT", "USDC", "EMMET", "GrabClub", "TON"],
-  TON: ["USDT", "TON", "NTM", "GrabClub", "Bolgur"],
-  // Testnets
+  Avalanche: ["USDC"],
+  BSC: ["NTM"],
+  Polygon: ["USDT", "USDC"],
+  Songbird: ["USDTem"],
+  TON: ["USDT", "NTM"],
 };
 
 export type TSupportedChain = keyof typeof CHAIN_TO_TOKENS;
@@ -91,29 +54,25 @@ export type TSupportedChain = keyof typeof CHAIN_TO_TOKENS;
 export const CHAIN_TO_TOKENS_TREE: {[key:TSupportedChain|string]:{
   [key:TSupportedChain|string]: string[]
 }} = {
-  // Mainnets
   Avalanche: {
-    Avalanche: [],
-    BSC:[],
-    Polygon: ["USDC", "EMMET"],
-    TON: [],
+    Polygon: ["USDC"],
   },
   BSC: {
-    Avalanche: [],
-    Polygon:[],
-    TON:["NTM", "Bolgur"]
+    TON:["NTM"]
   },
   Polygon: {
-    Avalanche: ["USDC", "EMMET"],
-    BSC:[],
-    Polygon: [],
-    TON: ["USDT", "GrabClub"],
+    Avalanche: ["USDC"],
+    Songbird: ["USDT"],
+    TON: ["USDT"],
+  },
+  Songbird: {
+    Polygon: ["USDTem"],
+    TON: ["USDTem"]
   },
   TON: {
-    Avalanche: [],
-    BSC:["NTM", "Bolgur"],
-    Polygon: ["USDT", "GrabClub"],
-    TON: [],
+    BSC:["NTM"],
+    Polygon: ["USDT"],
+    Songbird: ["USDT"],
   },
 };
 
