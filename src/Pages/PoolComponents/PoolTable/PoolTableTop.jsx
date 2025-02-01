@@ -3,7 +3,7 @@ import PoolTableTitle from "./PoolTableTitle";
 import PoolByToken from "./PoolByTokken";
 import PoolByChain from "./PoolByChain";
 
-function PoolTableTop() {
+export default  function PoolTableTop() {
   return (
     <div className="poolTableTop explorerTransactions">
       <div className="poolTableLeft">
@@ -16,5 +16,3 @@ function PoolTableTop() {
     </div>
   );
 }
-
-export default PoolTableTop;

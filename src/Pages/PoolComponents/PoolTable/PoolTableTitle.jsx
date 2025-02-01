@@ -3,43 +3,32 @@ import { useAppSelector } from "../../../hooks/storage";
 import usePoolData from "../../../hooks/usePoolData";
 import Skeleton from "../../CommonComponents/Skeleton/Skeleton";
 
-function PoolTableTitle() {
-  const pool = useAppSelector((state) => state.pool);
-  const [tonLiquidityPoolInUSD, setTonLiquidityPoolInUSD] = useState(0);
-  const [tontonLiquidityPoolInUSD, setTonTonLiquidityPoolInUSD] = useState(0);
-  const [loading, setLoading] = useState(false);
+export default  function PoolTableTitle() {
+  const pools = useAppSelector((state) => state.pools);
 
-  const { getData } = usePoolData();
-
-  // TODO: FIX - inject the correft array & request / compute once
+  const [loading, setLoading] = useState(true)
+  const [tlv, setTLV] = useState(0);
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
-      const _data = await getData("TON", "USDT");
-      setTonLiquidityPoolInUSD(parseFloat(_data.liquidityPoolInUSD));
-      const _data2 = await getData("Polygon", "USDT");
-      setTonTonLiquidityPoolInUSD(parseFloat(_data2.liquidityPoolInUSD));
-      setLoading(false);
+      setLoading(true)
+      let sum = 0;
+      pools.pools.forEach(element => {
+        sum += element.supply
+      });
+      setTLV(sum);
+      setLoading(false)
     })();
-  }, []);
+  }, [pools.pools.length]);
 
   return (
     <div className="poolTableTitle explorerTransactionsTitle">
-      <h2>Active pools</h2>
+      <h2>Existing pools</h2>
       <div>
-        {loading ? (
-          <Skeleton height={12} width={80} />
-        ) : (
-          `TVL: $${
-            parseFloat(pool.liquidityPoolInUSD) +
-            tonLiquidityPoolInUSD +
-            tontonLiquidityPoolInUSD
-          }`
-        )}
+        {loading 
+        ? (<Skeleton height={12} width={80} />) 
+        : (`TVL: $${tlv}`)}
       </div>
     </div>
   );
 }
-
-export default PoolTableTitle;

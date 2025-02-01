@@ -18,12 +18,13 @@ const PoolTable = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [isYourLiquidityVisible, setYourLiquidityVisible] = useState(false);
   const pool = useAppSelector((state) => state.pool);
+  const pools = useAppSelector((state) => state.pools);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { getData } = usePoolData();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [populated, setPopulated] = useState(false);
-  const [data, setData] = useState(poolData);
+  const [data, setData] = useState(pools.pools);
 
   const getTokenIcon = (token) => {
     return poolTokens ? poolTokens.find((i) => i.name === token)?.icon : "";
@@ -52,39 +53,48 @@ const PoolTable = () => {
   // const sortedData = ;
 
   useEffect(() => {
-    setData(
-      data.sort((a, b) => {
+    if (data) {
+
+      let _data = [...data].sort((a, b) => {
         if (sortOrder === "asc") {
           return a[sortBy] > b[sortBy] ? 1 : -1;
         } else {
           return a[sortBy] < b[sortBy] ? 1 : -1;
         }
-      }),
-    );
+      });
+
+      setData(_data);
+    }
+
   }, [sortBy, sortOrder]);
 
   useEffect(() => {
-    if(!populated){
-      (async () => {
-        setLoading(true);
-        setData(
-          await Promise.all(
-            data.map(async (i) => {
-              const _data = await getData(i.chain, i.token);
-              return {
-                ...i,
-                apy: _data && _data.apy ? _data.apy : 0,
-                totalLiquidity: _data && _data.totalSupply ? Number(_data.totalSupply) : 0,
-              };
-            }),
-          ),
-        );
-        setLoading(false);
-        setPopulated(true)
-      })();
-    }
-    
-  }, [pool.chain]);
+    setData(pools.pools);
+    setLoading(false);
+    setPopulated(true);
+  }, [pools.pools.length])
+
+  // useEffect(() => {
+  //   if(!populated){
+  //     (async () => {
+  //       setLoading(true);
+  //       setData(pools.pools
+  //         // await Promise.all(
+  //         //   data.map(async (i) => {
+  //         //     const _data = await getData(i.chain, i.token);
+  //         //     return {
+  //         //       ...i,
+  //         //       apy: _data && _data.apy ? _data.apy : 0,
+  //         //       totalLiquidity: _data && _data.totalSupply ? Number(_data.totalSupply) : 0,
+  //         //     };
+  //         //   }),
+  //         // ),
+  //       );
+  //       setLoading(false);
+  //       setPopulated(true)
+  //     })();
+  //   }
+  // },);
 
   const handleAddPollClick = (item) => {
     navigate("./your-liquidity", {
@@ -187,7 +197,7 @@ function TableDataRow({
           {loading ? (
             <Skeleton height={16} width={100} />
           ) : (
-            `${Number(item.totalLiquidity).toLocaleString()}`
+            `${Number(item.supply).toLocaleString()}`
           )}
         </span>
       </td>

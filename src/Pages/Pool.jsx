@@ -6,9 +6,14 @@ import MobileHeader from "../HeaderFooterSidebar/MobileHeader";
 // import SidebarSlider from '../HeaderFooterSidebar/SidebarComponent/SidebarSlider';
 import PoolPageContainer from "./PoolComponents/PoolPageContainer";
 import useMobileDetector from "../hooks/useMobileDetector";
+import useFetchPositions from "../hooks/useFetchPositions";
+import useFetchPools from "../hooks/useFetchPools";
 
 const PoolPage = () => {
   const isMobile = useMobileDetector();
+
+  useFetchPositions();
+  useFetchPools();
 
   return (
     <>
