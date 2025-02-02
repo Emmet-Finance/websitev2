@@ -2,26 +2,41 @@
   {
     "id":43114,
     "name":"Avalanche",
-    "icon":"img/chain/avalanche.svg"
+    "icon":"img/chain/avalanche.svg",
+    "domain": 1,
+    "requiresApproval": true,
+    "nativeCurrency": { "name": "AVAX", "symbol": "AVAX", "decimals": 18 }
   },
   {
     "id": 56,
     "name": "BSC",
-    "icon":"img/chain/bsc.svg"
+    "icon":"img/chain/bsc.svg",
+    "domain": 56,
+    "requiresApproval": true,
+    "nativeCurrency": { "name": "BNB", "symbol": "BNB", "decimals": 18 }
   },
   {
     "id":137,
     "name":"Polygon",
-    "icon":"img/chain/polygon.svg"
+    "icon":"img/chain/polygon.svg",
+    "domain": 7,
+    "requiresApproval": true,
+    "nativeCurrency": { "name": "MATIC", "symbol": "MATIC", "decimals": 18 }
   },
   {
     "id": 19,
     "name": "Songbird",
-    "icon": "img/chain/songbird.svg"
+    "icon": "img/chain/songbird.svg",
+    "domain": 19,
+    "requiresApproval": true,
+    "nativeCurrency": { "name": "SBG", "symbol": "SBG", "decimals": 18 }
   },
   {
     "id":65534,
     "name":"TON",
-    "icon":"img/chain/ton.svg"
+    "icon":"img/chain/ton.svg",
+    "domain": 65534,
+    "requiresApproval": false,
+    "nativeCurrency": { "name": "TON", "symbol": "TON", "decimals": 18 }
   }
 ]
