@@ -22,7 +22,7 @@
     "axios": "^1.6.8",
     "bootstrap": "^5.3.2",
     "buffer": "^6.0.3",
-    "emmet.js": "git+https://github.com/Emmet-Finance/emmet.sdk.v3#a3319df01b98de5c05fd4774cb5a6de1f6556b0c",
+    "emmet.js": "git+https://github.com/Emmet-Finance/emmet.sdk.v3#05472f3074dbb4a58e1ad858036eeabb44a2ff6b",
     "emmet.sdk": "^0.1.17",
     "ethers": "^6.13.5",
     "mdb-react-ui-kit": "^7.0.0",
@@ -38,6 +38,7 @@
     "react-scripts": "^5.0.1",
     "react-table": "^7.8.0",
     "swiper": "^11.0.4",
+    "tokensale.sdk": "git+https://github.com/Emmet-Finance/tokensale.sdk#910af2d7634bcf81923a5453dd201e0eec4df505",
     "viem": "2.x",
     "wagmi": "^2.5.19",
     "web-vitals": "^2.1.4"
