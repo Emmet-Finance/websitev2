@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useConfig, useSwitchChain, useChainId, useProof } from "wagmi";
-
+import { useSwitchChain, useChainId } from "wagmi";
 import DownArrow from "../../../assets/img/down-white.svg";
-import chainData from "../../../data/lockAndMintChain.json";
 import ReactGA from "react-ga";
 import { useAppSelector, useAppDispatch } from "../../../hooks/storage";
 import {
@@ -10,24 +8,16 @@ import {
   setBridgeAmount,
   setBridgeIsTransferFromLp,
   setBridgeReceive,
-  setBridgeTokenFee,
 } from "../../../store/bridgeSlice";
 import { setSwapFromChain } from "../../../store/swapSlice";
-import { isMobile } from "react-device-detect";
 import {
   CHAIN_NAME_TO_ID,
   ChainNameToTypeChainName,
   ChainToDestinationDomain,
 } from "../../../types";
 import { chainFactory } from "../../../store/chainFactory";
+import { findChain, findChainByName, isLayer2View } from "../../../utils";
 
-const findChain = (chainId) => {
-  return chainData.find((c) => chainId && chainId === c.id);
-};
-
-const findChainByName = (chainName) => {
-  return chainData.find((c) => chainName && chainName === c.name);
-};
 
 export default function ChainSelectorDropdown({ parent, direction }) {
   const chainId = useChainId();
@@ -39,17 +29,8 @@ export default function ChainSelectorDropdown({ parent, direction }) {
 
   const dispatch = useAppDispatch();
 
-  const isLayer2View = () =>
-    window.location.href.includes("/your-liquidity") ||
-    window.location.href.includes("/transactionDetails/");
-
-  const isExplorer = () => window.location.href.includes("/explorer");
-
   // Local State
   const [selectedChain, setSelectedChain] = useState();
-
-  const [chainArray, setChainArray] = useState(chainData);
-
 
   useEffect(() => {
     (async () => {
@@ -92,29 +73,23 @@ export default function ChainSelectorDropdown({ parent, direction }) {
     switch (parent) {
       case "bridge":
         dispatch(setBridgeFromChain(name));
-        setChainArray(chainData);
         break;
       case "swap":
         dispatch(setSwapFromChain(name));
-        setChainArray(chainData);
         break;
       case "lock-and-mint":
         dispatch(setBridgeFromChain(name));
-        setChainArray(chainData);
         break;
       case "explorer":
         dispatch(setBridgeFromChain(name));
-        setChainArray(chainData);
         break;
       default:
         dispatch(setBridgeFromChain(name));
-        setChainArray(chainData);
     }
   }
 
   useEffect(() => {
     if (parent === "lock-and-mint") {
-      // setChainArray(chainArray);
       const oldBridgeAmount = bridge.amount;
       dispatch(setBridgeAmount(0));
       dispatch(setBridgeAmount(oldBridgeAmount));
@@ -136,7 +111,6 @@ export default function ChainSelectorDropdown({ parent, direction }) {
         icon: selChain.icon,
         name: selChain.name,
       });
-      // dispatchChain(selChain.name);
     }
   }, [bridge.fromChain]);
 

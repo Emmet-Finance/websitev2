@@ -7,32 +7,12 @@ import {
   setBridgeError,
   swapBridgeChainsAndTokens,
 } from "../../../store/bridgeSlice";
-import { getChainidByName } from "../../../utils/filters";
+import { getChainidByName } from "../../../utils";
 
 export default function TokenswitchButton() {
   const bridge = useAppSelector((state) => state.bridge);
 
   const dispatch = useAppDispatch();
-
-  const onError = () => {
-    // If a user rejects or another error occurs
-    dispatch(
-      setBridgeError("UserRejectedRequestError: User rejected the request."),
-    );
-    // Revert the swap to its initial state
-    dispatch(
-      swapBridgeChainsAndTokens({
-        fromChain: bridge.toChain,
-        toChain: bridge.fromChain,
-        fromToken: bridge.toToken,
-        toToken: bridge.fromToken,
-      }),
-    );
-  };
-
-  const onSuccess = () => {
-    dispatch(setBridgeError(""));
-  };
 
   const { switchChain } = useSwitchChain();
 
@@ -41,8 +21,6 @@ export default function TokenswitchButton() {
     try {
       // 1. Get the target chain ID
       const id = getChainidByName(bridge.toChain);
-
-      console.log({ id });
 
       // 2. Swap the chains & tokens in the UI
       dispatch(
@@ -58,6 +36,7 @@ export default function TokenswitchButton() {
       switchChain({ chainId: id });
 
     } catch (error) {
+      console.warn(error);
       dispatch(setBridgeError(`TokenswitchButton Error: ${error.message}`));
     }
   };

@@ -1,3 +1,7 @@
+.align-center {
+  text-align: center;
+}
+
 .borderLine {
   height: 2px;
   display: block;
@@ -67,10 +71,6 @@
   .introEmmetContent {
     padding-top: 56px;
     padding-bottom: 56px;
-  }
-
-  .buyEmmetFooter {
-    display: none;
   }
 
   .distributionContent img {

@@ -27,42 +27,7 @@ export default function DestinationChainDropdown() {
     name: chainData[0].name,
   });
 
-  const [chainArray, setChainArray] = useState(chainData);
-
-  // useEffect(
-  //   () => {
-  //     if (bridge.fromChain === selectedChain.name) {
-  //       const chain = chainArray[0];
-  //       setSelectedChain(chain);
-  //       dispatch(setBridgeToChain(chain.name));
-  //     }
-  //   },
-  //   //  [chainArray]
-  //   [chainArray],
-  // );
-
-  // useEffect(() => {
-  //   setChainArray(
-  //     chainData.filter(
-  //       (chain) =>
-  //         chain.name !== selectedChain.name && chain.name !== bridge.fromChain,
-  //     ),
-  //   );
-  // }, [selectedChain, bridge.fromChain]);
-
-  // useEffect(() => {
-  //   const chain = findChain(bridge.toChains[0]);
-  //   if (chain === selectedChain) {
-  //     setSelectedChain({
-  //       icon: chain.icon,
-  //       name: chain.name,
-  //     });
-  //     dispatch(setBridgeToChain(chain.name));
-  //   }
-  // }, [selectedChain]);
-
   function handleChainClick(icon, name, id) {
-    // setSelectedChain({ icon, name });
     toggleVisibility();
     dispatch(setBridgeToChain(name));
     ReactGA.event({
@@ -77,7 +42,6 @@ export default function DestinationChainDropdown() {
 
     if (chain && bridge.fromChain) {
       setSelectedChain(chain);
-      dispatch(setBridgeToChain(bridge.toChain));
     }
   }, [bridge.toChain]);
 

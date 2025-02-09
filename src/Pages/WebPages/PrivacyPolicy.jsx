@@ -16,7 +16,7 @@ function PrivacyPolicy() {
               <div className="privacyPolicyTitle">
                 <img src={TitleBg} className="TitleBg" alt="TitleBg" />
                 <h1>Privacy Policy</h1>
-                <p>Last updated: Jan 2024</p>
+                <p>Last updated: Jan 2025</p>
               </div>
               <div className="privacyPolicyContent">
                 Emmet Finance ("Emmet Finance") is committed to protecting and

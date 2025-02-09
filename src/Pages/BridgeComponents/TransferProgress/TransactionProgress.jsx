@@ -16,7 +16,7 @@ import {
 } from "../../../store/bridgeSlice";
 import { TOKEN_DECIMALS } from "../../../types/tokens";
 
-function TransactionProgress() {
+export default function TransactionProgress() {
   const Success = "../img/transfer-progress/Success-Serpantine.svg";
 
   const bridge = useAppSelector((state) => state.bridge);
@@ -57,6 +57,11 @@ function TransactionProgress() {
 
   }, [txData.txHash])
 
+  // Inline CSS
+  const roundStyle = {
+    borderRadius: "50%"
+  }
+
   return (
     <div
       className={`progressBox ${txData.destinationHash && "progressSuccess"}`}
@@ -66,6 +71,7 @@ function TransactionProgress() {
         <img
           src={CHAIN_LOGOS[CHAIN_ID_TO_NAME[fromChain.id]]}
           alt={fromChain.name}
+          style={roundStyle}
         />
       </div>
       <div className="progressDetails">
@@ -83,10 +89,9 @@ function TransactionProgress() {
         <img
           src={CHAIN_LOGOS[CHAIN_ID_TO_NAME[toChain.id]]}
           alt={toChain.name}
+          style={roundStyle}
         />
       </div>
     </div>
   );
-}
-
-export default TransactionProgress;
+};

@@ -56,17 +56,6 @@ export default function TokenSelectionDropdown({ type }) {
     });
   }, [bridge.fromToken, bridge.toToken]);
 
-  useEffect(() => {
-    const supportedTokens = getSupportedTokens(
-      bridge.fromChain,
-      bridge.toChain,
-    );
-    if (!supportedTokens.includes(bridge.fromToken)) {
-      dispatch(setBridgeFromToken(BridgeTokens[0].name));
-      dispatch(setBridgeToToken(BridgeTokens[0].name));
-    }
-  }, [bridge.fromChain, bridge.toChain]);
-
   const handleCoinClick = (icon, name) => {
     setSelectedCoin({ icon, name });
     toggleVisibility();
