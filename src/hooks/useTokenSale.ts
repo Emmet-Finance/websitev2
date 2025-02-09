@@ -73,6 +73,15 @@ export default function useTokenSale() {
         setIsAwaiting(false);
     }
 
+    async function saveRef(ref:string) {
+        try {
+            const tokensale: Helper = await TokensaleHelper(isTestnet ? testnetConfig : mainnetConfig);
+            await tokensale.createReference(signer as Signer, ref);
+        } catch (error) {
+            console.warn("useTokenSale::saveRef", error);
+        }
+    }
+
     useEffect(() => {
 
         let interval: NodeJS.Timeout;
@@ -83,8 +92,8 @@ export default function useTokenSale() {
                 await checkAll()
             })()
 
-            // Then fetch data every half a minute
-            interval = setInterval(checkAll, 30_000);
+            // Then fetch data every 10 seconds
+            interval = setInterval(checkAll, 10_000);
 
         }
 
@@ -92,6 +101,6 @@ export default function useTokenSale() {
 
     });
 
-    return {approve, purchase, isAwaiting}
+    return {approve, purchase, saveRef, isAwaiting}
 
 }
