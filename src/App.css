@@ -551,6 +551,11 @@ ul.selectCoinList.hidden {
   background: rgba(148, 151, 158, 0.16);
 }
 
+.connectWallet:disabled {
+  color: #e0e3e6;
+  background: rgba(148, 151, 158, 0.16);
+}
+
 .soon {
   font-size: 14px;
   font-style: normal;
