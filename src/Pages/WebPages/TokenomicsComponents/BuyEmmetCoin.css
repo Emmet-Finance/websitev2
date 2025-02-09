@@ -87,8 +87,8 @@ p.label.right-text {
   letter-spacing: normal;
   text-align: left;
   color: #e0e3e6;
+  border: 0;
   padding: 1px 10px;
-  border-radius: 4px;
   background-color: #202226;
   display: inline-block;
 }
