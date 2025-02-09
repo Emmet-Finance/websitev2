@@ -1,3 +1,15 @@
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  /* border: 0.1px solid white; */
+  padding: 8px;
+  text-align: center;
+  border-radius: 10px;
+}
+
 .introEmmetContent {
   position: relative;
   z-index: 1;
@@ -127,6 +139,10 @@ img.introArt {
 
 .buyEmmetFooter span {
   color: #fff;
+}
+
+.showCursor{
+  cursor: pointer;
 }
 
 @media (max-width: 991px) {
