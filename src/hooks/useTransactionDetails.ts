@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { chainFactory } from "../store/chainFactory";
-import { useAppSelector, useAppDispatch } from "./storage";
+import { useAppDispatch } from "./storage";
 import {
   setBridgeTransaction,
   DetailedTx as _DetailedTx,

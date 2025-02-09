@@ -6,7 +6,6 @@ import { useSearchParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../../hooks/storage";
 import { setPay } from "../../../store/tokensaleSlice";
 import useTokenSale from "../../../hooks/useTokenSale";
-import { useSwitchChain } from "wagmi";
 import ButtonSpinner from "../../CommonComponents/Spinner/ButtonSpinner";
 
 const captionApprove = "Approve";
@@ -21,7 +20,6 @@ function BuyEmmetCoin() {
   const { open } = useWeb3Modal();
   const [searchParams] = useSearchParams();
   const ref = searchParams.get("ref");
-  const { switchChain } = useSwitchChain();
 
   const [amount, setAmount] = useState(0);
   const [oldAmount, setOldAmount] = useState("");
@@ -84,7 +82,6 @@ function BuyEmmetCoin() {
 
     if (caption === connectWallet) {
       open();
-      switchChain({ chainId: 97 });
     } else if (caption === captionApprove) {
       setDisabled(true);
       approve(tokensale.pay);

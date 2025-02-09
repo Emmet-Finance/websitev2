@@ -1,8 +1,8 @@
-import {setPools, setPositions, TPosition} from "../store/poolsSlice";
-import { useAppDispatch, useAppSelector } from "./storage";
+import { setPositions, TPosition} from "../store/poolsSlice";
+import { useAppDispatch } from "./storage";
 import { useEthersSigner } from "./useEthersSigner";
 import { useTonConnect } from "./useTonConnect";
-import { getData, getPositions } from "../utils/emmetjs";
+import { getPositions } from "../utils/emmetjs";
 import SUPPORTED_POOLS from "../data/pools.json";
 import { useEffect } from "react";
 

@@ -24,13 +24,13 @@ export default function RefComponent() {
     const { saveRef } = useTokenSale();
 
     const saveReference = () => {
-        if(ref){
+        if (ref) {
             saveRef(ref);
         }
     }
 
     useEffect(() => {
-        if(!ref && address){
+        if (!ref && address) {
             setRef(generateRefCode());
         }
     }, [address]);
@@ -70,7 +70,9 @@ export default function RefComponent() {
         <p></p>
         <p>Earn <span style={{ "color": "#efeb00" }}>7%</span> on top of every deposit of your referrals.
             Get an additional <span style={{ "color": "#efeb00" }}>3%</span> of your invite’s invites deposits.
-            The more your invites deposit, the more you earn! <span style={{ "color": "#efeb00" }}>Click SAVE</span> to register your reference on-chain (smart contract).</p>
+            The more your invites deposit, the more you earn!
+            <span style={{ "color": "#efeb00" }}> Click SAVE</span> to register your reference on-chain (smart contract).
+        </p>
     </div>)
 
 }

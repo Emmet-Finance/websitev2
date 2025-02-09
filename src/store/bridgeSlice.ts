@@ -8,7 +8,6 @@ import {
   filterFromChains,
   filterToChains,
   filterTokens,
-  getTokenByName,
 } from "../utils/filters";
 
 export interface IBridgeState {

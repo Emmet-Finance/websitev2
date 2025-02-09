@@ -1,9 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "./store";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // Mock Data
 import chainList from "../data/swapChains.json";
 import coinsData from "../data/coins.json";
-import { TChainType, TokenType } from "./types";
+import { TokenType } from "./types";
 import { filterTwoTokens } from "../utils/filters";
 
 interface ISwapState {

@@ -1,10 +1,10 @@
-import {setPools, setPositions, TPool} from "../store/poolsSlice";
-import { useAppDispatch, useAppSelector } from "./storage";
+import {setPools, TPool} from "../store/poolsSlice";
+import { useAppDispatch } from "./storage";
 import { useEthersSigner } from "./useEthersSigner";
 import { useTonConnect } from "./useTonConnect";
-import { getData, getPositions } from "../utils/emmetjs";
+import { getData } from "../utils/emmetjs";
 import SUPPORTED_POOLS from "../data/pools.json";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { sleep } from "../utils";
 
 export default function useFetchPools() {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./storage";
 import { useLocation } from 'react-router-dom';
 import {
@@ -14,7 +14,6 @@ import {
     setPoolTotalSupply,
 } from "../store/poolSlice";
 import { sleep } from "emmet.js";
-import { useEthersSigner } from "./useEthersSigner";
 import { useTonConnect } from "./useTonConnect";
 import { getData, getPositions } from "../utils/emmetjs";
 
@@ -22,7 +21,6 @@ import { getData, getPositions } from "../utils/emmetjs";
 export default function usePoolData() {
 
     const dispatch = useAppDispatch();
-    const signer = useEthersSigner();
     const { sender: tonSender } = useTonConnect();
 
     const pool = useAppSelector((state) => state.pool);
@@ -35,7 +33,7 @@ export default function usePoolData() {
         dispatch(setPoolDataLoading(true));
         await sleep(1000);
         let data;
-        if(pool.chain.toLowerCase() == "ton"){
+        if(pool.chain.toLowerCase() === "ton"){
             data = await getData(pool.chain, pool.token, tonSender.address?.toString());
         }else {
             data = await getData(pool.chain, pool.token, bridge.senderAddress);

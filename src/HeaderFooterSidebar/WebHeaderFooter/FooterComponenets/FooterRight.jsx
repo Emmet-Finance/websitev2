@@ -58,6 +58,7 @@ function FooterRight() {
                 <a
                   href="https://doc.emmet.finance/docs/SDK/dev"
                   target="_blank"
+                  rel="noreferrer noopener"
                 >
                   API / SDK
                 </a>
@@ -67,12 +68,13 @@ function FooterRight() {
                 <a
                   href="https://github.com/Emmet-Finance/whitepaper/blob/main/Emmet_Finance_Whitepaper.pdf"
                   target="_blank"
+                  rel="noreferrer noopener"
                 >
                   White Paper
                 </a>
               </li>
               <li>
-                <a href="https://github.com/Emmet-Finance" target="_blank">
+                <a href="https://github.com/Emmet-Finance" target="_blank" rel="noreferrer noopener">
                   GitHub
                 </a>
               </li>
@@ -80,6 +82,7 @@ function FooterRight() {
                 <a
                   href="https://doc.emmet.finance/docs/category/products"
                   target="_blank"
+                  rel="noreferrer noopener"
                 >
                   Products
                 </a>
@@ -88,6 +91,7 @@ function FooterRight() {
                 <a
                   href="https://form.jotform.com/240382733218050"
                   target="_blank"
+                  rel="noreferrer noopener"
                 >
                   List a Token
                 </a>
@@ -100,7 +104,11 @@ function FooterRight() {
             <h3>About</h3>
             <ul className="footerLink">
               <li>
-                <a href="/terms-of-service" target="_blank">
+                <a 
+                href="/terms-of-service" 
+                target="_blank"
+                rel="noreferrer noopener"
+                >
                   Terms of Service
                 </a>
               </li>
@@ -113,6 +121,7 @@ function FooterRight() {
                 <a
                   href="https://doc.emmet.finance/docs/intro"
                   target="_blank"
+                  rel="noreferrer noopener"
                 >
                   Introduction
                 </a>
@@ -121,6 +130,7 @@ function FooterRight() {
                 <a
                   href="https://doc.emmet.finance/docs/Ecosystem/brand_and_logos"
                   target="_blank"
+                  rel="noreferrer noopener"
                 >
                   Brand Assets
                 </a>
@@ -129,6 +139,7 @@ function FooterRight() {
                 <a
                   href="https://doc.emmet.finance/docs/category/team"
                   target="_blank"
+                  rel="noreferrer noopener"
                 >
                   Careers
                 </a>

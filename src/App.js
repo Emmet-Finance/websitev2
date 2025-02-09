@@ -3,11 +3,11 @@ import "./App.css";
 import "./Responsive.css";
 import { useEffect, useMemo } from "react";
 import ReactGA from "react-ga";
-import ExplorerPage from "./Pages/Explorer";
 import TransactionDetailsPage from "./Pages/TransactionDetailsPage";
 import LockAndMint from "./Pages/LockAndMint";
-import HomePage from "./Pages/Home";
 import PoolPage from "./Pages/Pool";
+// import ExplorerPage from "./Pages/Explorer";
+// import HomePage from "./Pages/Home";
 
 // Web Page
 import WebHome from "./Pages/WebPages/WebHome";

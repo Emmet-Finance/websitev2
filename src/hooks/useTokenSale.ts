@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { useAppSelector, useAppDispatch } from "./storage";
+import { useAppDispatch } from "./storage";
 import { useEthersSigner } from "./useEthersSigner";
 import type { Helper } from "tokensale.sdk/dist/types"
 import { mainnetConfig, testnetConfig, TokensaleHelper } from "tokensale.sdk/dist";

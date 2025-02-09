@@ -3,7 +3,6 @@ import { useAppSelector, useAppDispatch } from "./storage";
 import {
   ChainNameToTypeChainName,
   ChainToDestinationDomain,
-  TOKEN_DECIMALS,
 } from "../types";
 import { setBridgeError } from "../store/bridgeSlice";
 import { chainFactory } from "../store/chainFactory";
@@ -16,11 +15,6 @@ export default function usePoolAllowance() {
   const pool = useAppSelector((state) => state.pool);
 
   const [allowance, setAllowance] = useState<string | number>(pool.allowance);
-
-  const [decimals, setDecimals] = useState<bigint>(
-    // @ts-ignore
-    BigInt(TOKEN_DECIMALS[pool.token]),
-  );
 
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -60,5 +54,5 @@ export default function usePoolAllowance() {
     updateAllowance();
   }, [bridge.senderAddress, pool.amount, pool.chain, pool.token]);
 
-  return { allowance, decimals, error, updateAllowance };
+  return { allowance, error, updateAllowance };
 }

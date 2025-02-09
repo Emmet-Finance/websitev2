@@ -3,7 +3,7 @@ import { chainFactory } from "../store/chainFactory";
 import { ExplorerMeta } from "emmet.js/dist/factory/types";
 
 export default function useExplorerStats() {
-  let interval: string | number | NodeJS.Timeout | undefined;
+  
 
   const [stats, setStats] = useState<ExplorerMeta>({
     totalFees: BigInt(0),
@@ -25,6 +25,8 @@ export default function useExplorerStats() {
   }
 
   useEffect(() => {
+    let interval: string | number | NodeJS.Timeout | undefined;
+    
     if (stats.totalTransactions === BigInt(0)) {
       (async () => {
         await fetchData();

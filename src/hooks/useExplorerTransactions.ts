@@ -3,7 +3,7 @@ import { chainFactory } from "../store/chainFactory";
 import { Transaction } from "emmet.js/dist/factory/types";
 
 export default function useExplorerTransactions(page: number) {
-  let interval: string | number | NodeJS.Timeout | undefined;
+  
 
   const [txs, setTxs] = useState<Transaction[]>([]);
 
@@ -28,6 +28,8 @@ export default function useExplorerTransactions(page: number) {
   };
 
   useEffect(() => {
+    let interval: string | number | NodeJS.Timeout | undefined;
+    
     if (txs.length === 0) {
       refresh();
     } else {

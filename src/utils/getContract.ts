@@ -1,7 +1,6 @@
 import {
   getContract as getViemContract,
   PublicClient,
-  WalletClient,
 } from "viem";
 
 /**

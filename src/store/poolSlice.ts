@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // Mock Data
-import chainList from "../data/poolChains.json";
 import coinsData from "../data/poolCoins.json";
 import { TokenType } from "./types";
 

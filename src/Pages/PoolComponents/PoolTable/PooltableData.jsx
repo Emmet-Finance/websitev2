@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./PoolTable.css";
 import Updown from "../../../assets/img/table-updown.svg";
-import Yourliquidity from "./Yourliquidity";
 import { useAppDispatch, useAppSelector } from "../../../hooks/storage";
-import { Link } from "react-router-dom";
 import poolTokens from "../../../data/poolCoins.json";
 import poolChains from "../../../data/poolChains.json";
-import poolData from "../../../data/pools.json";
 import { useNavigate } from "react-router-dom";
 import usePoolData from "../../../hooks/usePoolData";
-import { useAccount } from "wagmi";
-import { useTonAddress } from "@tonconnect/ui-react";
 import Skeleton from "../../CommonComponents/Skeleton/Skeleton";
 
 const PoolTable = () => {
   const [sortBy, setSortBy] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
-  const [isYourLiquidityVisible, setYourLiquidityVisible] = useState(false);
+  // const [isYourLiquidityVisible, setYourLiquidityVisible] = useState(false);
   const pool = useAppSelector((state) => state.pool);
   const pools = useAppSelector((state) => state.pools);
   const dispatch = useAppDispatch();

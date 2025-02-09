@@ -7,10 +7,9 @@ import {
   ChainNameToTypeChainName,
   ChainToDestinationDomain,
   TOKEN_DECIMALS,
-  CHAIN_NAME_TO_ID,
 } from "../types";
 import { useTonConnect } from "./useTonConnect";
-import { Chain, CHAIN_NAME_TO_INNER_ID } from "emmet.js/dist/factory/types";
+import { Chain } from "emmet.js/dist/factory/types";
 import { chainFactory } from "../store/chainFactory";
 import { useEthersSigner } from "./useEthersSigner";
 import useBridgeFee from "./useBridgeFee";
@@ -21,7 +20,7 @@ import { Web3Helper } from "emmet.js/dist/chains";
 
 export default function useBridgeTransferEmmet() {
   const { sender: tonSender } = useTonConnect();
-  const { fee, nativeCurrency, formattedFee, protocolFee, protocolFeeInUSD } = useBridgeFee();
+  const { fee, formattedFee, protocolFee, protocolFeeInUSD } = useBridgeFee();
 
   const dispatch = useAppDispatch();
 

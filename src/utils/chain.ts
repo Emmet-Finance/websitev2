@@ -1,6 +1,5 @@
 import {
   SUPPORTED_CHAINS,
-  TChainDataParam,
   TChainName,
   SupportedDomains,
   supportedChainnames,
@@ -8,7 +7,7 @@ import {
   DomainToChainNameTestnet,
 } from "../types";
 import chainList from "../data/lockAndMintChain.json";
-import { TChainType, TokenType } from "../store/types";
+import { TChainType } from "../store/types";
 
 export function findChain(chinName: TChainName) {
   console.log("findChain", chinName, "is supported", isChainSupported(chinName))
