@@ -8,7 +8,13 @@ import CopyAddress from "../../../assets/img/web/Tokenomics/Copy.svg";
 
 export default function RefComponent() {
 
+    const Captions = {
+        COPY: "COPY",
+        SAVE: "SAVE"
+    }
+
     const { address } = useAccount();
+    const { saveRef, isRefRegistered, registered } = useTokenSale();
 
     const generateRefCode = () => {
         if (address) {
@@ -20,12 +26,15 @@ export default function RefComponent() {
     };
 
     const [ref, setRef] = useState(generateRefCode());
-
-    const { saveRef } = useTokenSale();
+    const [caption, setCaption] = useState(Captions.SAVE);
 
     const saveReference = () => {
-        if (ref) {
+        if (ref && caption == Captions.SAVE) {
             saveRef(ref);
+        } else if (ref && caption == Captions.COPY) {
+            (async () => {
+                await navigator.clipboard.writeText(`${window.location.href.split("?")[0]}?ref=${ref}`);
+            })();
         }
     }
 
@@ -35,11 +44,17 @@ export default function RefComponent() {
         }
     }, [address]);
 
-    const handleCopyClick = () => {
-        (async () => {
-            await navigator.clipboard.writeText(`${window.location.href.split("?")[0]}?ref=${ref}`);
-        })();
-    }
+    useEffect(() => {
+
+        if (!registered) { isRefRegistered(ref); }
+
+        if (ref && registered) {
+            setCaption(Captions.COPY);
+        } else {
+            setCaption(Captions.SAVE);
+        }
+
+    }, [ref, registered, address]);
 
     return (<div>
         <div className="emmetBuyColum">
@@ -53,25 +68,28 @@ export default function RefComponent() {
                         placeholder="Conect your wallet to generate a reference link"
                         readOnly={true}
                     />
-                    <button className="copyLink" onClick={() => handleCopyClick()}>
-                        <span className="copyAddressLink">
-                            <img src={CopyAddress} alt="Copy" />
-                        </span>
-                    </button>
                 </div>
             </div>
-            <div className="emmetBalance showCursor" onClick={saveReference}>
+            {ref && <div className="emmetBalance showCursor" onClick={saveReference}>
                 {/* <p className="label right-text">.</p> */}
                 <div className="receiveEmmet">
-                    <img src="/img/save.svg" alt="save" /><span>SAVE</span>
+                    {!registered
+                        ? (<img src="/img/save.svg" alt="save" />)
+                        : (<img src={CopyAddress} alt="Copy" />)}
+                    <span>{caption}</span>
                 </div>
-            </div>
+            </div>}
         </div>
         <p></p>
-        <p>Earn <span style={{ "color": "#efeb00" }}>7%</span> on top of every deposit of your referrals.
-            Get an additional <span style={{ "color": "#efeb00" }}>3%</span> of your invite’s invites deposits.
-            The more your invites deposit, the more you earn!
-            <span style={{ "color": "#efeb00" }}> Click SAVE</span> to register your reference on-chain (smart contract).
+        <p>Earn <span style={{ "color": "#efeb00" }}>7%</span> on top of every deposit of your referrals. <br />
+            Get additional <span style={{ "color": "#efeb00" }}>3%</span> of your invite’s deposits. <br />
+            The more your friends deposit, the more you earn! <br />
+            {address && (<>
+                {!registered
+                    ? (<><span style={{ "color": "#efeb00" }}> Click SAVE</span> to register your reference on-chain (smart contract).</>)
+                    : (<><span style={{ "color": "#efeb00" }}> Share</span> the reference with your friends.</>)
+                }
+            </>)}
         </p>
     </div>)
 
