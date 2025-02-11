@@ -10,16 +10,22 @@ import { sleep } from "emmet.js";
 import { Signer } from "ethers";
 
 export default function useTokenSale() {
+    
     const { address, isConnected } = useAccount();
     const dispatch = useAppDispatch();
     const signer = useEthersSigner();
-    const isTestnet: boolean = true;
+    const isTestnet: boolean = false;
 
     const [isAwaiting, setIsAwaiting] = useState(false);
+    const [registered, setRegistered] = useState(false);
+
+    async function getTokenSale(): Promise<Helper>{
+        return await TokensaleHelper(isTestnet ? testnetConfig : mainnetConfig);
+    }
 
     async function updateAllowance() {
         try {
-            const tokensale: Helper = await TokensaleHelper(isTestnet ? testnetConfig : mainnetConfig);
+            const tokensale: Helper = await getTokenSale();
             const allowance = await tokensale.allowance(address!, "USDT");
 
             if(allowance){
@@ -32,7 +38,7 @@ export default function useTokenSale() {
 
     async function updateBalance(){
         try {
-            const tokensale: Helper = await TokensaleHelper(isTestnet ? testnetConfig : mainnetConfig);
+            const tokensale: Helper = await getTokenSale();
             const balance = await tokensale.balance(address!, "USDT");
 
             if(balance){
@@ -54,7 +60,7 @@ export default function useTokenSale() {
         setIsAwaiting(true);
 
         try {
-            const tokensale: Helper = await TokensaleHelper(isTestnet ? testnetConfig : mainnetConfig);
+            const tokensale: Helper = await getTokenSale();
             await tokensale.approve(signer as Signer, BigInt(amount * 1e6));
         } catch (error) {
             console.warn("useTokenSale::approve", error)
@@ -65,7 +71,7 @@ export default function useTokenSale() {
     async function purchase(amount: number, ref: string) {
         setIsAwaiting(true);
         try {
-            const tokensale: Helper = await TokensaleHelper(isTestnet ? testnetConfig : mainnetConfig);
+            const tokensale: Helper = await getTokenSale();
             await tokensale.buy(signer as Signer, BigInt(amount * 1e6), ref);
         } catch (error) {
             console.warn("useTokenSale::purchase", error);
@@ -75,10 +81,22 @@ export default function useTokenSale() {
 
     async function saveRef(ref:string) {
         try {
-            const tokensale: Helper = await TokensaleHelper(isTestnet ? testnetConfig : mainnetConfig);
+            const tokensale: Helper = await getTokenSale();
             await tokensale.createReference(signer as Signer, ref);
         } catch (error) {
             console.warn("useTokenSale::saveRef", error);
+        }
+    }
+
+    async function isRefRegistered(ref: string) {
+        if(!registered){
+            try {
+                const tokensale: Helper = await getTokenSale();
+                setRegistered(await tokensale.isRegisteredRef(ref));
+            } catch (error) {
+                console.warn("useTokenSale::isRefRegistered", error);
+            }
+            await sleep(1000);
         }
     }
 
@@ -101,6 +119,6 @@ export default function useTokenSale() {
 
     });
 
-    return {approve, purchase, saveRef, isAwaiting}
+    return {approve, purchase, saveRef, isRefRegistered, registered, isAwaiting}
 
 }
