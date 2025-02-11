@@ -148,6 +148,7 @@ export const bridgeSlice = createSlice({
       const toCh = filterAvailableToChain(action.payload);
 
       state.toChain = toCh[0].name;
+      state.fromChains = filterFromChains(action.payload, state.toChain);
 
       const fromTok = filterAvailableFromTokens(action.payload, toCh[0].name);
 
@@ -162,20 +163,8 @@ export const bridgeSlice = createSlice({
       );
       
       state.toTokens = destTokens.length > 0 ? destTokens.slice(1,): [];
-      state.fromChains = filterFromChains(action.payload, state.toChain);
+      
       state.toChains = toCh.length > 0 ? toCh.slice(1,) : [];
-
-      if (
-        state.toChains.length &&
-        !state.toChains.find((i) => i.name === state.toChain)
-      ) {
-        state.toChain = state.toChains[0].name;
-      }
-      if (action.payload === state.toChain) {
-        state.toChain = state.toChains[0].name;
-      }
-      state.fromChains = filterFromChains(action.payload, state.toChain);
-      state.toChains = filterToChains(action.payload, state.toChain);
 
       state.isSwapping = false;
     },
@@ -285,28 +274,9 @@ export const bridgeSlice = createSlice({
         state.fromTokens = fromTok.length > 1 ? fromTok.slice(1,) : [];
         state.fromToken = fromTok[0].name;
         state.toToken = filterAvailableToTokens(fromTok[0].name)[0];
-        console.log(
-          "Inside if(fromTok.length > 0)",
-          "state.fromToken", state.fromToken, 
-          "state.toToken", state.toToken
-        )
       }
 
       state.isSwapping = false;
-
-      // if(state.fromChain === "Polygon" && action.payload === "Songbird"){
-      //   state.fromToken = "USDT"
-      //   state.toToken = "USDTem"
-      // }
-
-      // if(state.fromChain === "Songbird"  && (action.payload === "Polygon" || action.payload === "TON")){
-      //   state.fromToken = "USDTem"
-      //   state.toToken =  "USDT"
-      //   console.log(
-      //     "Inside if(state.fromChain === \"Songbird\"  &&...", 
-      //     "state.fromToken", state.fromToken, 
-      //     "state.toToken", state.toToken)
-      // }
 
     },
     setBridgeToBalance(state: IBridgeState, action: PayloadAction<number>) {
@@ -357,15 +327,14 @@ export const bridgeSlice = createSlice({
       }>,
     ) {
       state.isSwapping = true;
-
+      state.fromChains = filterFromChains(state.fromChain, state.toChain);
+      state.toChains = filterToChains(state.fromChain, state.toChain);
       state.fromChain = action.payload.fromChain;
       state.toChain = action.payload.toChain;
       state.fromToken = action.payload.fromToken;
       state.toToken = action.payload.toToken;
       [state.senderAddress, state.receiver] = [state.receiver, state.senderAddress];
-      state.fromChains = filterFromChains(state.fromChain, state.toChain);
-      state.toChains = filterToChains(state.fromChain, state.toChain);
-
+      
       state.isSwapping = false;
     },
     resetBridgeProgress(state: IBridgeState) {
