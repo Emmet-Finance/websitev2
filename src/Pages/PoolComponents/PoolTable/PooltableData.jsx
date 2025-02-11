@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./PoolTable.css";
+import "../../ExplorerComponents/ExplorerTransactionsTable/ExplorerTransactionsTable.css"
 import Updown from "../../../assets/img/table-updown.svg";
 import { useAppDispatch, useAppSelector } from "../../../hooks/storage";
 import poolTokens from "../../../data/poolCoins.json";

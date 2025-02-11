@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../../hooks/storage";
-import usePoolData from "../../../hooks/usePoolData";
 import Skeleton from "../../CommonComponents/Skeleton/Skeleton";
+import "../../ExplorerComponents/ExplorerTransactions/ExplorerTransactions.css"
 
 export default  function PoolTableTitle() {
   const pools = useAppSelector((state) => state.pools);
