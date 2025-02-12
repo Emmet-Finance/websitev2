@@ -15,6 +15,7 @@ export default function useTokenSale() {
     const dispatch = useAppDispatch();
     const signer = useEthersSigner();
     const isTestnet: boolean = false;
+    const decimals = 1e18;
 
     const [isAwaiting, setIsAwaiting] = useState(false);
     const [registered, setRegistered] = useState(false);
@@ -29,7 +30,7 @@ export default function useTokenSale() {
             const allowance = await tokensale.allowance(address!, "USDT");
 
             if(allowance){
-                dispatch(setAllowance(Number(allowance.toString()) / 1e6))
+                dispatch(setAllowance(Number(allowance.toString()) / decimals))
             }
         } catch (error) {
             console.warn("useTokenSale::updateAllowance", error)
@@ -42,7 +43,7 @@ export default function useTokenSale() {
             const balance = await tokensale.balance(address!, "USDT");
 
             if(balance){
-                dispatch(setBalance(Number(balance.toString()) / 1e6))
+                dispatch(setBalance(Number(balance.toString()) / decimals))
             }
         } catch (error) {
             console.warn("useTokenSale::updateBalance", error)
@@ -61,7 +62,7 @@ export default function useTokenSale() {
 
         try {
             const tokensale: Helper = await getTokenSale();
-            await tokensale.approve(signer as Signer, BigInt(amount * 1e6));
+            await tokensale.approve(signer as Signer, BigInt(amount * decimals));
         } catch (error) {
             console.warn("useTokenSale::approve", error)
         }
@@ -72,7 +73,7 @@ export default function useTokenSale() {
         setIsAwaiting(true);
         try {
             const tokensale: Helper = await getTokenSale();
-            await tokensale.buy(signer as Signer, BigInt(amount * 1e6), ref);
+            await tokensale.buy(signer as Signer, BigInt(amount * decimals), ref);
         } catch (error) {
             console.warn("useTokenSale::purchase", error);
         }
