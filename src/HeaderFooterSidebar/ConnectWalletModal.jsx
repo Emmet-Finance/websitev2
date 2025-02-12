@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAppKit } from '@reown/appkit/react'
 import { useAccount } from "wagmi";
 import { isMobile } from "react-device-detect";
 import {
@@ -23,18 +23,24 @@ import {
 // } from "@solana/wallet-adapter-react-ui";
 
 import Modal from "react-modal";
+import { modal } from "../App";
+import chainList from "../data/lockAndMintChain.json";
 
 Modal.setAppElement("#root");
 
 export default function ConnectWalletModal({ modalIsOpen, setModalIsOpen }) {
-  const { open } = useWeb3Modal();
+  // EVM connection:  ------------------------------
+  const { open } = useAppKit();
+
   const { address, isConnected } = useAccount();
+  // TON Connection:  ------------------------------
   const {
     state: tonState,
     open: openTonModal,
     close: closeTonModal,
   } = useTonConnectModal();
 
+  // Solana Connection: ------------------------------
   // const solanaWalletModal = useSolanaWalletModal();
   const solanaWallet = useSolanaWallet();
 
@@ -100,6 +106,10 @@ export default function ConnectWalletModal({ modalIsOpen, setModalIsOpen }) {
           className="connectWallet"
           onClick={() => {
             open();
+            const chain = chainList.filter(item => item.name.toLowerCase() === bridge.fromChain.toLowerCase())[0];
+            if (chain && chain.id !== modal.getChainId()) {
+              modal.switchNetwork(chain)
+            }
             applyCssToShadowDom();
             closeModal();
           }}
@@ -108,8 +118,8 @@ export default function ConnectWalletModal({ modalIsOpen, setModalIsOpen }) {
             <img src={WalletConnectIcon} alt="Wallet" height={24} />
             {isConnected
               ? `${address.slice(0, showCharacters)}...${address.slice(
-                  -showCharacters,
-                )}`
+                -showCharacters,
+              )}`
               : "WalletConnect"}
           </div>
         </div>

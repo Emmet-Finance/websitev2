@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./BuyEmmetCoin.css";
 import { useAccount } from "wagmi";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAppKit } from '@reown/appkit/react';
 import { useSearchParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../../hooks/storage";
 import { setPay } from "../../../store/tokensaleSlice";
 import useTokenSale from "../../../hooks/useTokenSale";
 import ButtonSpinner from "../../CommonComponents/Spinner/ButtonSpinner";
+import { modal } from "../../../App";
+import { findChainfromName } from "../../../utils";
 
+const insufficientBalance = "Insufficient balance"
 const captionApprove = "Approve";
 const captionBuy = "Buy Tokens";
 const connectWallet = "Connect your BSC wallet";
@@ -17,7 +20,8 @@ function BuyEmmetCoin() {
   const { isConnected, account } = useAccount();
   const tokensale = useAppSelector(state => state.tokensale);
   const dispatch = useAppDispatch();
-  const { open } = useWeb3Modal();
+  const { open } = useAppKit();
+  
   const [searchParams] = useSearchParams();
   const ref = searchParams.get("ref");
 
@@ -30,6 +34,10 @@ function BuyEmmetCoin() {
   // const [ref, setRef] = useState("123ABC");
 
   const { approve, purchase, isAwaiting } = useTokenSale();
+
+  const isTokensale = window.location.href.includes("/tokensale");
+
+  const tokensaleChain = "BSC";
 
   const payTokenChange = (e) => {
     e.preventDefault();
@@ -82,6 +90,9 @@ function BuyEmmetCoin() {
 
     if (caption === connectWallet) {
       open();
+      if(modal.getChainId() !== 56){
+        modal.switchNetwork(findChainfromName(tokensaleChain));
+      }
     } else if (caption === captionApprove) {
       setDisabled(true);
       approve(tokensale.pay);
@@ -96,15 +107,26 @@ function BuyEmmetCoin() {
 
   useEffect(() => {
 
+    if(isTokensale && modal.getChainId() !== 56){
+      modal.switchNetwork(findChainfromName(tokensaleChain));
+    }
+
+  }, [modal.getChainId(), isConnected, account, amount]);
+
+  useEffect(() => {
+
     if (isConnected) {
 
       if (!tokensale.pay) {
         setDisabled(true);
         setCaption("Enter Amount");
+      } else if( tokensale.pay && tokensale.pay > tokensale.balance) {
+        setDisabled(true);
+        setCaption(insufficientBalance);
       } else if (tokensale.pay > tokensale.allowance) {
         setDisabled(false);
         setCaption(captionApprove);
-      } else {
+      }  else {
         setDisabled(false);
         setCaption(captionBuy);
         setShowSpiner(false);
@@ -118,7 +140,8 @@ function BuyEmmetCoin() {
   }, [
     tokensale.pay, 
     isAwaiting, 
-    tokensale.allowance
+    tokensale.allowance,
+    isConnected
   ]);
 
   return (

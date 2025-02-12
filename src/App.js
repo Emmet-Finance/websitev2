@@ -32,8 +32,10 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 // Web3Modal related
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, http } from "wagmi";
-import { createWeb3Modal } from "@web3modal/wagmi/react";
-import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
+
+import { createAppKit } from '@reown/appkit/react'
+import { arbitrum, mainnet } from '@reown/appkit/networks'
+import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 
 import { ALL_CHAINS } from "./types/chains";
 require("@solana/wallet-adapter-react-ui/styles.css");
@@ -46,28 +48,34 @@ const supportedChains = ALL_CHAINS;
 const gaTrackingId = "G-0DP30PHL61";
 const projectId = "2bcf20e00bc0f72513e22cd16ce9ae83";
 
-export const wagmiConfig = defaultWagmiConfig({
-  autoConnect: true,
-  // connectors: w3mConnectors({ projectId, chains: supportedChains }),
+export const metadata = { //optional
+  name: 'Emmet.Finance',
+  description: 'Cross-Chain DeFi solution',
+  url: 'https://emmet.finance',
+  icons: ['https://avatars.githubusercontent.com/u/179229932']
+}
+
+const wagmiAdapter = new WagmiAdapter({
+  networks: ALL_CHAINS,
+  projectId
+});
+
+export const modal = createAppKit({
+  adapters: [wagmiAdapter],
+  networks: ALL_CHAINS,
+  metadata: metadata,
   projectId,
   featuredWalletIds: [
     "c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96", // Metamask
-    "971e689d0a5be527bac79629b4ee9b925e82208e5168b733496a09c0faed0709", // OKX
+    // "971e689d0a5be527bac79629b4ee9b925e82208e5168b733496a09c0faed0709", // OKX
+    // '1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369', // Rainbow
+    // '4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0', // Trustwallet ?
   ],
-  chains: supportedChains,
-  transports: supportedChains.reduce((prev, current) => {
-    return { ...prev, [current.id]: http() };
-  }),
-  metadata: {
-    name: "Web3Modal",
-    description: "Web3Modal",
-    url: "https://web3modal.com",
-    icons: ["https://avatars.githubusercontent.com/u/37784886"],
-  },
+  features: {
+    analytics: true,
+    connectMethodsOrder: ['wallet']
+  }
 });
-
-// const ethereumClient = new EthereumClient(wagmiConfig, supportedChains);
-createWeb3Modal({ wagmiConfig, projectId, supportedChains });
 
 function App() {
   const network = WalletAdapterNetwork.Devnet;
@@ -107,7 +115,7 @@ function App() {
           <WalletModalProvider>
             {/* TODO: update tonconnect-manifesto url */}
             <TonConnectUIProvider manifestUrl="https://raw.githubusercontent.com/Emmet-Finance/websitev2/feat/TON/public/tonconnect-manifest.json">
-              <WagmiProvider config={wagmiConfig}>
+              <WagmiProvider config={wagmiAdapter.wagmiConfig}>
                 <QueryClientProvider client={queryClient}>
                   <Router
                     // Open all the pages at the top
