@@ -1,26 +1,46 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 import AirdropEmmet from "../../../assets/img/web/AirdropEmmet.svg";
 import EmmetTokken from "../../../assets/img/web/EmmetTokken.svg";
 
 import "./HeaderNewBtns.css";
 
-function HeaderNewBtns() {
+export default function HeaderNewBtns() {
   return (
     <div className="headerBtn">
       <a
-        href="https://docs.emmet.finance/ecosystem-and-partnerships/emmetcolony-airdrop-adventure"
+        href="https://zealy.io/cw/emmet-finance/"
         target="_blank"
+        rel="noreferrer noopener"
         className="AirdropEmmet"
+        style={{fontSize: "14px"}}
       >
-        🔥 <span>Airdrop</span> $EMMET Inscription
+        🔥 Zealy Sprint
         <img src={AirdropEmmet} alt="AirdropEmmet" />
       </a>
-      {/* <a href="https://staging.emmet.finance/tokensale" target='_blank' className='EmmetTokken'>
-                $EMMET Token Pre-sale
-                <img src={EmmetTokken} alt="EmmetTokken" />
-            </a> */}
+      {
+        !isMobile
+          ? (<>
+            <a href="#" // https://emmet.finance/tokensale
+              // target='_blank'
+              className='EmmetTokken'
+              rel="noreferrer noopener"
+            >
+              $EMMET Pre-sale Feb 17th
+              <img src={EmmetTokken} alt="EmmetTokken" />
+            </a>
+            <a
+              href="https://x.com/i/spaces/1YpKkBObXwZxj"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="AirdropEmmet"
+            >
+              🔥 5ire AMA ⏰ Feb 12 | 4 PM UTC
+            </a>
+          </>)
+          : (<></>)
+      }
+
     </div>
   );
 }
-
-export default HeaderNewBtns;

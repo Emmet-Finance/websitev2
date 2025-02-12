@@ -26,7 +26,7 @@ function WebHeader() {
               <a href="./" className="mobLogo">
                 <img src={LogoMob} alt="Emmet Logo" className="" />
               </a>
-              {/* <HeaderNewBtns /> */}
+              <HeaderNewBtns />
             </div>
             <div className="headerRIght">
               {/* <HeaderRightBtn/> */}
