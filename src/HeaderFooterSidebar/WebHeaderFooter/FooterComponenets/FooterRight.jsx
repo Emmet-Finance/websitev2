@@ -11,7 +11,11 @@ function FooterRight() {
             <h3>Products</h3>
             <ul className="footerLink">
               <li>
-                <a href="/bridge" target="_blank">
+                <a
+                  href="/bridge"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
                   Bridge
                 </a>
               </li>
@@ -22,8 +26,21 @@ function FooterRight() {
               </li> */}
               {/* <li><a href="/swap" target='_blank'>Swap</a></li> */}
               <li>
-                <a href="#" target="_blank">
+                <a
+                  href="/pool"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
                   Pool
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://doc.emmet.finance/docs/roadmap"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Roadmap
                 </a>
               </li>
               {/* <li><a href="/pool" target='_blank'>Pool</a></li> */}
@@ -104,10 +121,10 @@ function FooterRight() {
             <h3>About</h3>
             <ul className="footerLink">
               <li>
-                <a 
-                href="/terms-of-service" 
-                target="_blank"
-                rel="noreferrer noopener"
+                <a
+                  href="/terms-of-service"
+                  target="_blank"
+                  rel="noreferrer noopener"
                 >
                   Terms of Service
                 </a>

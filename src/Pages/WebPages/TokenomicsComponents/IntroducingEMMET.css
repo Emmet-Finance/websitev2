@@ -1,9 +1,10 @@
 
-table {
+.tokensale-table {
   width: 100%;
   border-collapse: collapse;
 }
-th, td {
+.tokensale-table th, 
+.tokensale-table td {
   /* border: 0.1px solid white; */
   padding: 8px;
   text-align: center;
@@ -13,12 +14,12 @@ th, td {
 .introEmmetContent {
   position: relative;
   z-index: 1;
-  padding-top: 140px;
+  padding-top: 60px;
   padding-bottom: 140px;
 }
 
 .introEmmetLeft h1 {
-  font-size: 91px;
+  font-size: 80px;
   font-style: normal;
   font-weight: 700;
   line-height: 110%; /* 100.1px */

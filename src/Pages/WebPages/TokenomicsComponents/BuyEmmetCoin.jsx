@@ -9,6 +9,7 @@ import useTokenSale from "../../../hooks/useTokenSale";
 import ButtonSpinner from "../../CommonComponents/Spinner/ButtonSpinner";
 import { modal } from "../../../App";
 import { findChainfromName } from "../../../utils";
+import useTabVisibility from "../../../hooks/useTabVisibility";
 
 const insufficientBalance = "Insufficient balance"
 const captionApprove = "Approve";
@@ -21,6 +22,7 @@ function BuyEmmetCoin() {
   const tokensale = useAppSelector(state => state.tokensale);
   const dispatch = useAppDispatch();
   const { open } = useAppKit();
+  const {isTabActive} = useTabVisibility();
   
   const [searchParams] = useSearchParams();
   const ref = searchParams.get("ref");
@@ -107,7 +109,7 @@ function BuyEmmetCoin() {
 
   useEffect(() => {
 
-    if(isTokensale && modal.getChainId() !== 56){
+    if(isTabActive && isTokensale && modal.getChainId() !== 56){
       modal.switchNetwork(findChainfromName(tokensaleChain));
     }
 

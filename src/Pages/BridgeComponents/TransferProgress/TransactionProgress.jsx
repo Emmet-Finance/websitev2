@@ -15,6 +15,7 @@ import {
   setBridgeReceive,
 } from "../../../store/bridgeSlice";
 import { TOKEN_DECIMALS } from "../../../types/tokens";
+import { findChainfromName } from "../../../utils"
 
 export default function TransactionProgress() {
   const Success = "../img/transfer-progress/Success-Serpantine.svg";
@@ -24,21 +25,18 @@ export default function TransactionProgress() {
   const [{ txData }] = useCircleTxData();
 
   const [fromChain, setFromChain] = useState(
-    findChain(ChainNameToTypeChainName[bridge.fromChain]),
-  );
-  const [toChain, setToChain] = useState(
-    findChain(ChainNameToTypeChainName[bridge.toChain]),
-  );
+    findChainfromName(bridge.fromChain));
+  const [toChain, setToChain] = useState(findChainfromName(bridge.toChain));
 
   useEffect(() => {
     if (bridge.fromChain) {
-      setFromChain(findChain(ChainNameToTypeChainName[bridge.fromChain]));
+      setFromChain(findChainfromName(bridge.fromChain));
     }
   }, [bridge.fromChain]);
 
   useEffect(() => {
     if (bridge.toChain) {
-      setToChain(findChain(ChainNameToTypeChainName[bridge.toChain]));
+      setToChain(findChainfromName(bridge.toChain));
     }
   }, [bridge.toChain]);
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { parseEther } from "viem";
 import { useAppDispatch, useAppSelector } from "./storage";
-import { setBridgeFromHash, showBridgeProgress } from "../store/bridgeSlice";
+import { setBridgeError, setBridgeFromHash, showBridgeProgress } from "../store/bridgeSlice";
 import {
   TChainName,
   ChainNameToTypeChainName,
@@ -96,6 +96,10 @@ export default function useBridgeTransferEmmet() {
             fromChainID,
           )) as Web3Helper;
 
+          const value = isPolygon
+            ? fee ? BigInt(fee + 1e17) : parseEther("1.2")
+            : fee ? BigInt(fee + 1e15) : parseEther("0.1")
+
           console.log("PARAMS:", {
             // handler,
             // signer,
@@ -104,36 +108,48 @@ export default function useBridgeTransferEmmet() {
             fromToken: bridge.fromToken,
             toToken: bridge.toToken,
             mintRecipient,
-            gas: {
-              value: isPolygon
-                ? fee ? BigInt(fee + 1e17) : parseEther("1.2")
-                : fee ? BigInt(fee + 1e15) : parseEther("0.1")
-            },
+            gas: {value},
             protocolFeeInUSD,
             protocolFee,
             fee,
             isPolygon
           });
 
-          const { hash } = await chainFactory.sendInstallment(
-            handler,
-            signer!,
-            BigInt(Math.ceil(formattedAmount)),
-            destinationDomain,
-            bridge.fromToken,
-            bridge.toToken,
-            mintRecipient,
-            {
-              // value: isPolygon
-              // ? fee ? BigInt(fee + 1e17) : parseEther("1.2")
-              // : fee ? BigInt(fee + 1e15) : parseEther("0.1")
-              value: parseEther("1.2")
-            },
-          );
+          const userBalance = await signer?.provider.getBalance(signer.address!);
+          if(userBalance && userBalance < value){
+            dispatch(setBridgeError("Insufficient gas"));
+            setIsTransferProcessed(false);
+            return;
+          }
 
-          dispatch(setBridgeFromHash(hash ? hash : "N/A"));
-          dispatch(showBridgeProgress());
-          setIsTransferProcessed(false);
+          try {
+
+            const { hash, tx } = await chainFactory.sendInstallment(
+              handler,
+              signer!,
+              BigInt(Math.ceil(formattedAmount)),
+              destinationDomain,
+              bridge.fromToken,
+              bridge.toToken,
+              mintRecipient,
+              {value},
+            );
+
+            console.log({ hash, tx })
+
+            // @ts-ignore
+            if (tx && tx === "ERROR") {
+              dispatch(setBridgeError(hash));
+              setIsTransferProcessed(false);
+            } else {
+              dispatch(setBridgeFromHash(hash ? hash : "N/A"));
+              dispatch(showBridgeProgress());
+              setIsTransferProcessed(false);
+            }
+          } catch (error: any) {
+            console.warn(error)
+          }
+
         }
       } catch (error: { message: string } | any) {
         console.error(error);

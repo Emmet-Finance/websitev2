@@ -1,6 +1,9 @@
 
 export default function PricesTable() {
-    return (<table style={{ "border": "1", "width": "100%", "borderCollapse": "collapse" }}>
+    return (<table 
+    style={{ "border": "1", "width": "100%", "borderCollapse": "collapse" }}
+    className="tokensale-table"
+    >
         <thead >
             <tr>
                 <th>USDT Amount</th>

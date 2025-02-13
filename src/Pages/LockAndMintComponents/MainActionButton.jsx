@@ -9,13 +9,17 @@ import ReactGA from "react-ga";
 // Components
 import ButtonSpinner from "../CommonComponents/Spinner/ButtonSpinner";
 // Actions
-import { setBridgeIsApproving } from "../../store/bridgeSlice";
+import { setBridgeError, setBridgeIsApproving } from "../../store/bridgeSlice";
 import ConnectWalletModal from "../../HeaderFooterSidebar/ConnectWalletModal";
 import { useTonWallet } from "@tonconnect/ui-react";
 import lockAndMintChains from "../../hooks/chains";
 import { Address } from "@ton/core";
 import Modal from "react-modal";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { useAppKit } from '@reown/appkit/react';
+import { findChainfromName } from "../../utils";
+import { modal } from "../../App";
+import useTabVisibility from "../../hooks/useTabVisibility";
 
 const pattern = /^[0x]{0,2}[0-9a-fA-F]{0,40}$/;
 
@@ -31,11 +35,13 @@ function isValidTonAddress(str) {
 function MainActionButton() {
   const dispatch = useAppDispatch();
   const bridge = useAppSelector((state) => state.bridge);
+  const { open } = useAppKit();
   const { fromBalance } = useBalance();
-
-  const { isConnected } = useAccount();
+  const { account, isConnected } = useAccount();
   const wallet = useTonWallet();
   const solanaWallet = useWallet();
+  const {isTabActive } =  useTabVisibility();
+  const isBridgeUrl = window.location.href.includes("/bridge");
 
   // const {allowance, isApprovalRequired} = useBridgeAllowance();
 
@@ -60,6 +66,18 @@ function MainActionButton() {
       return needApproval;
     }
   }
+
+  useEffect(() => {
+    if(bridge.error){
+      if(bridge.error.includes("user rejected action")){
+        setMsg("User rejected the action")
+      }else {
+        setMsg(bridge.error);
+      }
+      
+      setAlertIsOpen(true);
+    }
+  }, [bridge.error]);
 
   useEffect(() => {
    
@@ -101,6 +119,7 @@ function MainActionButton() {
         setShowSpiner(true);
         setCaption("Processing Transfer...");
       }
+
     } else {
       setDisabled(false);
       setCaption("Connect wallet");
@@ -119,8 +138,14 @@ function MainActionButton() {
   ]);
 
   const onClickSelectAction = async () => {
+
     if (!isConnected && !wallet?.account) {
-      setModalIsOpen(true);
+      // setModalIsOpen(true);
+      open()
+      const chain = findChainfromName(bridge.fromChain);
+      if(modal.getChainId() !== chain.id){
+        modal.switchNetwork(chain);
+      }
     } else {
       if (!bridge.receiver) {
         setAlertIsOpen(true);
@@ -169,12 +194,32 @@ function MainActionButton() {
     }
   };
 
+  useEffect(() => {
+    const chain = findChainfromName(bridge.fromChain);
+    const isTon = bridge.fromChain.toLowerCase().includes("ton");
+
+    if(isTabActive && chain && isBridgeUrl && modal.getChainId() !== chain.id && !isTon){
+      try {
+        modal.switchNetwork(chain)
+      } catch (error) {
+        console.warn(error)
+      }
+      
+    }
+  }, [modal.getChainId(), isConnected, account, bridge.amount, bridge.fromChain]);
+
+  function closedAlert () {
+    setMsg("");
+    setAlertIsOpen(false);
+    dispatch(setBridgeError(""))
+  }
+
   return (
     <div className="connectBtn">
       <AlertModal
         msg={msg}
         alertIsOpen={alertIsOpen}
-        setAlertIsOpen={setAlertIsOpen}
+        closedAlert={() => closedAlert()}
       />
       <button
         className="MainActionButton"
@@ -192,12 +237,12 @@ function MainActionButton() {
   );
 }
 
-const AlertModal = ({ msg, alertIsOpen, setAlertIsOpen }) => {
+const AlertModal = ({ msg, alertIsOpen, closedAlert }) => {
   return (
     <div>
       <Modal
         isOpen={alertIsOpen}
-        onRequestClose={() => setAlertIsOpen(false)}
+        onRequestClose={() => closedAlert()}
         // style={customStyles}
         contentLabel="Example Modal"
         className="alertModal whiteBorder"
@@ -207,7 +252,7 @@ const AlertModal = ({ msg, alertIsOpen, setAlertIsOpen }) => {
           <h4 className="alertModalTitle">Alert</h4>
           <button
             className="alertModalCloseBtn"
-            onClick={() => setAlertIsOpen(false)}
+            onClick={() => closedAlert()}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

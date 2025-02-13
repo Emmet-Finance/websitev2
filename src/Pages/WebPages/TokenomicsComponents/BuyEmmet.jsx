@@ -54,7 +54,7 @@ function BuyEmmet() {
             <img src={lineRight} className="lineImg" alt="Line" />
           </div>
           <div className="priceIncress">
-            <p>EMMET price increases in:</p>
+            <p>EMMET price increases to $0.012 in:</p>
             <div className="timer">
               <CountdownTimer targetDate={targetDate} />
             </div>

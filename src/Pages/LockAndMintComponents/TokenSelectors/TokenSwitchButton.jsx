@@ -1,5 +1,4 @@
 import React from "react";
-import { useSwitchChain } from "wagmi";
 import "./TokenSwitchButton.css";
 import SwitchBtn from "../../../assets/img/Switch-button.svg";
 import { useAppSelector, useAppDispatch } from "../../../hooks/storage";
@@ -8,19 +7,19 @@ import {
   swapBridgeChainsAndTokens,
 } from "../../../store/bridgeSlice";
 import { getChainidByName } from "../../../utils";
+import { modal } from "../../../App";
+import { findChainfromName } from "../../../utils";
 
 export default function TokenswitchButton() {
   const bridge = useAppSelector((state) => state.bridge);
 
   const dispatch = useAppDispatch();
 
-  const { switchChain } = useSwitchChain();
-
   const handleSwitchButtonClick = async () => {
     
     try {
       // 1. Get the target chain ID
-      const id = getChainidByName(bridge.toChain);
+      const chain = findChainfromName(bridge.toChain);
 
       // 2. Swap the chains & tokens in the UI
       dispatch(
@@ -33,7 +32,7 @@ export default function TokenswitchButton() {
       );
 
       // 3. Swap the from chain in the wallet
-      switchChain({ chainId: id });
+      // modal.switchNetwork(chain);
 
     } catch (error) {
       console.warn(error);

@@ -5,12 +5,13 @@ import {
   supportedChainnames,
   CHAIN_LOGOS,
   DomainToChainNameTestnet,
+  DomainToChainName,
+  CHAIN_ID_TO_NAME,
 } from "../types";
 import chainList from "../data/lockAndMintChain.json";
 import { TChainType } from "../store/types";
 
 export function findChain(chinName: TChainName) {
-  console.log("findChain", chinName, "is supported", isChainSupported(chinName))
   if (!isChainSupported(chinName)) return undefined;
   return SUPPORTED_CHAINS[chinName as TChainName];
 }
@@ -35,9 +36,10 @@ export function getChainidByName(name: string): number {
 }
 
 export function isChainSupported(chinName: TChainName): boolean {
+  const chainId: number = Number(chinName)
   if (!chinName) return false;
   const chainNames = Object.keys(SUPPORTED_CHAINS);
-  if (chainNames.includes(chinName)) return true;
+  if (chainNames.includes(CHAIN_ID_TO_NAME[chainId])) return true;
   return false;
 }
 

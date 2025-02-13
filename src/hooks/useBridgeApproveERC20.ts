@@ -44,9 +44,8 @@ export default function useBridgeApproveERC20() {
             `elp${pool.token}` as AddressBookKeys,
           );
 
-          console.log({ poolAddress });
-
-          await chainFactory.preTransfer(
+          
+          const result = await chainFactory.preTransfer(
             handler,
             signer!!,
             tokenAddress,

@@ -85,8 +85,8 @@ export default function useBridgeAllowance() {
     })().catch((e) => {
       const formattedError = `useBridgeAllowance Error: ${e}`;
       console.error(formattedError);
-      setError(formattedError);
-      dispatch(setBridgeError(formattedError));
+      // setError(formattedError);
+      // dispatch(setBridgeError(formattedError));
       // console.log("tokenAddress", tokenAddress, "spender", spender)
     });
   };

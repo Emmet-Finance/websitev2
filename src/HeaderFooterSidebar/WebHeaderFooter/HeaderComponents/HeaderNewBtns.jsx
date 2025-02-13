@@ -13,7 +13,7 @@ export default function HeaderNewBtns() {
         target="_blank"
         rel="noreferrer noopener"
         className="AirdropEmmet"
-        style={{fontSize: "14px"}}
+        style={{ fontSize: "14px" }}
       >
         🔥 Zealy Sprint
         <img src={AirdropEmmet} alt="AirdropEmmet" />
@@ -28,14 +28,6 @@ export default function HeaderNewBtns() {
             >
               $EMMET Pre-sale Feb 17th
               <img src={EmmetTokken} alt="EmmetTokken" />
-            </a>
-            <a
-              href="https://x.com/i/spaces/1YpKkBObXwZxj"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="AirdropEmmet"
-            >
-              🔥 5ire AMA ⏰ Feb 12 | 4 PM UTC
             </a>
           </>)
           : (<></>)

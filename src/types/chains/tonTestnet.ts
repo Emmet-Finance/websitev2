@@ -1,5 +1,5 @@
-import { getHttpEndpoint } from "@orbs-network/ton-access";
 import { Chain } from "viem";
+import { getHttpEndpoint } from "@orbs-network/ton-access";
 
 const rpc = await getHttpEndpoint({ network: "testnet" }).catch((e) => {
   console.error(e);
@@ -10,10 +10,10 @@ export const tonTestnet: Chain = {
   name: "TONTestnet",
   rpcUrls: {
     default: {
-      http: [rpc, "https://testnet-ton-node.emmet.finance/jsonRPC"],
+      http: ["https://testnet-ton-node.emmet.finance/jsonRPC"],
     },
     public: {
-      http: [rpc, "https://testnet-ton-node.emmet.finance/jsonRPC"],
+      http: ["https://testnet-ton-node.emmet.finance/jsonRPC"],
     },
   },
   testnet: true,

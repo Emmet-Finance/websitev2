@@ -115,6 +115,12 @@ export const bridgeSlice = createSlice({
     },
     setBridgeAmount(state: IBridgeState, action: PayloadAction<number>) {
       state.amount = action.payload;
+      if(state.toChain.toLowerCase().includes('ton') && state.toToken === "USDT"){
+        state.tokenFee = Number(action.payload) * 3 / 1000;
+      }
+      if(state.toChain.toLowerCase().includes('polygon') && state.toToken === "USDT"){
+        state.tokenFee = Number(action.payload) * 3 / 1000;
+      }
     },
     setBridgeBalance(state: IBridgeState, action: PayloadAction<number>) {
       state.balance = action.payload;

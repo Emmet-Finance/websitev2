@@ -5,11 +5,11 @@ import Logo2 from "../../assets/img/web/logo-2.svg";
 import LogoMob from "../../assets/img/web/logo-mob.svg";
 import HeaderNotify from "./HeaderComponents/HeaderNotify";
 import HeaderNewBtns from "./HeaderComponents/HeaderNewBtns";
+import { isMobile } from "react-device-detect";
 
 import "./WebHeader.css";
 import HeaderRightBtn from "./HeaderComponents/HeaderRightBtn";
 function WebHeader() {
-  const isMobile = window.innerWidth <= 768;
   return (
     <header className="webHeader">
       {/* <HeaderNotify /> */}
@@ -29,7 +29,7 @@ function WebHeader() {
               <HeaderNewBtns />
             </div>
             <div className="headerRIght">
-              {/* <HeaderRightBtn/> */}
+              {!isMobile && <HeaderRightBtn/>}
               <a href="/bridge" className="launchApp">
                 Launch dApp
               </a>

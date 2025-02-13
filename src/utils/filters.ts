@@ -4,6 +4,13 @@ import coinsData from "../data/coins.json";
 import { BridgeTokens, CHAIN_TO_TOKENS_TREE, TOKEN_TO_TOKEN, TSupportedChain } from "../types/tokens";
 import { TChainType, TokenType } from "../store/types";
 import { CHAIN_TO_TOKENS } from "../types";
+import { ALL_CHAINS } from "../types";
+import { Chain } from "viem";
+
+export function findChainfromName(chainName: string): Chain {
+  const  chain: Chain = ALL_CHAINS.filter(ch => ch.name === chainName)[0];
+  return chain;
+}
 
 /**
  * Used by the bridge to disable sending inside the same chain

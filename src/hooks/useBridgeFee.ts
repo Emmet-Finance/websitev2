@@ -49,20 +49,25 @@ export default function useBridgeFee() {
   async function getBridgeProtocolFeeInUSD() {
     try {
       
-      const factory = await ChainFactoryBuilder(
-        ChainFactoryConfigs.MainNet()
-    );
+    //   const factory = await ChainFactoryBuilder(
+    //     ChainFactoryConfigs.MainNet()
+    // );
 
-    const polygon: Web3Helper = await factory.inner(Chain.POLYGON);
+    // const polygon: Web3Helper = await factory.inner(Chain.POLYGON);
       
-      const _protocolFeeInUSD =
-        await polygon.protocolFeeInUSD();
+    //   const _protocolFeeInUSD =
+    //     await polygon.protocolFeeInUSD();
 
-      return parseInt(_protocolFeeInUSD.toString()) / 100;
+    //   return parseInt(_protocolFeeInUSD.toString()) / 100;
+    if (!bridge.toChain.toLowerCase().includes('ton')){
+      return 0.1
+    } else {
+      return 0.5
+    }
     } catch (error) {
       // console.error(error);
       // TODO: Fix this
-      return 0;
+      return 0.1;
     }
   }
 
