@@ -29,9 +29,9 @@ export default function RefComponent() {
     const [caption, setCaption] = useState(Captions.SAVE);
 
     const saveReference = () => {
-        if (ref && caption == Captions.SAVE) {
+        if (ref && caption === Captions.SAVE) {
             saveRef(ref);
-        } else if (ref && caption == Captions.COPY) {
+        } else if (ref && caption === Captions.COPY) {
             (async () => {
                 await navigator.clipboard.writeText(`${window.location.href.split("?")[0]}?ref=${ref}`);
             })();
@@ -65,7 +65,7 @@ export default function RefComponent() {
                         type="text"
                         value={ref && `${window.location.href.split("?")[0]}?ref=${ref}`}
                         style={{ "width": "100%", "fontSize": "1rem" }}
-                        placeholder="Conect your wallet to generate a reference link"
+                        placeholder="Conect the wallet to generate a reference"
                         readOnly={true}
                     />
                 </div>
