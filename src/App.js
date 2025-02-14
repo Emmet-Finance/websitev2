@@ -20,6 +20,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
 
+import Staking from "./Pages/Staking";
+
 // Solana
 import {
   ConnectionProvider,
@@ -144,6 +146,9 @@ function App() {
                         path="/transactionDetails/:emmetHash"
                         element={<TransactionDetailsPage />}
                       />
+
+                      <Route path="/staking" element={<Staking />} />
+                      
                     </Routes>
                   </Router>
                 </QueryClientProvider>

@@ -1,0 +1,348 @@
+.connectWallet.connectWalletBlack {
+    background: transparent;
+    border-color: #3C3F43;
+    transition: .3s;
+}
+
+.walletConnect {
+    gap: 6px;
+    padding: 8px 12px 8px 16px;
+    border-radius: 8px;
+    border: solid 1px #3c3f43;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: 0.48px;
+    text-align: center;
+    color: #888b92;
+    display: flex;
+    align-items: center;
+    transition: .3s;
+}
+
+.connectWallet.connectWalletBlack:hover {
+    background: #3C3F43;
+}
+
+.walletConnect:hover {
+    color: #fff;
+}
+
+.stakingWrap .container {
+    max-width: 1180px;
+    padding: 0 20px;
+}
+
+.stakingPageContent {
+    padding-top: 30px;
+}
+
+.stakeBox {
+    border: solid 1px rgba(77, 77, 77, 0.3);
+    border-radius: 16px;
+}
+
+.stakeBox:not(last-child) {
+    margin-bottom: 24px;
+}
+
+.stakeHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 24px;
+    border-bottom: solid 1px rgba(77, 77, 77, 0.3);
+}
+
+.stakeBody {
+    padding: 24px 24px;
+}
+
+.stakeBox p {
+    color: #888b92;
+    margin: 0;
+}
+
+.emmentAmountTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.emmentAmountTitle h4 {
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.43;
+}
+
+.enter_amount {
+    padding: 11px 11px 11px 16px;
+    border-radius: 8px;
+    border: solid 1px #3c3f43;
+    display: flex;
+    align-items: center;
+}
+
+.enter_amount input {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    appearance: none;
+    outline: none;
+    flex-grow: 1;
+}
+
+.max_amount {
+    display: block;
+    gap: 10px;
+    padding: 1px 10px;
+    border-radius: 4px;
+    background-color: #202226;
+    width: 52px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.emmentAmount {
+    margin-bottom: 34px;
+}
+
+.selectStaking> p {
+    margin-bottom: 10px;
+}
+
+ul.stakingList {
+    display: flex;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+li.stakingItem {
+    width: 118px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 12px;
+    color: #888b92;
+    cursor: pointer;
+    transition: .3s ease all;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+}
+
+li.stakingItem:after {
+    position: absolute;
+    z-index: -2;
+    content: "";
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 6px;
+    background-image: linear-gradient(145deg, #4a67ff -15%, #efeb00 13%, #8940d3 45%, #4a67ff 72%);;
+}
+
+li.stakingItem:before {
+    position: absolute;
+    z-index: -1;
+    content: "";
+    border-radius: 6px;
+    border: solid 1px #3c3f43;
+    background-color: #202226;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+
+li.stakingItem.active:before {
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    right: 1px;
+}
+
+.stakeCheck {
+    position: absolute; /* Position the checkmark inside the item */
+    top: 7px;
+    right: 7px;
+    width: 14px; /* Adjust size as needed */
+    height: 14px;
+  }
+
+.selectStaking ul.stakingList {
+    margin-bottom: 34px;
+}
+
+ul.stakList li {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+ul.stakList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+ul.stakList li div span {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: 0.36px;
+    text-align: right;
+    color: #888b92;
+}
+
+.stakTotal {
+    margin-bottom: 24px;
+}
+
+.stakeBox .yellowBtn {
+    width: 100%;
+    border: 0;
+}
+
+.emmetTotal> p {
+    margin-bottom: 10px;
+}
+
+.emmetTotal h2 {
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.3;
+}
+
+.emmetTotal div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.emmetTotal div span {
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.85;
+}
+
+.emmetTotal {
+    margin-bottom: 32px;
+}
+
+.hrGray {
+    background-color: rgba(77, 77, 77, 0.3);
+    height: 1px;
+    display: block;
+    width: 100%;
+    margin: 16px 0;
+}
+
+.textGreen {
+    color: #40d86e;
+}
+
+.emmetWithdw {
+    text-align: center;
+    margin-top: 36px;
+}
+
+.emmetWithdw p {
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.67;
+    letter-spacing: 0.36px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.accordion-button, .accordion-item:first-of-type>.accordion-header .accordion-button, .accordion-button:not(.collapsed) {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    border: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.accordion-item {
+    border: 0;
+    background: transparent;
+    border-radius: 0 !important;
+}
+
+.accordion-body {
+    color: #e0e3e6;
+    padding-top: 5px;
+    padding-left: 0;
+}
+
+.accordion {
+    border-radius: 0;
+    outline: none;
+}
+
+.accordion-button::after {
+    filter: brightness(10);
+}
+
+.accordion-button {
+    padding: 10px !important;
+    padding-left: 0 !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+@media only screen and (max-width: 767px)  {
+
+    .enter_amount input {
+        max-width: 150px;
+        margin-right: auto;
+    }
+
+    .stakeBody {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+
+    ul.stakingList {
+        gap: 10px;
+    }
+    li.stakingItem {
+        width: 40%;
+        flex-grow: 1;
+    }
+}
