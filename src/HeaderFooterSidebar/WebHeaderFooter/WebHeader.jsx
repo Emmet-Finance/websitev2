@@ -31,7 +31,7 @@ function WebHeader() {
             <div className="headerRIght">
               {!isMobile && <HeaderRightBtn/>}
               <a href="/bridge" className="launchApp">
-                Launch dApp
+                {!isMobile && <>Launch</>} dApp
               </a>
             </div>
           </div>

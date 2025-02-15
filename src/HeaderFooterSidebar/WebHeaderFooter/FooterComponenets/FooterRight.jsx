@@ -113,6 +113,15 @@ function FooterRight() {
                   List a Token
                 </a>
               </li>
+              <li>
+                <a
+                  href="https://github.com/Emmet-Finance/audits"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Audits
+                </a>
+              </li>
             </ul>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./BuyEmmet.css";
 import CountdownTimer from "./CountdownTimer";
 
@@ -9,20 +9,6 @@ import NotifyMe from "./NotifyMe";
 
 function BuyEmmet() {
   const targetDate = new Date("March 15, 2025 00:00:00 GMT+00:00");
-
-  useEffect(() => {
-    document.title = "Token Sale | Emmet.Finance";
-    document.querySelector(
-      'meta[name="description"]'
-    )?.setAttribute(
-      "content", "Emmet Finance Token Sale – Join the Future of Cross-Chain DeFi! Participate in the Emmet Token Sale and be part of a revolutionary cross-chain DeFi hub. Emmet Finance enables seamless asset transfers between Ethereum, Bitcoin, TON, Solana, BSC, and more. Secure your allocation and support decentralized finance innovation."
-    );
-    document.querySelector(
-      'meta[name="keywords"]'
-    )?.setAttribute(
-      "content", "EMMET token, buy Emmet Token, token sale, cryptocurrency, blockchain, crypto investment"
-    );
-  }, []);
 
   return (
     <>
