@@ -131,11 +131,20 @@ function Yourliquidity() {
         setShowSpiner(false);
       }
 
-      if (pool.balance < pool.amount) {
-        setDisabled(true);
-        setShowSpiner(false);
-        setCaption("Amount exceeds the token balance");
+      if(activeButton === "Deposit"){
+        if (pool.balance < pool.amount) {
+          setDisabled(true);
+          setShowSpiner(false);
+          setCaption("Amount exceeds the token balance");
+        }
+      } else {
+        if(pool.stakedBalance < pool.amount){
+          setDisabled(true);
+          setShowSpiner(false);
+          setCaption("Amount exceeds the token balance");
+        }
       }
+
     } else {
       setDisabled(false);
       setCaption("Connect wallet");

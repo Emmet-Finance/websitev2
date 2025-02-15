@@ -188,7 +188,10 @@ export default function usePool() {
           pool.token,
           bridge.senderAddress
         );
-        dispatch(setPoolBalance(balance ? balance : 0));
+
+        if(balance !== undefined){
+          dispatch(setPoolBalance(balance));
+        }
 
         await sleep(1000);
 
@@ -198,7 +201,9 @@ export default function usePool() {
           pool.token,
           bridge.senderAddress
         );
-        dispatch(setPoolStakedBalance(stakedBalance ? stakedBalance : 0));
+        if(stakedBalance !== undefined){
+          dispatch(setPoolStakedBalance(stakedBalance));
+        }
 
         // Stop the spinner
         setIsLoadingBalance(false);
