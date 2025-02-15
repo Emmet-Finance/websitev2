@@ -27,10 +27,10 @@ function Stake() {
           <p className="grayText">Select staking period</p>
           <ul className="stakingList">
             {[
-              { duration: "3 months", apy: "45%" },
-              { duration: "6 months", apy: "75%" },
-              { duration: "9 months", apy: "100%" },
-              { duration: "1 year", apy: "125%" },
+              { duration: "3 months", apy: "12%" },
+              { duration: "6 months", apy: "16%" },
+              { duration: "9 months", apy: "20%" },
+              { duration: "1 year", apy: "25%" },
             ].map((item, index) => (
               <li
                 key={index}
@@ -52,7 +52,7 @@ function Stake() {
             </li>
             <li>
               <p className="grayText">End Date</p>
-              <div>358 XPNET <span>$ 0.070</span></div>
+              <div>358 EMMET <span>$ 0.070</span></div>
             </li>
           </ul>
         </div>

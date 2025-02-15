@@ -46,7 +46,7 @@ function BridgeTransactionDetails() {
       <li className="bridgeTransactionDetailsList">
         <div className="bridgeTransDetLeft">You will receive</div>
         <div className="bridgeTransDetRight">
-          {removeTrailingZeroes(Number(bridge.receive).toFixed(8))}{" "}
+          {removeTrailingZeroes((Number(bridge.amount) - Number(bridge.tokenFee)).toFixed(8))}{" "}
           {TOKEN_SYMBOL_TO_TOKEN[bridge.toToken]}
         </div>
       </li>
