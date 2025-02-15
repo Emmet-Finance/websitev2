@@ -71,9 +71,9 @@
 }
 
 @media only screen and (max-width: 991px) {
-  a.EmmetTokken {
+  /* a.EmmetTokken {
     display: none;
-  }
+  } */
 }
 
 @media only screen and (max-width: 767px) {

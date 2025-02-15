@@ -96,9 +96,11 @@ export default function useBridgeTransferEmmet() {
             fromChainID,
           )) as Web3Helper;
 
+          console.log("fee", fee)
+
           const value = isPolygon
             ? fee ? BigInt(fee + 1e17) : parseEther("1.2")
-            : fee ? BigInt(fee + 1e15) : parseEther("0.1")
+            : fee ? BigInt(fee) : parseEther("0.01")
 
           console.log("PARAMS:", {
             // handler,
