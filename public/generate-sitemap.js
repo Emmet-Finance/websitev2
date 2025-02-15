@@ -1,6 +1,6 @@
 const { SitemapStream, streamToPromise } = require("sitemap");
 const { createWriteStream } = require("fs");
-const paths = ["/", "/Bridge", "/Explorer", "/PrivacyPolicy", "/TermsService"];
+const paths = ["/", "/bridge", "/pool", "/tokensale", "/staking"];
 
 const sitemap = new SitemapStream({ hostname: "https://emmet.finance" });
 
