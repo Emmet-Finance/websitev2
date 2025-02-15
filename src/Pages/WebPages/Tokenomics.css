@@ -13,6 +13,24 @@
   height: 100%;
 }
 
+.tab-tooltip {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  display: none;
+  white-space: nowrap;
+}
+
+#hover-tab:hover + .tab-tooltip {
+  display: block;
+}
+
 @media screen and (min-width: 768px) {
   .tokMobImg {
     display: none !important;

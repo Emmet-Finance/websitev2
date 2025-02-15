@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import "./Responsive.css";
 import { useEffect, useMemo } from "react";
+import { HelmetProvider } from "react-helmet-async";
 import ReactGA from "react-ga";
 import TransactionDetailsPage from "./Pages/TransactionDetailsPage";
 import LockAndMint from "./Pages/LockAndMint";
@@ -119,6 +120,7 @@ function App() {
             <TonConnectUIProvider manifestUrl="https://raw.githubusercontent.com/Emmet-Finance/websitev2/feat/TON/public/tonconnect-manifest.json">
               <WagmiProvider config={wagmiAdapter.wagmiConfig}>
                 <QueryClientProvider client={queryClient}>
+                <HelmetProvider>
                   <Router
                     // Open all the pages at the top
                     scrollBehavior={() => ({ y: 0 })}
@@ -151,6 +153,7 @@ function App() {
                       
                     </Routes>
                   </Router>
+                  </HelmetProvider>
                 </QueryClientProvider>
               </WagmiProvider>
             </TonConnectUIProvider>
