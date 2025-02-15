@@ -54,6 +54,13 @@
     gap: 10px;
     padding: 16px 24px;
     border-bottom: solid 1px rgba(77, 77, 77, 0.3);
+    font-size: 18px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: 0.54px;
+    text-align: left;
 }
 
 .stakeBody {
@@ -221,6 +228,11 @@ ul.stakList li div span {
     border: 0;
 }
 
+.yellowBtn[disabled] {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: rgb(255 255 255 / 40%);
+}
+
 .emmetTotal> p {
     margin-bottom: 10px;
 }
@@ -333,9 +345,9 @@ input[type=number] {
         margin-right: auto;
     }
 
+    .stakeHeader,
     .stakeBody {
-        padding-right: 16px;
-        padding-left: 16px;
+        padding: 16px;
     }
 
     ul.stakingList {
@@ -345,4 +357,33 @@ input[type=number] {
         width: 40%;
         flex-grow: 1;
     }
+
+    .stake {
+        font-size: 14px;
+    }
+    
+    .emmentAmountTitle h4 {
+        font-size: 12px;
+    }
+    
+    .emmentAmountTitle {
+        display: block;
+    }
+    
+    .emmentAmount, .selectStaking ul.stakingList, .stakTotal {
+        margin-bottom: 16px;
+    }
+    
+    .yellowBtn {
+        font-size: 16px;
+    }
+    
+    .emmetTotal {
+        margin-bottom: 20px;
+    }
+    
+    .emmetWithdw {
+        margin-top: 20px;
+    }
+    
 }
