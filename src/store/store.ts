@@ -4,6 +4,7 @@ import bridgeSlice from "./bridgeSlice";
 import explorerReducer from "./explorerSlice";
 import poolSlice from "./poolSlice";
 import poolsReducer from "./poolsSlice";
+import stakingReducer from "./stakingSlice";
 import tokensaleReducer from "./tokensaleSlice";
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     explorer: explorerReducer,
     pool: poolSlice,
     pools: poolsReducer,
+    staking: stakingReducer,
     tokensale: tokensaleReducer,
   },
 });
