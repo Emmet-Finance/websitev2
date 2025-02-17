@@ -5,12 +5,12 @@ function SidebarBottomNav() {
   return (
     <div className="SidebarBottomNav sidebarNav">
       <ul className="navlinks">
-        <li>
+        {/* <li>
           <a href="#" className="navLink">
             <img src={"/img/nav-icon/second-nav-Icons-1.svg"} alt="NavIcon" />
             <span>News</span>
           </a>
-        </li>
+        </li> */}
         <li>
           <a
             href="https://doc.emmet.finance/"

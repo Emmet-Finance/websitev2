@@ -14,12 +14,12 @@ export default function HeaderNewBtns() {
       {
         
         !isTokensalePage 
-        ? (<a href="#" // https://emmet.finance/tokensale
+        ? (<a href="/tokensale"
           // target='_blank'
           className='EmmetTokken'
           rel="noreferrer noopener"
         >
-          $EMMET Pre-sale {!isMobile && <>Feb 17th</>}
+          $EMMET Pre-sale
           <img src={EmmetTokken} alt="EmmetTokken" />
         </a>)
         : (<></>)

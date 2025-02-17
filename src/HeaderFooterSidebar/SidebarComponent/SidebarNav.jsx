@@ -47,6 +47,28 @@ function SidebarNav() {
             {/* <span className="soon">Soon</span> */}
           </Link>
         </li>
+        <li>
+          <Link
+            to="/tokensale"
+            className={`navLink ${isActive("/") && ""}`}
+            onClick={handleLinkClick}
+          >
+            <img src={"/img/nav-icon/second-nav-Icons-1.svg"} alt="NavIcon" />
+            <span>Token Sale</span>
+            {/* <span className="soon">Soon</span> */}
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="#"
+            className={`navLink ${isActive("/") && ""}`}
+            onClick={handleLinkClick}
+          >
+            <img src={"/img/nav-icon/nav-Icons-6.svg"} alt="NavIcon" />
+            <span>Staking</span>
+            <span className="soon">Soon</span>
+          </Link>
+        </li>
         {/* <li>
           <Link
             to="/#"
@@ -91,17 +113,7 @@ function SidebarNav() {
             <span className="soon">Soon</span>
           </Link>
         </li> 
-        <li>
-          <Link
-            to="#"
-            className={`navLink ${isActive("/") && ""}`}
-            onClick={handleLinkClick}
-          >
-            <img src={"/img/nav-icon/nav-Icons-6.svg"} alt="NavIcon" />
-            <span>Stake</span>
-            <span className="soon">Soon</span>
-          </Link>
-        </li>
+       
         <li>
           <Link
             to="#"
@@ -112,7 +124,7 @@ function SidebarNav() {
             <span>Governance</span>
             <span className="soon">Soon</span>
           </Link>
-        </li>*/}
+        </li> */}
       </ul>
     </div>
   );

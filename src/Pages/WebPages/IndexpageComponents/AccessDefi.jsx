@@ -51,12 +51,12 @@ function AccessDefi() {
               cross-chain DeFi, unlocking exclusive benefits and contributing to
               the growth of the Emmet Finance ecosystem
             </p>
+            {/* https://form.jotform.com/231456892158061  investor form */}
             <a
-              href="https://form.jotform.com/231456892158061"
-              target="_blank"
+              href="/tokensale"
               className="whiteBtn"
             >
-              Fill the Investor Form <img src={Link} alt="Link" />
+              Tokensale<img src={Link} alt="Link" />
             </a>
           </div>
         </div>

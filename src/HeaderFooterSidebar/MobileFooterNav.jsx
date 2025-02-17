@@ -29,6 +29,20 @@ function MobileFooterNav() {
             {/* <span className="soon">Soon</span> */}
           </Link>
         </li>
+        <li>
+          <Link to="/tokensale" className="navLink">
+            <img src={"/img/nav-icon/second-nav-Icons-1.svg"} alt="NavIcon" />
+            <span>Stake</span>
+            <span className="soon">Soon</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="#" className="navLink">
+            <img src={"/img/nav-icon/nav-Icons-6.svg"} alt="NavIcon" />
+            <span>Stake</span>
+            <span className="soon">Soon</span>
+          </Link>
+        </li>
         {/* <li>
           <Link
             to="/#"

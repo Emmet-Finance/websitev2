@@ -193,7 +193,7 @@ function TableDataRow({
           {loading ? (
             <Skeleton height={16} width={100} />
           ) : (
-            `${Number(item.supply).toLocaleString()}`
+            `${Number(item.supply).toLocaleString()} K`
           )}
         </span>
       </td>
