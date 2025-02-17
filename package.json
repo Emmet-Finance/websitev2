@@ -51,7 +51,7 @@
     "react-table": "^7.8.0",
     "sitemap": "^8.0.0",
     "swiper": "^11.0.4",
-    "tokensale.sdk": "git+https://github.com/Emmet-Finance/tokensale.sdk#6d8e281cc395e48c125105cb88b6344541979250",
+    "tokensale.sdk": "git+https://github.com/Emmet-Finance/tokensale.sdk#9dde243b71bbf90c9ba0a983d311ac1e1b186af0",
     "tslib": "^2.8.1",
     "viem": "^2.23.0",
     "wagmi": "^2.14.11",
