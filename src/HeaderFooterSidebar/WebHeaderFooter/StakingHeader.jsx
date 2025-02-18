@@ -1,15 +1,38 @@
-import React from "react";
-
+import React, { useEffect} from "react";
+import "./WebHeader.css";
+import { useAccount } from "wagmi";
+import { useAppSelector } from "../../hooks/storage";
+import { useAppKit } from '@reown/appkit/react';
+import { modal } from "../../App";
+import { findChainfromName } from "../../utils";
+import useTabVisibility from "../../hooks/useTabVisibility";
 import Logo1 from "../../assets/img/web/logo.svg";
 import Logo2 from "../../assets/img/web/logo-2.svg";
 import LogoMob from "../../assets/img/web/logo-mob.svg";
-import HeaderNotify from "./HeaderComponents/HeaderNotify";
-import HeaderNewBtns from "./HeaderComponents/HeaderNewBtns";
-
-import "./WebHeader.css";
-import HeaderRightBtn from "./HeaderComponents/HeaderRightBtn";
+// import HeaderNotify from "./HeaderComponents/HeaderNotify";
+// import HeaderNewBtns from "./HeaderComponents/HeaderNewBtns";
+// import HeaderRightBtn from "./HeaderComponents/HeaderRightBtn";
 function StakingHeader() {
+  const { isConnected, account } = useAccount();
+  const { open } = useAppKit();
   const isMobile = window.innerWidth <= 768;
+  const staking = useAppSelector(state => state.staking);
+  const isStaking = window.location.href.includes("/staking");
+  const {isTabActive} = useTabVisibility();
+
+  const stakingChain = "bscTestnet";
+
+  const onLickHandler = () => {
+    open();
+  }
+
+  useEffect(() => {
+    if(isTabActive && isStaking && modal.getChainId() !== 97){
+      // modal.switchNetwork(findChainfromName(stakingChain));
+      modal.switchNetwork({id:97});
+    }
+  }, [isConnected, account, modal.getChainId()]);
+
   return (
     <header className="webHeader">
       {/* <HeaderNotify /> */}
@@ -28,12 +51,18 @@ function StakingHeader() {
               </a>
             </div>
             <div className="headerRIght">
-              <a href="/bridge" className="connectWallet connectWalletBlack">
-                Connect wallet
-              </a>
-              <a href="/bridge" className="walletConnect">
-                0x925ea338...45 <img src="/img/wallet-icon.svg" alt="" className="walletIcon" />
-              </a>
+              <button 
+                className="walletConnect connectWallet connectWalletBlack"
+                style={{color:"#fff"}}
+                onClick={onLickHandler}
+                >
+              {
+                staking.staker
+                ? `${staking.staker.slice(0,6)}...${staking.staker.slice(38,)}`
+                : `Connect wallet`
+              }
+              <img src="/img/chain/bsc.svg" alt="BSC" className="walletIcon" />
+              </button>
             </div>
           </div>
         </div>
