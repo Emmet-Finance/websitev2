@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
 import { useEthersSigner } from "./useEthersSigner";
 import { useAccount } from "wagmi";
-import { useAppDispatch } from "./storage";
+import { useAppDispatch, useAppSelector } from "./storage";
 import { sleep } from "emmet.js";
 import { Signer } from "ethers";
 import { Helper, Period, TokensaleHelper, mainnetConfig, testnetConfig, } from "tokensale.sdk";
-import { setAllowance, setBalance } from "../store/stakingSlice";
+import { setAllowance, setBalance, setPositions, setStaker } from "../store/stakingSlice";
 
 export default function useStaking() {
 
     const { address, isConnected } = useAccount();
     const dispatch = useAppDispatch();
     const signer = useEthersSigner();
-    const isTestnet: boolean = false;
+    const isTestnet: boolean = true;
     const decimals = 1e18;
+
+    const stakingSlice = useAppSelector(state => state.staking);
 
     const [isAwaiting, setIsAwaiting] = useState(false);
     const [txHash, setTxHash] = useState("");
@@ -26,7 +28,7 @@ export default function useStaking() {
     async function updateAllowance() {
         try {
             const staking: Helper = await getStaking();
-            const allowance = await staking.allowance(address!, "EMMET");
+            const allowance = await staking.stakingAllowance(address!);
 
             if (allowance) {
                 dispatch(setAllowance(Number(allowance.toString()) / decimals))
@@ -49,31 +51,49 @@ export default function useStaking() {
         }
     }
     //----------------------------------------------------------------------------------
+    async function updatePositions() {
+        try {
+            const staking: Helper = await getStaking();
+            const positions = await staking.positions(address!);
+            if (positions && positions.positions) {
+                dispatch(setPositions(positions))
+            }
+        } catch (error) {
+            console.warn("useStaking::updatePositions", error)
+        }
+    }
+    //----------------------------------------------------------------------------------
     async function checkAll() {
+        await updatePositions();
+        await sleep(1000)
         await updateBalance();
         await sleep(1000);
         await updateAllowance();
         isConnected && dispatch(setStaker(address!));
     }
     //----------------------------------------------------------------------------------
-    async function  approve(amount: number) {
+    async function approve(amount: number) {
         setIsAwaiting(true);
 
         try {
             const staking: Helper = await getStaking();
-            await staking.approve(signer as Signer, BigInt(amount * decimals));
+            await staking.stakingApprove(signer as Signer, BigInt(amount * decimals));
         } catch (error) {
             console.warn("useStaking::approve", error)
         }
         setIsAwaiting(false);
     }
     //----------------------------------------------------------------------------------
-    async function  stake(amount: number, period: Period) {
+    async function stake() {
         setIsAwaiting(true);
         try {
             const staking: Helper = await getStaking();
-            const result = await staking.stake(signer as Signer, BigInt(amount), period);
-            if(result && typeof(result) === "string" && result.length > 0){
+            const result = await staking.stake(
+                signer as Signer, 
+                BigInt(stakingSlice.amount), 
+                stakingSlice.period)
+            ;
+            if (result && typeof (result) === "string" && result.length > 0) {
                 setTxHash(result);
             }
         } catch (error) {
@@ -82,12 +102,12 @@ export default function useStaking() {
         setIsAwaiting(false);
     }
     //----------------------------------------------------------------------------------
-    async function  unstake(posIndex: number) {
+    async function unstake(posIndex: number) {
         setIsAwaiting(true);
         try {
             const staking: Helper = await getStaking();
             const result = await staking.unstake(signer as Signer, posIndex);
-            if(result && typeof(result) === "string" && result.length > 0){
+            if (result && typeof (result) === "string" && result.length > 0) {
                 setTxHash(result);
             }
         } catch (error) {
@@ -96,12 +116,12 @@ export default function useStaking() {
         setIsAwaiting(false);
     }
     //----------------------------------------------------------------------------------
-    async function  withdrawRewards(posIndex: number) {
+    async function withdrawRewards(posIndex: number) {
         setIsAwaiting(true);
         try {
             const staking: Helper = await getStaking();
             const result = await staking.withdrawRewards(signer as Signer, posIndex);
-            if(result && typeof(result) === "string" && result.length > 0){
+            if (result && typeof (result) === "string" && result.length > 0) {
                 setTxHash(result);
             }
         } catch (error) {
@@ -113,28 +133,22 @@ export default function useStaking() {
 
     useEffect(() => {
 
+        if (!isConnected) return;
+
         let interval: NodeJS.Timeout;
 
-        if(isConnected){
+        (async () => {
+            await checkAll()
+        })()
 
-            (async () => {
-                await checkAll()
-            })()
+        // Then fetch data every 30 seconds
+        interval = setInterval(checkAll, 30_000);
 
-            // Then fetch data every 10 seconds
-            interval = setInterval(checkAll, 10_000);
-
-        }
 
         return () => clearInterval(interval);
 
-    });
+    }, [isConnected]);
 
+    return { approve, isAwaiting, txHash, stake, unstake, withdrawRewards }
 
-    return {approve,  isAwaiting, txHash, stake, unstake, withdrawRewards}
-
-}
-
-function setStaker(arg0: string): any {
-    throw new Error("Function not implemented.");
 }
