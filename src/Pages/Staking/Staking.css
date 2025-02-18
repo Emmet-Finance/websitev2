@@ -16,7 +16,7 @@
     line-height: 1.5;
     letter-spacing: 0.48px;
     text-align: center;
-    color: #888b92;
+    color: #fff;
     display: flex;
     align-items: center;
     transition: .3s;
@@ -24,10 +24,6 @@
 
 .connectWallet.connectWalletBlack:hover {
     background: #3C3F43;
-}
-
-.walletConnect:hover {
-    color: #fff;
 }
 
 .stakingWrap .container {
