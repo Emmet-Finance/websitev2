@@ -6,6 +6,7 @@ import lineLeft from "../../../assets/img/web/Tokenomics/BuyEmmet/line-left.png"
 import lineRight from "../../../assets/img/web/Tokenomics/BuyEmmet/line-right.png";
 import BuyEmmetCoin from "./BuyEmmetCoin";
 import NotifyMe from "./NotifyMe";
+import { isMobile } from "react-device-detect";
 
 function BuyEmmet() {
   const targetDate = new Date("March 15, 2025 00:00:00 GMT+00:00");
@@ -48,7 +49,7 @@ function BuyEmmet() {
           <BuyEmmetCoin />
         </div>
       </div>
-      <div className="buyEmmetFooter">
+      <div className={`buyEmmetFooter ${!isMobile ? "padding-left-100" : ""}`}>
         Min contribution: <span>20.00 USDT</span>
       </div>
     </>

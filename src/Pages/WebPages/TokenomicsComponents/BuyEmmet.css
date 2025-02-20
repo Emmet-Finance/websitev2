@@ -107,6 +107,10 @@
   width: 20%;
 }
 
+.padding-left-100 {
+  padding-left: 100px;
+}
+
 @media (max-width: 575px) {
   .buyTopBox {
     width: 100%;
