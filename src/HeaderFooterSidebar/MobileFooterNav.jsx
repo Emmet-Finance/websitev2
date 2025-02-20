@@ -32,8 +32,7 @@ function MobileFooterNav() {
         <li>
           <Link to="/tokensale" className="navLink">
             <img src={"/img/nav-icon/second-nav-Icons-1.svg"} alt="NavIcon" />
-            <span>Stake</span>
-            <span className="soon">Soon</span>
+            <span>Sale</span>
           </Link>
         </li>
         <li>

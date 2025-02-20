@@ -11,6 +11,13 @@ const captionUnstake = "Unstake";
 const pendingMaturity = "Pending maturity";
 const captionNoStaked = "No Active Stakes";
 
+const APY = {
+    0: "24%",
+    1: "32%",
+    2: "40%",
+    3: "50%",
+}
+
 function StakeEmmet() {
 
     const staking = useAppSelector(state => state.staking);
@@ -148,6 +155,16 @@ function StakeEmmet() {
                     </div>
                 </div>
                 <ul className="stakList rewardList">
+                    <li>
+                        <p>APY %</p>
+                        <div className="textGreen">
+                            {
+                                staking.selPosition
+                                    ? APY[Number(staking.selPosition.period)]
+                                    : 0
+                            }
+                        </div>
+                    </li>
                     <li>
                         <p>Total Rewards</p>
                         <div className="textGreen">
