@@ -22,8 +22,8 @@ function BuyEmmetCoin() {
   const tokensale = useAppSelector(state => state.tokensale);
   const dispatch = useAppDispatch();
   const { open } = useAppKit();
-  const {isTabActive} = useTabVisibility();
-  
+  const { isTabActive } = useTabVisibility();
+
   const [searchParams] = useSearchParams();
   const ref = searchParams.get("ref");
 
@@ -92,7 +92,7 @@ function BuyEmmetCoin() {
 
     if (caption === connectWallet) {
       open();
-      if(modal.getChainId() !== 56){
+      if (modal.getChainId() !== 56) {
         modal.switchNetwork(findChainfromName(tokensaleChain));
       }
     } else if (caption === captionApprove) {
@@ -109,7 +109,7 @@ function BuyEmmetCoin() {
 
   useEffect(() => {
 
-    if(isTabActive && isTokensale && modal.getChainId() !== 56){
+    if (isTabActive && isTokensale && modal.getChainId() !== 56) {
       modal.switchNetwork(findChainfromName(tokensaleChain));
     }
 
@@ -122,13 +122,13 @@ function BuyEmmetCoin() {
       if (!tokensale.pay) {
         setDisabled(true);
         setCaption("Enter Amount");
-      } else if( tokensale.pay && tokensale.pay > tokensale.balance) {
+      } else if (tokensale.pay && tokensale.pay > tokensale.balance) {
         setDisabled(true);
         setCaption(insufficientBalance);
       } else if (tokensale.pay > tokensale.allowance) {
         setDisabled(false);
         setCaption(captionApprove);
-      }  else {
+      } else {
         setDisabled(false);
         setCaption(captionBuy);
         setShowSpiner(false);
@@ -140,8 +140,8 @@ function BuyEmmetCoin() {
     }
 
   }, [
-    tokensale.pay, 
-    isAwaiting, 
+    tokensale.pay,
+    isAwaiting,
     tokensale.allowance,
     isConnected
   ]);
@@ -194,7 +194,20 @@ function BuyEmmetCoin() {
         disabled={disabled}
       >
         {showSpinner && <ButtonSpinner />}
-        {caption}</button>
+        {caption}
+      </button>
+      <button
+        className="connectWallet"
+        onClick={mainButtonClick}
+        disabled={true}
+      ><a
+        href="/pay-with-card"
+        className="color-white"
+      >
+          <img src="/img/creditcard.svg" />
+          {` Purchase USDT with a credit card`}
+        </a>
+      </button>
     </>
   );
 }

@@ -217,6 +217,10 @@ button.connectWallet {
   top: -1px;
 }
 
+.color-white {
+  color: #FFF;
+}
+
 @media screen and (max-width: 767px) {
   .max {
     display: none;
