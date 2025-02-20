@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useEffect, useState} from "react";
 import "./WebHeader.css";
 import { useAccount } from "wagmi";
 import { useAppSelector } from "../../hooks/storage";
@@ -20,11 +20,23 @@ function StakingHeader() {
   const isStaking = window.location.href.includes("/staking");
   const {isTabActive} = useTabVisibility();
 
+  const [caption, setCaption] = useState("Connect Wallet")
+
   const stakingChain = "bscTestnet";
 
   const onLickHandler = () => {
     open();
   }
+
+  useEffect(() => {
+
+    if(staking.staker){
+      setCaption(`${staking.staker.slice(0,6)}...${staking.staker.slice(38,)}`)
+    } else {
+      setCaption("Connect Wallet")
+    }
+
+  }, [staking.staker])
 
   useEffect(() => {
     if(isTabActive && isStaking && modal.getChainId() !== 97){
@@ -57,9 +69,7 @@ function StakingHeader() {
                 onClick={onLickHandler}
                 >
               {
-                staking.staker
-                ? `${staking.staker.slice(0,6)}...${staking.staker.slice(38,)}`
-                : `Connect wallet`
+                caption
               }
               <img src="/img/chain/bsc.svg" alt="BSC" className="walletIcon" />
               </button>

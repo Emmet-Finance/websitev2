@@ -13,6 +13,7 @@ import PoolPage from "./Pages/Pool";
 // Web Page
 import WebHome from "./Pages/WebPages/WebHome";
 import PrivacyPolicy from "./Pages/WebPages/PrivacyPolicy";
+import CardPurchase from "./Pages/WebPages/CardPurchase";
 import TermsService from "./Pages/WebPages/TermsService";
 import Tokenomics from "./Pages/WebPages/Tokenomics";
 import YourLiquidityPage from "./Pages/YourLiquidityPage";
@@ -34,10 +35,9 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 
 // Web3Modal related
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider, http } from "wagmi";
+import { WagmiProvider} from "wagmi";
 
 import { createAppKit } from '@reown/appkit/react'
-import { arbitrum, mainnet } from '@reown/appkit/networks'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 
 import { ALL_CHAINS } from "./types/chains";
@@ -143,6 +143,10 @@ function App() {
                       <Route
                         path="/pool/your-liquidity"
                         element={<YourLiquidityPage />}
+                      />
+                      <Route
+                        path="/pay-with-card"
+                        element={<CardPurchase />}
                       />
                       <Route
                         path="/transactionDetails/:emmetHash"
