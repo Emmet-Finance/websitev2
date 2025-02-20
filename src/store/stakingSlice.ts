@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Period, TUserPositions } from "tokensale.sdk/dist/types";
+import { Period, TPosition, TUserPositions } from "tokensale.sdk/dist/types";
 
-function estimateRewards(period: Period, amount: number): number {
+export function estimateRewards(period: Period, amount: number): number {
     switch(period){
         case Period.Quarter:
             return amount * 24 / 100 / 4;
@@ -23,6 +23,8 @@ interface IStaking {
     estimatedReward: number
     period: Period;
     positions: TUserPositions | undefined;
+    selPosition: TPosition | undefined;
+    selPosIndex: number;
     staker: string;
 }
 
@@ -33,6 +35,8 @@ const initialState = {
     estimatedReward: 0,
     period: Period.Year,
     positions: undefined,
+    selPosition: undefined,
+    selPosIndex: 0,
     staker: "",
 }
 
@@ -56,6 +60,17 @@ export const stakingSlice = createSlice({
         },
         setPositions(state: IStaking, action: PayloadAction<TUserPositions | undefined>){
             state.positions = action.payload;
+            if(state.positions && state.positions?.positions){
+                state.selPosition = state.positions?.positions[0];
+            }
+        },
+        setSelPosition(state: IStaking, action: PayloadAction<number>){
+            if(state.positions && state.positions?.positions){
+                if(action.payload >= 0 &&  action.payload < state.positions?.positions.length){
+                    state.selPosIndex = action.payload;
+                    state.selPosition = state.positions?.positions[action.payload];
+                }
+            }
         },
         setStaker(state: IStaking, action: PayloadAction<string>){
             state.staker = action.payload;
@@ -69,6 +84,7 @@ export const {
     setBalance,
     setPeriod,
     setPositions,
+    setSelPosition,
     setStaker,
 } = stakingSlice.actions;
 
