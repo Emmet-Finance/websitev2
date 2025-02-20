@@ -59,6 +59,18 @@
     text-align: left;
 }
 
+.justify-cpace-between {
+    justify-content: space-between;
+}
+
+.clickable-item {
+    cursor: pointer;
+}
+
+.padding-right-10 {
+    padding-right: 10px;
+}
+
 .stakeBody {
     padding: 24px 24px;
 }
@@ -332,6 +344,18 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.position-index-container {
+    display: inline-block;
+}
+
+.position-index-container span {
+    color: #fff;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    justify-content: flex-end
 }
 
 @media only screen and (max-width: 767px)  {
