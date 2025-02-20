@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { useAccount } from "wagmi";
-import { useAppKit } from '@reown/appkit/react';
 import { useAppSelector, useAppDispatch } from '../../hooks/storage';
 import ButtonSpinner from "../CommonComponents/Spinner/ButtonSpinner";
-import { modal } from "../../App";
-import { findChainfromName } from "../../utils";
-import useTabVisibility from "../../hooks/useTabVisibility";
 import useStaking from "../../hooks/useStaking";
 import { setAmount, setPeriod } from "../../store/stakingSlice";
 
 const insufficientBalance = "Insufficient balance"
 const captionApprove = "Approve";
-const captionBuy = "Buy Tokens";
+const captionStake = "Stake";
 const connectWallet = "Connect your BSC wallet";
+const captionEnterAmount = "Enter Amount";
 
 function Stake() {
   const staking = useAppSelector(state => state.staking);
-  const { open } = useAppKit();
   const dispatch = useAppDispatch();
-  const { isConnected, account } = useAccount();
-  const { approve, isAwaiting, txHash, stake, unstake, withdrawRewards } = useStaking();
+  const { approve, isAwaiting, txHash, stake} = useStaking();
 
   // State to track the active staking item
   const [activeItem, setActiveItem] = useState(3);
-  const [caption, setCaption] = useState("Enter Amount");
-  const [showSpinner, setShowSpiner] = useState(false);
+  const [caption, setCaption] = useState(captionEnterAmount);
   const [disabled, setDisabled] = useState(false);
   const [amount, setStakeAmount] = useState("");
   const [oldAmount, setOldAmount] = useState("");
@@ -57,7 +50,41 @@ function Stake() {
     } else {
       dispatch(setAmount(oldAmount))
     }
-  }, [amount])
+  }, [amount]);
+
+  useEffect(() => {
+
+    if(!staking.staker){
+      setCaption(connectWallet);
+      setDisabled(true);
+    } else if(!staking.amount){
+      setCaption(captionEnterAmount);
+      setDisabled(true);
+    } else if(staking.amount > staking.balance) {
+      setCaption(insufficientBalance);
+      setDisabled(true);
+    }else if(Number(staking.amount) > Number(staking.allowance)){
+      setCaption(captionApprove);
+      setDisabled(false);
+    } else {
+      setCaption(captionStake);
+      setDisabled(false);
+    }
+
+  }, [staking.staker, staking.amount, staking.allowance, staking.balance]);
+
+  const switchAction = async () => {
+    switch (caption) {
+      case captionApprove:
+        approve(staking.amount);
+        break;
+      case captionStake:
+        stake();
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <div className="stake stakeBox">
@@ -78,6 +105,7 @@ function Stake() {
             <span
               className="max_amount"
               onClick={maxClickHandle}
+              style={{cursor:"pointer"}}
             >MAX</span>
           </div>
         </div>
@@ -113,15 +141,18 @@ function Stake() {
               <div>{staking.estimatedReward
                 ? staking.estimatedReward.toLocaleString() + ` EMMET`
                 : 0 + ` EMMET`}
-                <span> {staking.estimatedReward
-                  ? `$${Number(staking.estimatedReward) * 0.01}`
-                  : <>$ 0.00</>
-                  } </span></div>
+                </div>
             </li>
           </ul>
         </div>
-        <button className="yellowBtn" id="stakeBtn">
-          Stake
+        <button 
+        className="yellowBtn" 
+        id="stakeBtn"
+        disabled={disabled}
+        onClick={switchAction}
+        >
+          {isAwaiting && <ButtonSpinner />}
+          {caption}
         </button>
       </div>
     </div>
