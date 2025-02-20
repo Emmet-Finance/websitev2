@@ -22,7 +22,13 @@ export default function useStaking() {
 
     //----------------------------------------------------------------------------------
     async function getStaking(): Promise<Helper> {
-        return await TokensaleHelper(isTestnet ? testnetConfig : mainnetConfig)
+        const instance = await TokensaleHelper(isTestnet ? testnetConfig : mainnetConfig);
+
+    if (!instance) {
+        throw new Error("getStaking() returned undefined or null");
+    }
+
+    return instance;
     }
     //----------------------------------------------------------------------------------
     async function updateAllowance() {
@@ -77,7 +83,7 @@ export default function useStaking() {
 
         try {
             const staking: Helper = await getStaking();
-            await staking.stakingApprove(signer as Signer, BigInt(amount * decimals));
+            await staking.stakingApprove(signer as Signer, BigInt(amount) * BigInt(decimals));
         } catch (error) {
             console.warn("useStaking::approve", error)
         }
@@ -102,16 +108,19 @@ export default function useStaking() {
         setIsAwaiting(false);
     }
     //----------------------------------------------------------------------------------
-    async function unstake(posIndex: number) {
+    async function withdraw(posIndex: number) {
+        if (isAwaiting) return; // Prevent duplicate calls
+
         setIsAwaiting(true);
         try {
             const staking: Helper = await getStaking();
-            const result = await staking.unstake(signer as Signer, posIndex);
+        
+            const result = await staking.closeStake(signer as Signer, posIndex);
             if (result && typeof (result) === "string" && result.length > 0) {
                 setTxHash(result);
             }
         } catch (error) {
-            console.warn("useStaking::stake", error)
+            console.warn("useStaking::withdraw", error)
         }
         setIsAwaiting(false);
     }
@@ -125,7 +134,7 @@ export default function useStaking() {
                 setTxHash(result);
             }
         } catch (error) {
-            console.warn("useStaking::stake", error)
+            console.warn("useStaking::withdrawRewards", error)
         }
         setIsAwaiting(false);
     }
@@ -133,7 +142,10 @@ export default function useStaking() {
 
     useEffect(() => {
 
-        if (!isConnected) return;
+        if (!isConnected) {
+            dispatch(setStaker(""))
+            return;
+        }
 
         let interval: NodeJS.Timeout;
 
@@ -147,8 +159,8 @@ export default function useStaking() {
 
         return () => clearInterval(interval);
 
-    }, [isConnected]);
+    }, [isConnected, stakingSlice.staker]);
 
-    return { approve, isAwaiting, txHash, stake, unstake, withdrawRewards }
+    return { approve, isAwaiting, txHash, stake, withdraw, withdrawRewards }
 
 }
