@@ -50,7 +50,7 @@ function SidebarNav() {
         <li>
           <Link
             to="/tokensale"
-            className={`navLink ${isActive("/") && ""}`}
+            className={`navLink ${isActive("/tokensale") && "active"}`}
             onClick={handleLinkClick}
           >
             <img src={"/img/nav-icon/second-nav-Icons-1.svg"} alt="NavIcon" />
@@ -60,13 +60,12 @@ function SidebarNav() {
         </li>
         <li>
           <Link
-            to="#"
-            className={`navLink ${isActive("/") && ""}`}
+            to="/staking"
+            className={`navLink ${isActive("/staking") && "active"}`}
             onClick={handleLinkClick}
           >
             <img src={"/img/nav-icon/nav-Icons-6.svg"} alt="NavIcon" />
             <span>Staking</span>
-            <span className="soon">Soon</span>
           </Link>
         </li>
         {/* <li>

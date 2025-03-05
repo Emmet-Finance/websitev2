@@ -27,7 +27,7 @@ export default  function PoolTableTitle() {
       <div>
         {loading 
         ? (<Skeleton height={12} width={80} />) 
-        : (`TVL: $${tlv.toFixed(2)} K`)}
+        : (`TVL: $${Number(tlv.toFixed(2)).toLocaleString()}`)}
       </div>
     </div>
   );

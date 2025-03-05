@@ -133,7 +133,7 @@ const PoolTable = () => {
                 className="tableHead"
                 onClick={() => handleSort("TotalLiquidity")}
               >
-                Total liquidity{" "}
+                Total staked{" "}
                 <span className="upDown">
                   <img src={Updown} alt="Updown" />
                 </span>
@@ -170,6 +170,7 @@ function TableDataRow({
   handleAddPollClick,
   loading,
 }) {
+  console.log("Table raw item", item)
   return (
     <tr>
       <td>
@@ -193,7 +194,7 @@ function TableDataRow({
           {loading ? (
             <Skeleton height={16} width={100} />
           ) : (
-            `${Number(item.supply).toLocaleString()} K`
+            `${Number(item.supply).toLocaleString()}`
           )}
         </span>
       </td>

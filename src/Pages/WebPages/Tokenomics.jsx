@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
+import HeaderNotify from "../../HeaderFooterSidebar/WebHeaderFooter/HeaderComponents/HeaderNotify"
 import WebHeader from "../../HeaderFooterSidebar/WebHeaderFooter/WebHeader";
 import WebFooter from "../../HeaderFooterSidebar/WebHeaderFooter/WebFooter";
 import IntroducingEMMET from "./TokenomicsComponents/IntroducingEMMET";
@@ -19,6 +20,7 @@ export default function Tokenomics() {
         <meta name="description" content="Emmet Finance Token Sale – Join the Future of Cross-Chain DeFi! Participate in the Emmet Token Sale and be part of a revolutionary cross-chain DeFi hub. Emmet Finance enables seamless asset transfers between Ethereum, Bitcoin, TON, Solana, BSC, and more. Secure your allocation and support decentralized finance innovation."/>
       </Helmet>
       <div className="webWraper tokenomics">
+      <HeaderNotify />
         <WebHeader />
         <div className="tokenomicsWrap">
           <IntroducingEMMET />

@@ -116,7 +116,7 @@ const TableData = ({
               {loading ? (
                 <Skeleton height={16} width={80} />
               ) : (
-                `${data.totalSupply} K`
+                `${data.totalSupply}`
               )}
             </h3>
           </div>

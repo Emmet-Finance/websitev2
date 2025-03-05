@@ -14,6 +14,7 @@ const MobileHeader = () => {
   // const [isBodyClassAdded, setIsBodyClassAdded] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const bridge = useAppSelector((state) => state.bridge);
+  const isStaking = window.location.href.includes("/staking");
 
   const handleButtonClick = () => {
     // Toggle the class on the body element
@@ -27,12 +28,14 @@ const MobileHeader = () => {
       <div className="mobileHeaderTop">
         <NetworkSwitch />
       </div>
+      
       <div className="mobileHeaderCenter">
         <a href="/">
           <img src={Logo} alt="EmmetFinance" />
         </a>
         <div className="headerRightSide">
-          <ConnectionIndicator />
+          {!isStaking && <ConnectionIndicator />}
+          
           <div
             className="connectWallet"
             onClick={() => setModalIsOpen(!modalIsOpen)}

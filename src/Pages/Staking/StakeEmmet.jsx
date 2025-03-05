@@ -10,6 +10,7 @@ const captionWithdrawRewards = "Withdraw Rewards";
 const captionUnstake = "Unstake";
 const pendingMaturity = "Pending maturity";
 const captionNoStaked = "No Active Stakes";
+const captionPending = "Processing...";
 
 const APY = {
     0: "24%",
@@ -31,23 +32,21 @@ function StakeEmmet() {
 
     useEffect(() => {
 
-        if (staking.selPosition && staking.selPosition.locked) {
-            setUnclaimed(computeUnclaimedRewards(
-                staking.selPosition.locked,
-                staking.selPosition.period,
-                staking.selPosition.claimed,
-                staking.selPosition.start
-            ))
+        if (staking.selPosition && staking.selPosition.unclaimed) {
+            setUnclaimed(staking.selPosition.unclaimed)
         }
 
-        if (staking.selPosition
+        if(isAwaiting){
+            setCaption(captionPending);
+            setDisabled(true);
+        } else if (staking.selPosition
             && staking.selPosition.maturity
             && Date.now() > Number(staking.selPosition.maturity) * 1000
         ) {
             setPendingInfo("Unstaking is open");
             setCaption(captionUnstake);
             setDisabled(false);
-        } else if (unclaimed > 0) {
+        } else if (staking.selPosition && staking.selPosition.unclaimed > 0) {
             const estimation = timeToMaturity(staking.selPosition.maturity);
 
             setPendingInfo(`Unstaking opens in ${estimation.days ? estimation.days + " days" : ""
@@ -74,7 +73,7 @@ function StakeEmmet() {
 
         }
 
-    }, [staking.selPosition])
+    }, [staking.selPosition, isAwaiting, staking.token])
 
     const leftArrowClick = () => {
         if (staking.selPosIndex > 0) {
@@ -110,11 +109,11 @@ function StakeEmmet() {
 
         <div className="stakeEmmet stakeBox">
             <div className="stakeHeader justify-cpace-between">
-                {!isMobile && <div>
+                {/* {!isMobile && <div>
                     <img src="/img/Emmet-circle.svg" alt="Emmet" className="padding-right-10" />
                     {` EMMET`}
 
-                </div>}
+                </div>} */}
 
                 {caption !== captionNoStaked && <div className="position-index-container">
                     {
@@ -151,7 +150,7 @@ function StakeEmmet() {
                             ? Number(staking.selPosition.locked).toLocaleString()
                             : 0
                         }</h4>
-                        <h4>$EMMET</h4>
+                        <h4>${staking.token}</h4>
                     </div>
                 </div>
                 <ul className="stakList rewardList">
@@ -176,11 +175,11 @@ function StakeEmmet() {
                         </div>
                     </li>
                     <li>
-                        <p>Unclaimed Rewards</p>
+                        <p>Claimable Rewards</p>
                         <div className="textGreen">
                             {
-                                unclaimed
-                                    ? unclaimed.toLocaleString()
+                                staking.selPosition && staking.selPosition.unclaimed
+                                    ? staking.selPosition.unclaimed.toLocaleString()
                                     : 0
                             }
                         </div>

@@ -81,7 +81,7 @@ export default function RefComponent() {
             </div>}
         </div>
         <p></p>
-        <p>Earn <span style={{ "color": "#efeb00" }}>7%</span> on top of every deposit of your referrals. <br />
+        <p>Instantly earn <span style={{ "color": "#efeb00" }}>7% in USDT</span> on top of every deposit of your referrals. <br />
             Get additional <span style={{ "color": "#efeb00" }}>3%</span> of your invite’s deposits. <br />
             The more your friends deposit, the more you earn! <br />
             {address && (<>

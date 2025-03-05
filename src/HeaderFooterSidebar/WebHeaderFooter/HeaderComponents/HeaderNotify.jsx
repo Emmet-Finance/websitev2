@@ -22,10 +22,12 @@ function HeaderNotify() {
     <div className="headerNotify">
       <div className="headerNotifyContent">
         <p>
-          Emmet Bridge Mainnet is LIVE!
-          <a href="https://taskon.xyz/campaign/detail/38483" target="_blank">
-            {" "}
-            Join the Adventure
+         Attention! The  {" "}
+          <a 
+          href="https://bscscan.com/token/0x6b30f76CecE9F92D27f0e9Ad78312E77709E74A5" 
+          target="_blank"
+          >
+            authentic EMMET address
           </a>
         </p>
       </div>

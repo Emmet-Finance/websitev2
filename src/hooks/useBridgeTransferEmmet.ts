@@ -13,8 +13,9 @@ import { Chain } from "emmet.js/dist/factory/types";
 import { chainFactory } from "../store/chainFactory";
 import { useEthersSigner } from "./useEthersSigner";
 import useBridgeFee from "./useBridgeFee";
-import { TonHelper } from "emmet.js/dist/chains/ton";
+import { TonGasArgs, TonHelper } from "emmet.js/dist/chains/ton";
 import { Web3Helper } from "emmet.js/dist/chains";
+import { toNano } from "@ton/core";
 // import { ErrorDecoder } from "ethers-decode-error";
 // import { EmmetBridge__factory } from "@emmet-contracts/web3";
 
@@ -51,7 +52,7 @@ export default function useBridgeTransferEmmet() {
       try {
         const fromChainID = ChainToDestinationDomain[chainName];
 
-        // S e n d i n g   t o   T O N
+        // S e n d i n g   f r o m   T O N
         if (fromChainID === Chain.TON) {
           const handler: TonHelper = (await chainFactory.inner(
             fromChainID,
@@ -77,7 +78,7 @@ export default function useBridgeTransferEmmet() {
             destinationDomain,
             bridge.fromToken,
             bridge.toToken,
-            mintRecipient,
+            mintRecipient
           );
 
           dispatch(setBridgeFromHash(hash ? hash : "N/A"));
