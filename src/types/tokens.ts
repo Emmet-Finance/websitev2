@@ -35,6 +35,12 @@ export const BridgeTokens = [
   },
   {
     "cmc_id": 0,
+    "name": "LKY",
+    "icon": "img/coin/LKY.svg",
+    "price": 0.001
+  },
+  {
+    "cmc_id": 0,
     "name": "USDTem",
     "icon": "img/coin/usdtem.svg",
     "price": 1
@@ -43,10 +49,10 @@ export const BridgeTokens = [
 
 export const CHAIN_TO_TOKENS: {[key:string]: string[]} = {
   Avalanche: ["USDC"],
-  BSC: ["NTM"],
+  BSC: ["NTM", "LKY"],
   Polygon: ["USDT", "USDC"],
   Songbird: ["USDTem"],
-  TON: ["USDT", "NTM"],
+  TON: ["USDT", "NTM", "LKY"],
 };
 
 export type TSupportedChain = keyof typeof CHAIN_TO_TOKENS;
@@ -58,7 +64,7 @@ export const CHAIN_TO_TOKENS_TREE: {[key:TSupportedChain|string]:{
     Polygon: ["USDC"],
   },
   BSC: {
-    TON:["NTM"]
+    TON:["NTM", "LKY"]
   },
   Polygon: {
     Avalanche: ["USDC"],
@@ -70,7 +76,7 @@ export const CHAIN_TO_TOKENS_TREE: {[key:TSupportedChain|string]:{
     TON: ["USDTem"]
   },
   TON: {
-    BSC:["NTM"],
+    BSC:["NTM", "LKY"],
     Polygon: ["USDT"],
     Songbird: ["USDT"],
   },

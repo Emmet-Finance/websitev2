@@ -4,15 +4,15 @@ import { useAccount } from "wagmi";
 import { useAppDispatch, useAppSelector } from "./storage";
 import { sleep } from "emmet.js";
 import { Signer } from "ethers";
-import { Helper, Period, TokensaleHelper, mainnetConfig, testnetConfig, } from "tokensale.sdk";
-import { setAllowance, setBalance, setPositions, setStaker } from "../store/stakingSlice";
+import { Helper, TSymbol, TokensaleHelper, mainnetConfig, testnetConfig, } from "tokensale.sdk";
+import { setAllowance, setAmount, setBalance, setPositions, setStaker } from "../store/stakingSlice";
 
 export default function useStaking() {
 
     const { address, isConnected } = useAccount();
     const dispatch = useAppDispatch();
     const signer = useEthersSigner();
-    const isTestnet: boolean = true;
+    const isTestnet: boolean = false;
     const decimals = 1e18;
 
     const stakingSlice = useAppSelector(state => state.staking);
@@ -24,21 +24,19 @@ export default function useStaking() {
     async function getStaking(): Promise<Helper> {
         const instance = await TokensaleHelper(isTestnet ? testnetConfig : mainnetConfig);
 
-    if (!instance) {
-        throw new Error("getStaking() returned undefined or null");
-    }
+        if (!instance) {
+            throw new Error("getStaking() returned undefined or null");
+        }
 
-    return instance;
+        return instance;
     }
     //----------------------------------------------------------------------------------
     async function updateAllowance() {
         try {
             const staking: Helper = await getStaking();
-            const allowance = await staking.stakingAllowance(address!);
+            const allowance = await staking.stakingAllowance(address!, stakingSlice.token);
 
-            if (allowance) {
-                dispatch(setAllowance(Number(allowance.toString()) / decimals))
-            }
+            dispatch(setAllowance(Number(allowance.toString()) / decimals))
         } catch (error) {
             console.warn("useStaking::updateAllowance", error)
         }
@@ -47,7 +45,7 @@ export default function useStaking() {
     async function updateBalance() {
         try {
             const staking: Helper = await getStaking();
-            const balance = await staking.balance(address!, "EMMET");
+            const balance = await staking.balance(address!, stakingSlice.token as TSymbol);
 
             if (balance) {
                 dispatch(setBalance(Number(balance.toString()) / decimals))
@@ -60,7 +58,7 @@ export default function useStaking() {
     async function updatePositions() {
         try {
             const staking: Helper = await getStaking();
-            const positions = await staking.positions(address!);
+            const positions = await staking.positions(address!, stakingSlice.token);
             if (positions && positions.positions) {
                 dispatch(setPositions(positions))
             }
@@ -83,7 +81,26 @@ export default function useStaking() {
 
         try {
             const staking: Helper = await getStaking();
-            await staking.stakingApprove(signer as Signer, BigInt(amount) * BigInt(decimals));
+
+            if (!staking.stakingApprove) {
+                throw new Error("stakingApprove is undefined. Check if the staking contract is loaded.");
+            }
+
+            if (!signer) {
+                throw new Error("Signer is undefined. Ensure wallet is connected.");
+            }
+
+            // console.log("Approving tokens:", amount);
+            // console.log("Signer:", signer);
+            console.log("Staking instance:", staking);
+            console.log("Signer Address:", await signer.getAddress());
+            console.log("Signer Provider:", signer.provider);
+
+            const txHash = await staking.stakingApprove(
+                signer as Signer, 
+                BigInt(amount) * BigInt(decimals),
+                stakingSlice.token);
+            console.log("Approve TX", txHash)
         } catch (error) {
             console.warn("useStaking::approve", error)
         }
@@ -95,12 +112,14 @@ export default function useStaking() {
         try {
             const staking: Helper = await getStaking();
             const result = await staking.stake(
-                signer as Signer, 
-                BigInt(stakingSlice.amount), 
-                stakingSlice.period)
-            ;
+                signer as Signer,
+                BigInt(stakingSlice.amount),
+                stakingSlice.period,
+                stakingSlice.token
+            );
             if (result && typeof (result) === "string" && result.length > 0) {
                 setTxHash(result);
+                dispatch(setAmount(0));
             }
         } catch (error) {
             console.warn("useStaking::stake", error)
@@ -114,8 +133,12 @@ export default function useStaking() {
         setIsAwaiting(true);
         try {
             const staking: Helper = await getStaking();
-        
-            const result = await staking.closeStake(signer as Signer, posIndex);
+
+            const result = await staking.closeStake(
+                signer as Signer, 
+                posIndex,
+                stakingSlice.token
+            );
             if (result && typeof (result) === "string" && result.length > 0) {
                 setTxHash(result);
             }
@@ -129,7 +152,11 @@ export default function useStaking() {
         setIsAwaiting(true);
         try {
             const staking: Helper = await getStaking();
-            const result = await staking.withdrawRewards(signer as Signer, posIndex);
+            const result = await staking.withdrawRewards(
+                signer as Signer, 
+                posIndex,
+                stakingSlice.token
+            );
             if (result && typeof (result) === "string" && result.length > 0) {
                 setTxHash(result);
             }
@@ -159,7 +186,7 @@ export default function useStaking() {
 
         return () => clearInterval(interval);
 
-    }, [isConnected, stakingSlice.staker]);
+    }, [isConnected, stakingSlice.staker, stakingSlice.token]);
 
     return { approve, isAwaiting, txHash, stake, withdraw, withdrawRewards }
 

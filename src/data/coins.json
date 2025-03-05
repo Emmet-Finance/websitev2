@@ -7,6 +7,13 @@
     "price": 1
   },
   {
+    "cmc_id": 0,
+    "decimals":8,
+    "name": "LUCKY",
+    "icon": "img/coin/LKY.svg",
+    "price": 1
+  },
+  {
     "cmc_id": 19198,
     "name": "NTM",
     "icon": "img/coin/NTM.png",

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Period, TPosition, TUserPositions } from "tokensale.sdk/dist/types";
+import { Period, TPosition, TTokenName, TUserPositions } from "tokensale.sdk/dist/types";
 
 export function estimateRewards(period: Period, amount: number): number {
     switch(period){
@@ -16,6 +16,11 @@ export function estimateRewards(period: Period, amount: number): number {
     }
 }
 
+export const STAKING_ICONS = {
+    EMMET: "/img/coin/emmet.svg",
+    NTM: "/img/coin/NTM.svg"
+}
+
 interface IStaking {
     amount: number;
     allowance: number;
@@ -26,6 +31,8 @@ interface IStaking {
     selPosition: TPosition | undefined;
     selPosIndex: number;
     staker: string;
+    token: TTokenName
+    tokens: TTokenName[]
 }
 
 const initialState = {
@@ -38,7 +45,9 @@ const initialState = {
     selPosition: undefined,
     selPosIndex: 0,
     staker: "",
-}
+    token: "EMMET",
+    tokens: ["EMMET", "NTM"]
+} as IStaking;
 
 export const stakingSlice = createSlice({
     name: "staking",
@@ -75,6 +84,9 @@ export const stakingSlice = createSlice({
         setStaker(state: IStaking, action: PayloadAction<string>){
             state.staker = action.payload;
         },
+        setToken(state: IStaking, action: PayloadAction<TTokenName>){
+            state.token = action.payload;
+        },
     }
 });
 
@@ -86,6 +98,7 @@ export const {
     setPositions,
     setSelPosition,
     setStaker,
+    setToken,
 } = stakingSlice.actions;
 
 export default stakingSlice.reducer;
