@@ -9,7 +9,7 @@ import NotifyMe from "./NotifyMe";
 import { isMobile } from "react-device-detect";
 
 function BuyEmmet() {
-  const targetDate = new Date("March 15, 2025 00:00:00 GMT+00:00");
+  const targetDate = new Date("March 20, 2025 00:00:00 GMT+00:00");
 
   return (
     <>
@@ -41,7 +41,7 @@ function BuyEmmet() {
             <img src={lineRight} className="lineImg" alt="Line" />
           </div>
           <div className="priceIncress">
-            <p>EMMET price increases to $0.012 in:</p>
+            <p>EMMET price increases to $0.011 in:</p>
             <div className="timer">
               <CountdownTimer targetDate={targetDate} />
             </div>

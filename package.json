@@ -31,7 +31,7 @@
     "axios": "^1.6.8",
     "bootstrap": "^5.3.2",
     "buffer": "^6.0.3",
-    "emmet.js": "git+https://github.com/Emmet-Finance/emmet.sdk.v3#32858c240185caeaa17e5640d01b955e50eb53a0",
+    "emmet.js": "git+https://github.com/Emmet-Finance/emmet.sdk.v3#337077f96bdf5de8c36d183b7ef2ae4acb12e1ca",
     "emmet.sdk": "^0.1.17",
     "ethers": "^6.13.5",
     "eventemitter3": "^5.0.1",
