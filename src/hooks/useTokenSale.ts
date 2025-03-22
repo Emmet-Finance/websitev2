@@ -4,7 +4,7 @@ import { useAccount } from "wagmi";
 import { useAppDispatch } from "./storage";
 import { useEthersSigner } from "./useEthersSigner";
 import type { Helper } from "tokensale.sdk/dist/types"
-import { mainnetConfig, testnetConfig, TokensaleHelper } from "tokensale.sdk/dist";
+import { mainnetConfig, testnetConfig, tokensale, TokensaleHelper } from "tokensale.sdk/dist";
 import { setAllowance, setBalance, setBuyer } from "../store/tokensaleSlice";
 import { sleep } from "emmet.js";
 import { Signer } from "ethers";
@@ -19,6 +19,7 @@ export default function useTokenSale() {
 
     const [isAwaiting, setIsAwaiting] = useState(false);
     const [registered, setRegistered] = useState(false);
+    const [error, setError] = useState("");
 
     async function getTokenSale(): Promise<Helper>{
         return await TokensaleHelper(isTestnet ? testnetConfig : mainnetConfig);
@@ -101,6 +102,21 @@ export default function useTokenSale() {
         }
     }
 
+    async function claimEmmet () {
+        try {
+            const tokensale: Helper = await getTokenSale();
+            const claimable = await tokensale.claimable(address!);
+            if(claimable){
+                const transactionHash = await tokensale.claim(signer!);
+            }else{
+                setError("Vesting has not matured. Nothing to claim so far.");
+            }
+            
+        } catch (error) {
+            console.warn("useTokenSale::claim", error);
+        }
+    }
+
     useEffect(() => {
 
         let interval: NodeJS.Timeout;
@@ -120,6 +136,6 @@ export default function useTokenSale() {
 
     });
 
-    return {approve, purchase, saveRef, isRefRegistered, registered, isAwaiting}
+    return {approve, purchase, saveRef, isRefRegistered, registered, isAwaiting, error, setError, claimEmmet}
 
 }
