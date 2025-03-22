@@ -19,6 +19,7 @@ export default function useStaking() {
 
     const [isAwaiting, setIsAwaiting] = useState(false);
     const [txHash, setTxHash] = useState("");
+    const [error, setError] = useState("");
 
     //----------------------------------------------------------------------------------
     async function getStaking(): Promise<Helper> {
@@ -37,8 +38,9 @@ export default function useStaking() {
             const allowance = await staking.stakingAllowance(address!, stakingSlice.token);
 
             dispatch(setAllowance(Number(allowance.toString()) / decimals))
-        } catch (error) {
+        } catch (error: {message:string} | any) {
             console.warn("useStaking::updateAllowance", error)
+            setError(error.message);
         }
     }
     //----------------------------------------------------------------------------------
@@ -50,8 +52,10 @@ export default function useStaking() {
             if (balance) {
                 dispatch(setBalance(Number(balance.toString()) / decimals))
             }
-        } catch (error) {
+        
+        } catch (error: {message:string} | any) {
             console.warn("useStaking::updateBalance", error)
+            setError("Error fetching the user token balance");
         }
     }
     //----------------------------------------------------------------------------------
@@ -62,8 +66,9 @@ export default function useStaking() {
             if (positions && positions.positions) {
                 dispatch(setPositions(positions))
             }
-        } catch (error) {
+        } catch (error: {message:string} | any) {
             console.warn("useStaking::updatePositions", error)
+            setError(error.message);
         }
     }
     //----------------------------------------------------------------------------------
@@ -101,8 +106,10 @@ export default function useStaking() {
                 BigInt(amount) * BigInt(decimals),
                 stakingSlice.token);
             console.log("Approve TX", txHash)
-        } catch (error) {
-            console.warn("useStaking::approve", error)
+            setError("Successful Approval!")
+        } catch (error: {message:string} | any) {
+            console.warn("useStaking::approve", error);
+            setError("Approval Error...");
         }
         setIsAwaiting(false);
     }
@@ -120,9 +127,11 @@ export default function useStaking() {
             if (result && typeof (result) === "string" && result.length > 0) {
                 setTxHash(result);
                 dispatch(setAmount(0));
+                setError("Successful Staking!");
             }
-        } catch (error) {
-            console.warn("useStaking::stake", error)
+        } catch (error: {message:string} | any) {
+            console.warn("useStaking::stake", error);
+            setError("Staking Error...");
         }
         setIsAwaiting(false);
     }
@@ -141,9 +150,11 @@ export default function useStaking() {
             );
             if (result && typeof (result) === "string" && result.length > 0) {
                 setTxHash(result);
+                setError("Successful Withdrawal!");
             }
-        } catch (error) {
-            console.warn("useStaking::withdraw", error)
+        } catch (error: {message:string} | any) {
+            console.warn("useStaking::withdraw", error);
+            setError("Withdrawal Error...");
         }
         setIsAwaiting(false);
     }
@@ -159,9 +170,11 @@ export default function useStaking() {
             );
             if (result && typeof (result) === "string" && result.length > 0) {
                 setTxHash(result);
+                setError("Successful Withdrawal!");
             }
-        } catch (error) {
-            console.warn("useStaking::withdrawRewards", error)
+        } catch (error: {message:string} | any) {
+            console.warn("useStaking::withdrawRewards", error);
+            setError("Rewards withdrawal Error...");
         }
         setIsAwaiting(false);
     }
@@ -188,6 +201,6 @@ export default function useStaking() {
 
     }, [isConnected, stakingSlice.staker, stakingSlice.token]);
 
-    return { approve, isAwaiting, txHash, stake, withdraw, withdrawRewards }
+    return { approve, isAwaiting, txHash, stake, withdraw, withdrawRewards, error, setError }
 
 }

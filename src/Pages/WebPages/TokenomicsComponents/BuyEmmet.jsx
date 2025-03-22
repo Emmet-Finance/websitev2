@@ -9,7 +9,7 @@ import NotifyMe from "./NotifyMe";
 import { isMobile } from "react-device-detect";
 
 function BuyEmmet() {
-  const targetDate = new Date("March 20, 2025 00:00:00 GMT+00:00");
+  const targetDate = new Date("April 3, 2025 00:00:00 GMT+00:00");
 
   return (
     <>

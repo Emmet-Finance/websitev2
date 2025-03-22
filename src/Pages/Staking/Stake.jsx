@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Modal from "react-modal";
 import { useAppSelector, useAppDispatch } from '../../hooks/storage';
 import ButtonSpinner from "../CommonComponents/Spinner/ButtonSpinner";
 import useStaking from "../../hooks/useStaking";
@@ -9,6 +10,7 @@ import { useAccount } from "wagmi";
 import useTabVisibility from "../../hooks/useTabVisibility";
 import TokenSelector from "./TokenSelector";
 import ZeroFeeBanner from "./ZeroFeesBanner";
+import AlertModal from "../../HeaderFooterSidebar/WebHeaderFooter/AlertModal";
 
 const insufficientBalance = "Insufficient balance"
 const captionApprove = "Approve";
@@ -20,10 +22,10 @@ const captionPending = "Processing...";
 function Stake() {
   const staking = useAppSelector(state => state.staking);
   const dispatch = useAppDispatch();
-  const { approve, isAwaiting, txHash, stake } = useStaking();
+  const { approve, isAwaiting, txHash, stake, error, setError } = useStaking();
   const isStaking = window.location.href.includes("/staking");
-    const {isTabActive} = useTabVisibility();
-    const { isConnected, account } = useAccount();
+  const { isTabActive } = useTabVisibility();
+  const { isConnected, account } = useAccount();
 
   // State to track the active staking item
   const [activeItem, setActiveItem] = useState(3);
@@ -31,6 +33,8 @@ function Stake() {
   const [disabled, setDisabled] = useState(false);
   const [amount, setStakeAmount] = useState("");
   const [oldAmount, setOldAmount] = useState("");
+  const [msg, setMsg] = useState("");
+  const [alertIsOpen, setAlertIsOpen] = useState(false);
 
   // Function to handle item click
   const handleItemClick = (index) => {
@@ -54,7 +58,19 @@ function Stake() {
   }
 
   useEffect(() => {
-    if(isTabActive && isStaking && modal.getChainId() !== 56){
+
+    if (error) {
+      setMsg(error);
+      setAlertIsOpen(true);
+    } else {
+      setMsg("");
+      setAlertIsOpen(false);
+    }
+
+  }, [error])
+
+  useEffect(() => {
+    if (isTabActive && isStaking && modal.getChainId() !== 56) {
       // modal.switchNetwork(findChainfromName(stakingChain));
       modal.switchNetwork(findChainfromName("BSC"));
     }
@@ -106,9 +122,20 @@ function Stake() {
     }
   }
 
+  function closedAlert() {
+    setMsg("");
+    setAlertIsOpen(false);
+    setError("")
+  }
+
   return (
     <div className="stake stakeBox">
-      <div className="stakeHeader">Stake 
+      <AlertModal
+        msg={msg}
+        alertIsOpen={alertIsOpen}
+        closedAlert={() => closedAlert()}
+      />
+      <div className="stakeHeader">Stake
         <TokenSelector />
       </div>
       <div className="stakeBody">
@@ -153,7 +180,7 @@ function Stake() {
               </li>
             ))}
           </ul>
-          {staking.token !== "EMMET" && <ZeroFeeBanner /> }
+          {staking.token !== "EMMET" && <ZeroFeeBanner />}
           <ul className="stakTotal stakList">
             <li>
               <p className="grayText">Maturity Date</p>

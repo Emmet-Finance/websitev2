@@ -30,6 +30,10 @@
   transition: 0.3s ease all;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .walletIcon {
   width: 20px;
 }

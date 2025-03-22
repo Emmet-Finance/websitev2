@@ -6,6 +6,7 @@ import LogoMob from "../../assets/img/web/logo-mob.svg";
 import HeaderNotify from "./HeaderComponents/HeaderNotify";
 import HeaderNewBtns from "./HeaderComponents/HeaderNewBtns";
 import { isMobile } from "react-device-detect";
+import ClaimButton from "./ClaimButton"
 
 import "./WebHeader.css";
 import HeaderRightBtn from "./HeaderComponents/HeaderRightBtn";
@@ -30,6 +31,7 @@ function WebHeader() {
             </div>
             <div className="headerRIght">
               {!isMobile && <HeaderRightBtn/>}
+              <ClaimButton />
               <a href="/bridge" className="launchApp">
                 {!isMobile && <>Launch</>} dApp
               </a>
