@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { setReceiver } from "../../store/bridgeSlice";
 import { useAppSelector, useAppDispatch } from "../../hooks/storage";
 import { isMobile } from "react-device-detect";
-import { isEvmAddress, isValidTonAddress, isValidSolanaAddress, truncateAddress } from "../../verifiers";
+import { isEvmAddress, isValidTonAddress, truncateAddress } from "../../verifiers";
 import useBridgeAccounts from "../../hooks/useBridgeAccounts";
 
 function WalletAddress() {
@@ -53,17 +53,17 @@ function WalletAddress() {
           setEmptyReceiver();
         }
         break;
-      case "SOLANA":
-        if (isValidSolanaAddress(inputValue)) {
-          setInvalidAddress(false);
-          setIsChangeVisivle(true);
-          setShowAddress(truncateAddress(inputValue, showDigits, showDigits));
-          dispatch(setReceiver(inputValue));
-        } else {
-          setInvalidAddress(true);
-          setEmptyReceiver();
-        }
-        break;
+      // case "SOLANA":
+      //   if (isValidSolanaAddress(inputValue)) {
+      //     setInvalidAddress(false);
+      //     setIsChangeVisivle(true);
+      //     setShowAddress(truncateAddress(inputValue, showDigits, showDigits));
+      //     dispatch(setReceiver(inputValue));
+      //   } else {
+      //     setInvalidAddress(true);
+      //     setEmptyReceiver();
+      //   }
+      //   break;
       case "EVM":
         if (isEvmAddress(inputValue)) {
           setInvalidAddress(false);

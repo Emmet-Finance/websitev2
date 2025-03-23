@@ -15,7 +15,6 @@ import { useTonWallet } from "@tonconnect/ui-react";
 import lockAndMintChains from "../../hooks/chains";
 import { Address } from "@ton/core";
 import Modal from "react-modal";
-import { useWallet } from "@solana/wallet-adapter-react";
 import { useAppKit } from '@reown/appkit/react';
 import { findChainfromName } from "../../utils";
 import { modal } from "../../App";
@@ -23,10 +22,13 @@ import useTabVisibility from "../../hooks/useTabVisibility";
 
 const pattern = /^[0x]{0,2}[0-9a-fA-F]{0,40}$/;
 
-function isValidTonAddress(str) {
+export function isValidTonAddress(address) {
   try {
-    Address.parse(str);
-    return true;
+    if (address && address.length > 0) {
+      Address.parse(address);
+      return true;
+    }
+    return false;
   } catch (e) {
     return false;
   }
@@ -39,7 +41,6 @@ function MainActionButton() {
   const { fromBalance } = useBalance();
   const { account, isConnected } = useAccount();
   const wallet = useTonWallet();
-  const solanaWallet = useWallet();
   const {isTabActive } =  useTabVisibility();
   const isBridgeUrl = window.location.href.includes("/bridge");
 
@@ -82,8 +83,7 @@ function MainActionButton() {
   useEffect(() => {
    
     if (isConnected 
-      || wallet?.account 
-      || solanaWallet.publicKey
+      || wallet?.account
     ) {
       if (!bridge.amount || Number(bridge.amount) <= 0) {
         setDisabled(true);
@@ -133,7 +133,6 @@ function MainActionButton() {
     isTransferProcessed,
     wallet,
     fromBalance,
-    solanaWallet.publicKey,
     bridge.allowance,
   ]);
 

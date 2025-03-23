@@ -13,9 +13,8 @@ import { Chain } from "emmet.js/dist/factory/types";
 import { chainFactory } from "../store/chainFactory";
 import { useEthersSigner } from "./useEthersSigner";
 import useBridgeFee from "./useBridgeFee";
-import { TonGasArgs, TonHelper } from "emmet.js/dist/chains/ton";
+import { TonHelper } from "emmet.js/dist/chains/ton";
 import { Web3Helper } from "emmet.js/dist/chains";
-import { toNano } from "@ton/core";
 // import { ErrorDecoder } from "ethers-decode-error";
 // import { EmmetBridge__factory } from "@emmet-contracts/web3";
 

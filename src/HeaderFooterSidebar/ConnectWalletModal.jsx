@@ -11,16 +11,6 @@ import { useAppSelector, useAppDispatch } from "../hooks/storage";
 import { setSenderAddress } from "../store/bridgeSlice";
 import TonIcon from "../assets/img/ton.svg";
 import WalletConnectIcon from "../assets/img/wallet-connect.svg";
-// import SolanaIcon from "../assets/img/solana.svg";
-import {
-  // useConnection as useSolanaConnection,
-  useWallet as useSolanaWallet,
-} from "@solana/wallet-adapter-react";
-// import {
-//   WalletDisconnectButton,
-//   WalletMultiButton,
-//   useWalletModal as useSolanaWalletModal,
-// } from "@solana/wallet-adapter-react-ui";
 
 import Modal from "react-modal";
 import { modal } from "../App";
@@ -39,10 +29,6 @@ export default function ConnectWalletModal({ modalIsOpen, setModalIsOpen }) {
     open: openTonModal,
     close: closeTonModal,
   } = useTonConnectModal();
-
-  // Solana Connection: ------------------------------
-  // const solanaWalletModal = useSolanaWalletModal();
-  const solanaWallet = useSolanaWallet();
 
   const bridge = useAppSelector((state) => state.bridge);
   const dispatch = useAppDispatch();
@@ -76,15 +62,6 @@ export default function ConnectWalletModal({ modalIsOpen, setModalIsOpen }) {
       } else {
         dispatch(setSenderAddress(""));
       }
-    } else if (
-      bridge.fromChain === "Solana" ||
-      bridge.fromChain === "SolanaDevnet"
-    ) {
-      if (solanaWallet?.publicKey) {
-        dispatch(setSenderAddress(solanaWallet.publicKey.toString()));
-      } else {
-        dispatch(setSenderAddress(""));
-      }
     } else {
       if (address) {
         dispatch(setSenderAddress(address));
@@ -92,7 +69,7 @@ export default function ConnectWalletModal({ modalIsOpen, setModalIsOpen }) {
         dispatch(setSenderAddress(""));
       }
     }
-  }, [address, tonAddress, bridge.fromChain, solanaWallet?.publicKey]);
+  }, [address, tonAddress, bridge.fromChain]);
 
   return (
     <div>
@@ -235,7 +212,7 @@ const DisconnectTonModal = ({ alertIsOpen, setAlertIsOpen }) => {
 };
 
 const DisconnectSolanaModal = ({ alertIsOpen, setAlertIsOpen }) => {
-  const solanaWallet = useSolanaWallet();
+
   return (
     <div>
       <Modal
@@ -266,13 +243,6 @@ const DisconnectSolanaModal = ({ alertIsOpen, setAlertIsOpen }) => {
             </svg>
           </button>
         </div>
-        <div>Do you want to disconnect Solana Wallet?</div>
-        <button
-          className="disconnectTonButton"
-          onClick={() => solanaWallet.disconnect() && setAlertIsOpen(false)}
-        >
-          <div>Disconnect</div>
-        </button>
       </Modal>
     </div>
   );

@@ -4,8 +4,10 @@ import { useAccount } from "wagmi";
 import { useAppDispatch, useAppSelector } from "./storage";
 import { sleep } from "emmet.js";
 import { Signer } from "ethers";
-import { Helper, TSymbol, TokensaleHelper, mainnetConfig, testnetConfig, } from "tokensale.sdk";
+import { Helper, TokensaleHelper, mainnetConfig, testnetConfig, } from "tokensale.sdk";
 import { setAllowance, setAmount, setBalance, setPositions, setStaker } from "../store/stakingSlice";
+ 
+type TSymbol = "EMMET" | "NTM";
 
 export default function useStaking() {
 
