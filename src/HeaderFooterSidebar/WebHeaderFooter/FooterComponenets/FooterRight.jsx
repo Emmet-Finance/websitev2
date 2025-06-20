@@ -43,6 +43,24 @@ function FooterRight() {
                   Roadmap
                 </a>
               </li>
+              <li>
+                <a
+                  href="/staking"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Staking
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/tokensale"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Tokensale
+                </a>
+              </li>
               {/* <li><a href="/pool" target='_blank'>Pool</a></li> */}
               {/* <li>
                 <a href="/explorer" target="_blank">
