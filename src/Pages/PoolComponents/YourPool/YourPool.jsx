@@ -18,10 +18,10 @@ export default function YourPool() {
       <YourPoolTitle/>
       <div className="pollRow row">
         {
-          pools.positions.map((pool, i) =>
+          pools.positions.map((position, i) =>
             <div key={i} className="col-lg-3">
               <PoolBox
-                poolData={pool}
+                poolData={position}
               />
             </div>
           )

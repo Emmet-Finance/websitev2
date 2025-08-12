@@ -28,8 +28,8 @@ export async function EmmetSendInstallment(
   status: TTxStatus;
   error: string | undefined;
 }> {
-  const { sender: tonSender } = useTonConnect();
-  const bridge = useAppSelector((state) => state.bridge);
+  const { tonSender } = useTonConnect();
+  const bridge = useAppSelector((state:any) => state.bridge);
   try {
     const fromChainID = CHAIN_NAME_TO_ID[chainName];
 

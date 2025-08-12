@@ -1,22 +1,25 @@
 import { setPositions, TPosition} from "../store/poolsSlice";
-import { useAppDispatch } from "./storage";
+import { useAppDispatch, useAppSelector } from "./storage";
 import { useEthersSigner } from "./useEthersSigner";
 import { useTonConnect } from "./useTonConnect";
-import { getPositions } from "../utils/emmetjs";
 import SUPPORTED_POOLS from "../data/pools.json";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { getSafeBalance } from "./shared";
+import { sleep } from "emmet.js";
 
 export default function useFetchPositions() {
 
     const dispatch = useAppDispatch();
     const evmSigner = useEthersSigner();
-    const { sender: tonSender } = useTonConnect();
+    const { tonSender } = useTonConnect();
+    const currentPositions: TPosition[] = useAppSelector(state => state.pools.positions); // <- read last state
+    const [error, setError] = useState("");
 
     const isTon = (chain:string) => chain.toLowerCase() === "ton";
 
     async function fetchPositions(): Promise<void> {
 
-        let positions: TPosition[] = [];
+        let newPositions: TPosition[] = [];
 
         for await (const pool of SUPPORTED_POOLS){
 
@@ -24,21 +27,27 @@ export default function useFetchPositions() {
                 ? tonSender.address?.toString() as string
                 : evmSigner?.address as string;
 
-            const tempPos = await getPositions(pool.chain, pool.token, address);
-            // console.log("tempPos", tempPos, "pool.chain", pool.chain, "pool.token", pool.token, "address", address)
+            const underlying = await getSafeBalance("Deposit", pool.chain, pool.token, address, setError);
+            const lp = await getSafeBalance("Withdraw", pool.chain, pool.token, address, setError);
 
-            if(tempPos && tempPos.balance && tempPos.rewards){
-                
-                positions.push({
-                    chain: pool.chain,
-                    token: pool.token,
-                    balance: Number(tempPos.balance.toString()),
-                    rewards: Number(tempPos.rewards.toString())
-                });
-            }
+            const prev = currentPositions.find(
+                (p) => p.chain === pool.chain && p.token === pool.token
+              );
+        
+              newPositions.push({
+                chain: pool.chain,
+                token: pool.token,
+                balance: underlying ?? prev?.balance ?? 0,
+                staked: lp ?? prev?.staked ?? 0,
+              });
+
+            await sleep(1000);
         }
 
-        if(positions){dispatch(setPositions(positions));}
+        if(newPositions.length){
+            dispatch(setPositions(newPositions));
+        }
+        await sleep(1000);
         
     }
 
@@ -54,6 +63,6 @@ export default function useFetchPositions() {
         })()
 
         return () => clearInterval(interval);
-    },);
+    },[tonSender.address, evmSigner?.address]);
 
 }

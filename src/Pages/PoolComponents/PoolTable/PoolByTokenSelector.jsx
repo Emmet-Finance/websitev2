@@ -34,16 +34,6 @@ export default function PoolByTokenSelector({ type }) {
     name: pool.byToken,
   });
 
-  useEffect(() => {
-    const name = pool.byToken;
-    // setSelectedCoin({
-    //   icon: getIcon(pool.byToken),
-    //   name,
-    // });
-
-    // dispatch(getIsfrom() ? setFromPrice(name) : setToPrice(name));
-  }, [pool.byToken]);
-
   const handleCoinClick = (icon, name) => {
     setSelectedCoin({ icon, name });
     toggleVisibility();

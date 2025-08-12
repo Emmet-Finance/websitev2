@@ -46,8 +46,6 @@ const PoolTable = () => {
     );
   };
 
-  // const sortedData = ;
-
   useEffect(() => {
     if (data) {
 
@@ -123,12 +121,12 @@ const PoolTable = () => {
                   <img src={Updown} alt="Updown" />
                 </span>
               </th>
-              {/* <th onClick={() => handleSort("Daily")}>
-                Volume (24h){" "}
+              <th onClick={() => handleSort("Daily")}>
+                Available Underlying{" "}
                 <span className="upDown">
                   <img src={Updown} alt="Updown" />
                 </span>
-              </th> */}
+              </th>
               <th
                 className="tableHead"
                 onClick={() => handleSort("TotalLiquidity")}
@@ -170,7 +168,7 @@ function TableDataRow({
   handleAddPollClick,
   loading,
 }) {
-  console.log("Table raw item", item)
+  // console.log("Table raw item", item)
   return (
     <tr>
       <td>
@@ -188,7 +186,9 @@ function TableDataRow({
           {loading ? <Skeleton height={16} width={60} /> : `${item.apy}%`}
         </span>
       </td>
-      {/* <td>$43,432.00</td> */}
+      <td>
+        {loading ? <Skeleton height={16} width={60} /> : `${item.balance}`}
+      </td>
       <td>
         <span className="totleLiqui">
           {loading ? (

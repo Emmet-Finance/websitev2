@@ -3,10 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { AddressBookKeys, sleep } from "emmet.js";
 import { useAppDispatch, useAppSelector } from "./storage";
 import {
-  ChainNameToTypeChainName,
-  SUPPORTED_CHAINS,
   TOKEN_DECIMALS,
-  TTokenName,
 } from "../types";
 import { chainFactory } from "../store/chainFactory";
 import { useEthersSigner } from "./useEthersSigner";
@@ -16,6 +13,7 @@ import {
 } from "../store/poolSlice";
 import { useTonConnect } from "./useTonConnect";
 import { getHandler, isValidAddress } from "../utils/emmetjs";
+import { getBalance } from "./shared";
 
 export default function usePool() {
 
@@ -25,11 +23,11 @@ export default function usePool() {
 
   // Injected accounts
   const signer = useEthersSigner();
-  const { sender: tonSender } = useTonConnect();
+  const { tonSender } = useTonConnect();
 
   // State Slices
-  const pool = useAppSelector((state) => state.pool);
-  const bridge = useAppSelector((state) => state.bridge);
+  const pool = useAppSelector((state:any) => state.pool);
+  const bridge = useAppSelector((state:any) => state.bridge);
 
   // Local state
   const [error, setError] = useState("");
@@ -122,55 +120,7 @@ export default function usePool() {
     }
   };
   // ----------------------------------------------
-  const getBalance = async (
-    type: "Deposit" | "Withdraw",
-    chain: string,
-    token: string,
-    account: string
-  ) => {
-
-    try {
-      const handler = pool.chain && await getHandler(chain);
-
-      if (handler) {
-        const _chain = SUPPORTED_CHAINS[ChainNameToTypeChainName[chain]];
-
-        //  Get & return coint balance
-        if (token === _chain.nativeCurrency.symbol && type === "Deposit") {
-          return (
-            Number(await handler.balance(account)) /
-            10 ** TOKEN_DECIMALS[token as TTokenName]
-          );
-        }
-
-        // Get & return Token balance
-        if ("address" in handler) {
-          if (type === "Deposit") {
-            const tokenAddress = await handler.address(token as AddressBookKeys);
-
-            return (
-              Number(await handler.tokenBalance(tokenAddress, account)) /
-              10 ** Number(TOKEN_DECIMALS[token as TTokenName])
-            );
-          } else { // Withdraw
-            const tokenAddress = await handler.address(
-              `elp${token}` as AddressBookKeys,
-            );
-            return (
-              Number(await handler.tokenBalance(tokenAddress, account)) /
-              10 ** Number(TOKEN_DECIMALS[token as TTokenName])
-            );
-          }
-        }
-      }
-
-      return 0;
-      
-    } catch (error: { message: string } | any) {
-      console.error(error);
-      setError(error.message);
-    }
-  };
+  
   // ----------------------------------------------
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -186,7 +136,8 @@ export default function usePool() {
           "Deposit",
           pool.chain,
           pool.token,
-          bridge.senderAddress
+          bridge.senderAddress,
+          setError,
         );
 
         if(balance !== undefined){
@@ -199,7 +150,8 @@ export default function usePool() {
           "Withdraw",
           pool.chain,
           pool.token,
-          bridge.senderAddress
+          bridge.senderAddress,
+          setError,
         );
         if(stakedBalance !== undefined){
           dispatch(setPoolStakedBalance(stakedBalance));

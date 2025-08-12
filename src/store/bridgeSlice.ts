@@ -51,11 +51,11 @@ export interface IBridgeState {
 
 // FROM
 const fromChain = "Polygon";
-const fromToken = "USDC";
+const fromToken = "USDT";
 
 // TO
-const toChain = "Avalanche";
-const toToken = "USDC";
+const toChain = "Manta";
+const toToken = "USDT";
 
 let fromTokens = filterAvailableFromTokens(fromChain, toChain);
 fromTokens = fromTokens.length > 1

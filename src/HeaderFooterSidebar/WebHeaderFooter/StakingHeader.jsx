@@ -1,4 +1,5 @@
 import React, { useEffect, useState} from "react";
+import TokenSaleButton  from "./HeaderComponents/TokenSaleButton"
 import "./WebHeader.css";
 
 import { useAppSelector } from "../../hooks/storage";
@@ -42,6 +43,7 @@ function StakingHeader() {
               </a>
             </div>
             <div className="headerRIght">
+              <TokenSaleButton/>
               <button 
                 className="walletConnect connectWallet connectWalletBlack"
                 style={{color:"#fff"}}

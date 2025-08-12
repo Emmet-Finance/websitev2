@@ -1,32 +1,18 @@
 import React from "react";
-import { isMobile } from "react-device-detect";
+// import { isMobile } from "react-device-detect";
 import AirdropEmmet from "../../../assets/img/web/AirdropEmmet.svg";
-import EmmetTokken from "../../../assets/img/web/EmmetTokken.svg";
+import TokenSaleButton from "./TokenSaleButton";
 
 import "./HeaderNewBtns.css";
 
 export default function HeaderNewBtns() {
 
-  const isTokensalePage = window.location.href.includes("/tokensale");
-
   return (
     <div className="headerBtn">
-      {
-        
-        !isTokensalePage 
-        ? (<a href="/tokensale"
-          // target='_blank'
-          className='EmmetTokken'
-          rel="noreferrer noopener"
-        >
-          $EMMET Pre-sale
-          <img src={EmmetTokken} alt="EmmetTokken" />
-        </a>)
-        : (<></>)
-      }
+      <TokenSaleButton />
       
 
-      { // DESKTOP VIEW
+      {/* { // DESKTOP VIEW
         !isMobile
           ? (<a
             href="https://zealy.io/cw/emmet-finance/"
@@ -39,7 +25,7 @@ export default function HeaderNewBtns() {
             <img src={AirdropEmmet} alt="AirdropEmmet" />
           </a>)
           : (<></>)
-      }
+      } */}
 
     </div>
   );

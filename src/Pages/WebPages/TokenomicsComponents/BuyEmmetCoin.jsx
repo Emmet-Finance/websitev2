@@ -10,6 +10,12 @@ import ButtonSpinner from "../../CommonComponents/Spinner/ButtonSpinner";
 import { modal } from "../../../App";
 import { findChainfromName } from "../../../utils";
 import useTabVisibility from "../../../hooks/useTabVisibility";
+import { setCash } from "../../../store/tokensaleSlice";
+
+const availableCashTokens = [
+  { name: "USDT", icon: "/img/USDT.svg" },
+  { name: "USDC", icon: "/img/coin/usdc.svg" },
+];
 
 const insufficientBalance = "Insufficient balance"
 const captionApprove = "Approve";
@@ -33,7 +39,8 @@ function BuyEmmetCoin() {
   const [caption, setCaption] = useState("Enter Amount");
   const [showSpinner, setShowSpiner] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  // const [ref, setRef] = useState("123ABC");
+  const [cashToken, setCashToken] = useState(tokensale.cash || "USDT");
+  const [isCashDropdownVisible, setCashDropdownVisible] = useState(false);
 
   const { approve, purchase, isAwaiting } = useTokenSale();
 
@@ -167,9 +174,62 @@ function BuyEmmetCoin() {
             </div>
           </div>
           <div className="emmetBalance">
-            <p className="label right-text">Balance: {tokensale.balance.toLocaleString()}</p>
-            <div className="receiveEmmet">
-              <img src="/img/USDT.svg" alt="" /> <span>USDT</span>
+            <p className="label right-text">Pay with</p>
+            <div
+              className="receiveEmmet"
+              style={{  cursor: "pointer", position: "relative" }}
+            >
+              <div
+                className="selectedCoin"
+                onClick={() => setCashDropdownVisible(!isCashDropdownVisible)}
+                style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
+              >
+                <div className="coinNameIcon" style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                  <img
+                    src={availableCashTokens.find(t => t.name === cashToken)?.icon}
+                    alt={cashToken}
+                    style={{ width: "20px", height: "20px" }}
+                  />
+                  <span>{cashToken}</span>
+                </div>
+                <img src="/img/down-white.svg" alt="Down Arrow" style={{ marginLeft: "20px", width: "12px", gap: "20px" }} />
+              </div>
+              {isCashDropdownVisible && (
+                <ul
+                  className="selectCoinList visible"
+                  style={{
+                    position: "absolute",
+                    top: "100%",
+                    left: 0,
+                    background: "#1e1e1e",
+                    border: "1px solid #333",
+                    width: "100%",
+                    zIndex: 10,
+                  }}
+                >
+                  {availableCashTokens.map((coin) => (
+                    <li
+                      key={coin.name}
+                      className="coinItem"
+                      onClick={() => {
+                        setCashToken(coin.name);
+                        dispatch(setCash(coin.name));
+                        setCashDropdownVisible(false);
+                      }}
+                      style={{
+                        padding: "6px 12px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <img src={coin.icon} alt={coin.name} style={{ width: "20px", height: "20px" }} />
+                      <span>{coin.name}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </div>
@@ -181,7 +241,7 @@ function BuyEmmetCoin() {
             </div>
           </div>
           <div className="emmetBalance">
-            <p className="label right-text">1 EMMET ≈ 0.01 USDT</p>
+            <p className="label right-text">1 EMMET ≈ 0.0125 USDT</p>
             <div className="receiveEmmet">
               <img src="/img/emmet/Tokens.svg" alt="" /> <span>EMMET</span>
             </div>

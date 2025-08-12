@@ -6,10 +6,12 @@ import poolSlice from "./poolSlice";
 import poolsReducer from "./poolsSlice";
 import stakingReducer from "./stakingSlice";
 import tokensaleReducer from "./tokensaleSlice";
+import claimingReducer from "./claiming";
 
 export const store = configureStore({
   reducer: {
     bridge: bridgeSlice,
+    claiming: claimingReducer,
     swap: swapSliceReducer,
     explorer: explorerReducer,
     pool: poolSlice,

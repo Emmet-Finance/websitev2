@@ -9,6 +9,7 @@ import ConnectWalletModal from "./ConnectWalletModal";
 import ConnectionIndicator from "./LockAndMintConnectionIndicator";
 import Wallet from "../assets/img/Wallet.svg";
 import { useAppSelector } from "../hooks/storage";
+import TokenSaleButton from "../HeaderFooterSidebar/WebHeaderFooter/HeaderComponents/TokenSaleButton";
 
 const MobileHeader = () => {
   // const [isBodyClassAdded, setIsBodyClassAdded] = useState(false);
@@ -28,14 +29,15 @@ const MobileHeader = () => {
       <div className="mobileHeaderTop">
         <NetworkSwitch />
       </div>
-      
+
       <div className="mobileHeaderCenter">
         <a href="/">
           <img src={Logo} alt="EmmetFinance" />
         </a>
         <div className="headerRightSide">
+          <TokenSaleButton />
           {!isStaking && <ConnectionIndicator />}
-          
+
           <div
             className="connectWallet"
             onClick={() => setModalIsOpen(!modalIsOpen)}
@@ -44,8 +46,8 @@ const MobileHeader = () => {
               <img src={Wallet} alt="Wallet" />
               {bridge.senderAddress
                 ? `${bridge.senderAddress.slice(0, 3)}...${bridge.senderAddress.slice(
-                    -3,
-                  )}`
+                  -3,
+                )}`
                 : "Connect"}
             </div>
           </div>

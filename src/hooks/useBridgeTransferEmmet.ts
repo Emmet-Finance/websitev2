@@ -15,19 +15,18 @@ import { useEthersSigner } from "./useEthersSigner";
 import useBridgeFee from "./useBridgeFee";
 import { TonGasArgs, TonHelper } from "emmet.js/dist/chains/ton";
 import { Web3Helper } from "emmet.js/dist/chains";
-import { toNano } from "@ton/core";
 // import { ErrorDecoder } from "ethers-decode-error";
 // import { EmmetBridge__factory } from "@emmet-contracts/web3";
 
 export default function useBridgeTransferEmmet() {
-  const { sender: tonSender } = useTonConnect();
+  const { tonSender } = useTonConnect();
   const { fee, formattedFee, protocolFee, protocolFeeInUSD } = useBridgeFee();
 
   const dispatch = useAppDispatch();
 
   const signer = useEthersSigner();
 
-  const bridge = useAppSelector((state) => state.bridge);
+  const bridge = useAppSelector((state:any) => state.bridge);
 
   const [isTransferProcessed, setIsTransferProcessed] =
     useState<boolean>(false);
@@ -91,7 +90,8 @@ export default function useBridgeTransferEmmet() {
           fromChainID === Chain.ETHEREUM ||
           fromChainID === Chain.BSC ||
           fromChainID === Chain.BERACHAIN ||
-          fromChainID === Chain.ONLYLAYER
+          fromChainID === Chain.ONLYLAYER ||
+          fromChainID === Chain.MANTA
         ) {
           const handler: Web3Helper = (await chainFactory.inner(
             fromChainID,

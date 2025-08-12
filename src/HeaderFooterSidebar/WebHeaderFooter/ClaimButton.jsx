@@ -9,6 +9,8 @@ export default function ClaimButton() {
 
     const { error, setError, claimEmmet } = useTokenSale();
 
+    const isTokensale = window.location.href.includes("/tokensale");
+
     const handleClaimClick = () => {
         claimEmmet()
     }
@@ -31,18 +33,23 @@ export default function ClaimButton() {
         setError("")
     };
 
-    return (<>
-        <AlertModal
-            msg={msg}
-            alertIsOpen={alertIsOpen}
-            closedAlert={() => closedAlert()}
-        />
-        <div
-            className="launchApp pointer"
-            onClick={handleClaimClick}
-        >
-            Claiming
-        </div>
-    </>)
+    return (isTokensale ? (
+        <>
+            <AlertModal
+                msg={msg}
+                alertIsOpen={alertIsOpen}
+                closedAlert={() => closedAlert()}
+            />
+            <div
+                className="launchApp pointer"
+                onClick={handleClaimClick}
+            >
+                Claim
+            </div>
+        </>
+    ) : (
+        <></>
+    )
+    );
 
 }

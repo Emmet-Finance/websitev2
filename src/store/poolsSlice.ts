@@ -6,14 +6,14 @@ export type TPool = {
     decimals: number,
     token: string,
     supply: number,
-    rewards: number,
+    balance: number,
 }
 
 export type TPosition = {
     chain: string,
     token: string,
     balance: number,
-    rewards: number
+    staked: number,
 }
 
 interface IPoolsState {
@@ -31,14 +31,10 @@ export const poolsSlice = createSlice({
     initialState,
     reducers: {
         setPools(state: IPoolsState, action: PayloadAction<TPool []>){
-            if(action.payload.length >= state.pools.length){
-                state.pools = action.payload;
-            }
+            state.pools = action.payload;
         },
         setPositions(state: IPoolsState, action: PayloadAction<TPosition[]>){
-            if(action.payload.length >= state.positions.length){
-                state.positions = action.payload;
-            }
+            state.positions = action.payload;
             
         },
     }

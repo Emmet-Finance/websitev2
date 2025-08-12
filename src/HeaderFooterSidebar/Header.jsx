@@ -6,6 +6,7 @@ import ConnectionIndicator from "./ConnectionIndicator";
 import ExplorerHeaderSearch from "./ExplorerHeaderSearch";
 import Wallet from "../assets/img/Wallet.svg";
 import { useAppSelector } from "../hooks/storage";
+import TokenSaleButton from "./WebHeaderFooter/HeaderComponents/TokenSaleButton";
 
 function Header({ caption }) {
   const location = useLocation();
@@ -23,6 +24,7 @@ function Header({ caption }) {
           <h1 className="siteTitle">{caption}</h1>
           {isExplorerOrPool && <ExplorerHeaderSearch />}
           <div className="headerRightSide">
+            <TokenSaleButton />
             <ConnectionIndicator />
             <div
               className="connectWallet"
@@ -32,8 +34,8 @@ function Header({ caption }) {
                 <img src={Wallet} alt="Wallet" />
                 {bridge.senderAddress
                   ? `${bridge.senderAddress.slice(0, 6)}...${bridge.senderAddress.slice(
-                      -6,
-                    )}`
+                    -6,
+                  )}`
                   : "Connect"}
               </div>
             </div>

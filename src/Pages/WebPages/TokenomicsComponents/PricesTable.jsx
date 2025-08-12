@@ -13,27 +13,27 @@ export default function PricesTable() {
         <tbody>
             <tr>
                 <td>20 - 999</td>
-                <td>0.0100</td>
+                <td>0.0125</td>
             </tr>
             <tr>
                 <td>1,000 - 5,000</td>
-                <td>0.0098</td>
+                <td>0.00122</td>
             </tr>
             <tr>
                 <td>5,000 - 19,999</td>
-                <td>0.0097</td>
+                <td>0.00121</td>
             </tr>
             <tr>
                 <td>20,000 - 49,999</td>
-                <td>0.0095</td>
+                <td>0.012</td>
             </tr>
             <tr>
                 <td>50,000 - 99,000</td>
-                <td>0.0092</td>
+                <td>0.00118</td>
             </tr>
             <tr>
                 <td>100,000 +</td>
-                <td>0.0090</td>
+                <td>0.0115</td>
             </tr>
         </tbody>
     </table>)

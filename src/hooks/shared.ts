@@ -32,6 +32,7 @@ export const getBalance = async (
     if (!handler) {
       try {
         handler = await getHandler(chain);
+        await sleep(100);
         handlerCache[chain] = handler;
       } catch (e) {
         setError(`Failed to get handler for ${chain}`);
@@ -50,11 +51,13 @@ export const getBalance = async (
         );
       }
 
+      await sleep(100);
+
       // Get & return Token balance
       if ("address" in handler) {
         if (type === "Deposit") {
           const tokenAddress = await handler.address(token as AddressBookKeys);
-
+          await sleep(100);
           return (
             Number(await handler.tokenBalance(tokenAddress, account)) /
             10 ** Number(TOKEN_DECIMALS[token as TTokenName])
@@ -63,6 +66,7 @@ export const getBalance = async (
           const tokenAddress = await handler.address(
             `elp${token}` as AddressBookKeys,
           );
+          await sleep(100);
           return (
             Number(await handler.tokenBalance(tokenAddress, account)) /
             10 ** Number(TOKEN_DECIMALS[token as TTokenName])
@@ -70,7 +74,7 @@ export const getBalance = async (
         }
       }
     }
-    await sleep(1000);
+    await sleep(10000);
     return 0;
 
   } catch (error: { message: string } | any) {

@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import { useAppDispatch } from "./storage";
+import { useAppDispatch, useAppSelector } from "./storage";
 import { useEthersSigner } from "./useEthersSigner";
 import type { Helper } from "tokensale.sdk/dist/types"
 import { mainnetConfig, testnetConfig, tokensale, TokensaleHelper } from "tokensale.sdk/dist";
@@ -20,6 +20,8 @@ export default function useTokenSale() {
     const [isAwaiting, setIsAwaiting] = useState(false);
     const [registered, setRegistered] = useState(false);
     const [error, setError] = useState("");
+
+    const tokensaleSlice = useAppSelector((state:any) => state.tokensale);
 
     async function getTokenSale(): Promise<Helper>{
         return await TokensaleHelper(isTestnet ? testnetConfig : mainnetConfig);
@@ -74,7 +76,7 @@ export default function useTokenSale() {
         setIsAwaiting(true);
         try {
             const tokensale: Helper = await getTokenSale();
-            await tokensale.buy(signer as Signer, BigInt(amount * decimals), ref);
+            await tokensale.buy(signer as Signer, BigInt(amount * decimals), ref, tokensaleSlice.cash);
         } catch (error) {
             console.warn("useTokenSale::purchase", error);
         }
@@ -84,7 +86,7 @@ export default function useTokenSale() {
     async function saveRef(ref:string) {
         try {
             const tokensale: Helper = await getTokenSale();
-            await tokensale.createReference(signer as Signer, ref);
+            await tokensale.createReference(signer as Signer, ref, tokensaleSlice.cash);
         } catch (error) {
             console.warn("useTokenSale::saveRef", error);
         }
@@ -94,7 +96,7 @@ export default function useTokenSale() {
         if(!registered){
             try {
                 const tokensale: Helper = await getTokenSale();
-                setRegistered(await tokensale.isRegisteredRef(ref));
+                setRegistered(await tokensale.isRegisteredRef(ref, tokensaleSlice.cash));
             } catch (error) {
                 console.warn("useTokenSale::isRefRegistered", error);
             }
@@ -105,9 +107,9 @@ export default function useTokenSale() {
     async function claimEmmet () {
         try {
             const tokensale: Helper = await getTokenSale();
-            const claimable = await tokensale.claimable(address!);
+            const claimable = await tokensale.claimable(address!, tokensaleSlice.cash);
             if(claimable){
-                const transactionHash = await tokensale.claim(signer!);
+                const transactionHash = await tokensale.claim(signer!, tokensaleSlice.cash);
             }else{
                 setError("Vesting has not matured. Nothing to claim so far.");
             }

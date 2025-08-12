@@ -4,7 +4,7 @@ import { useAccount } from "wagmi";
 import { useAppDispatch, useAppSelector } from "./storage";
 import { sleep } from "emmet.js";
 import { Signer } from "ethers";
-import { Helper, TSymbol, TokensaleHelper, mainnetConfig, testnetConfig, } from "tokensale.sdk";
+import { Helper, TokensaleHelper, mainnetConfig, testnetConfig, } from "tokensale.sdk";
 import { setAllowance, setAmount, setBalance, setPositions, setStaker } from "../store/stakingSlice";
 
 export default function useStaking() {
@@ -15,7 +15,7 @@ export default function useStaking() {
     const isTestnet: boolean = false;
     const decimals = 1e18;
 
-    const stakingSlice = useAppSelector(state => state.staking);
+    const stakingSlice = useAppSelector((state:any) => state.staking);
 
     const [isAwaiting, setIsAwaiting] = useState(false);
     const [txHash, setTxHash] = useState("");
@@ -47,7 +47,7 @@ export default function useStaking() {
     async function updateBalance() {
         try {
             const staking: Helper = await getStaking();
-            const balance = await staking.balance(address!, stakingSlice.token as TSymbol);
+            const balance = await staking.balance(address!, stakingSlice.token);
 
             if (balance) {
                 dispatch(setBalance(Number(balance.toString()) / decimals))

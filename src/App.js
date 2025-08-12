@@ -7,6 +7,7 @@ import ReactGA from "react-ga";
 import TransactionDetailsPage from "./Pages/TransactionDetailsPage";
 import LockAndMint from "./Pages/LockAndMint";
 import PoolPage from "./Pages/Pool";
+import Claiming from "./Pages/Claiming";
 // import ExplorerPage from "./Pages/Explorer";
 // import HomePage from "./Pages/Home";
 
@@ -143,6 +144,10 @@ function App() {
                       <Route
                         path="/pool/your-liquidity"
                         element={<YourLiquidityPage />}
+                      />
+                      <Route
+                        path="/claiming"
+                        element={<Claiming />}
                       />
                       <Route
                         path="/pay-with-card"

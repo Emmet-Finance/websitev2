@@ -1,6 +1,7 @@
 import TOKEN_DECIMALS from "../data/tokenDecimals.json";
 import TOKEN_SYMBOL_TO_TOKEN from "../data/tokenSymbols.json";
 import TOKEN_TO_TOKEN from "../data/bridgeTokenMap.json";
+import { manta } from "viem/chains";
 
 export {
   TOKEN_DECIMALS,
@@ -50,6 +51,7 @@ export const BridgeTokens = [
 export const CHAIN_TO_TOKENS: {[key:string]: string[]} = {
   Avalanche: ["USDC"],
   BSC: ["NTM", "LKY"],
+  Manta: ["USDT"],
   Polygon: ["USDT", "USDC"],
   Songbird: ["USDTem"],
   TON: ["USDT", "NTM", "LKY"],
@@ -66,8 +68,12 @@ export const CHAIN_TO_TOKENS_TREE: {[key:TSupportedChain|string]:{
   BSC: {
     TON:["NTM", "LKY"]
   },
+  Manta: {
+    Polygon: ["USDT"],
+  },
   Polygon: {
     Avalanche: ["USDC"],
+    Manta: ["USDT"],
     Songbird: ["USDT"],
     TON: ["USDT"],
   },

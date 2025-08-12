@@ -5,6 +5,7 @@ import { avalancheFuji } from "./avalancheFuji";
 import { base } from "./base";
 import { baseSepolia } from "./baseSepolia";
 import { ethereum } from "./ethereum";
+import { manta } from "./manta";
 import { optimism } from "./optimism";
 import { optimismSepolia } from "./optimismSepolia";
 import { polygon } from "./polygon";
@@ -26,6 +27,7 @@ export * from "./arbitrum";
 export * from "./avalanche";
 export * from "./base";
 export * from "./ethereum";
+export * from "./manta";
 export * from "./optimism";
 export * from "./polygon";
 export * from "./solana";
@@ -47,6 +49,7 @@ export const MAINNETS = {
   avalanche: avalanche,
   base: base,
   ethereum: ethereum,
+  manta: manta,
   optimism: optimism,
   polygon: polygon,
   songbird: songbird,
@@ -87,6 +90,7 @@ export const CHAIN_NAME_TO_ID: { [key in TChainName]: number } = {
   base: 8453, // 0x2105
   ethereum: 1, // 0x1
   optimism: 10, // 0xa (OP Mainnet)
+  manta: 169,
   polygon: 137, // 0x89
   songbird: 19,
   ton: 65534, // 0xfffe
@@ -111,6 +115,7 @@ export const ChainNameToTypeChainName: { [key: string]: TChainName } = {
   Avalanche: "avalanche",
   Base: "base",
   Ethereum: "ethereum",
+  Manta: "manta",
   Optimism: "optimism",
   Polygon: "polygon",
   Songbird: "songbird",
@@ -141,6 +146,7 @@ export const ChainToDestinationDomain: { [key in TChainName]: number } = {
   base: 6,
   baseSepolia: 6,
   bsc: 56,
+  manta: 169,
   polygon: 7,
   polygonAmoy: 7,
   ton: 65534,
@@ -164,6 +170,7 @@ export const DomainToChainName: { [key: number]: TChainName } = {
   5: "solana", // TODO: change
   19: "songbird",
   56: "bsc",
+  169: "manta",
 };
 
 export const DomainToChainNameTestnet: { [key: number]: TChainName } = {
@@ -186,6 +193,7 @@ export const CHAIN_ID_TO_NAME: { [key: number]: TChainName } = {
   5426: "solana",
   56: "bsc",
   19: "songbird",
+  169: "manta",
   // Testnets:
   421614: "arbitrumSepolia",
   43113: "avalancheFuji",
@@ -212,6 +220,7 @@ export const CHAIN_LOGOS: { [key: string|TChainName]: string } = {
   base: "img/chain/base.svg",
   ethereum: "img/chain/ethereum.svg",
   optimism: "img/chain/optimism.svg",
+  manta: "img/chain/manta.svg",
   polygon: "img/chain/polygon.svg",
   ton: "img/chain/ton.svg",
   solana: "img/chain/solana.svg",

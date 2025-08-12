@@ -68,6 +68,16 @@ function SidebarNav() {
             <span>Staking</span>
           </Link>
         </li>
+        <li>
+          <Link
+            to="/claiming"
+            className={`navLink ${isActive("/claiming") && "active"}`}
+            onClick={handleLinkClick}
+          >
+            <img src={"/img/nav-icon/nav-Icons-claiming.svg"} alt="NavIcon" />
+            <span>Claiming</span>
+          </Link>
+        </li>
         {/* <li>
           <Link
             to="/#"

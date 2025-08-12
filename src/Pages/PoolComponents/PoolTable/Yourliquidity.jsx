@@ -39,7 +39,7 @@ function Yourliquidity() {
   const [showSpinner, setShowSpiner] = useState(false);
 
   const { approve, isApproveLoading } = useBridgeApproveERC20();
-  const { getBalance, stake, withdraw, withdrawFees } = usePool();
+  const { stake, withdraw, withdrawFees } = usePool();
   const dispatch = useAppDispatch();
   const pool = useAppSelector((state) => state.pool);
   const bridge = useAppSelector((state) => state.bridge);
@@ -219,40 +219,12 @@ function Yourliquidity() {
               />
             </div>
             <ul className="YourliquidityList">
-              {/* <li>
-                <div className="LiquidityleftText">LPT Available</div>
-                <div className="LiquidityrightText">
-                  {pool.protocolFee / 10000}%
-                </div>
-              </li>
-              <li>
-                <div className="LiquidityleftText">LPT farming</div>
-                <div className="LiquidityrightText">
-                  {pool.tokenFee / 10000}%
-                </div>
-              </li> */}
               <li>
                 <div className="LiquidityleftText">LPT staked</div>
                 <div className="LiquidityrightText">
                   {pool.stakedBalance} {pool.token}
                 </div>
               </li>
-              {activeButton === "Withdraw" && (
-                <li>
-                  <div className="LiquidityleftText">
-                    <button
-                      className="WithdrawRewardsActionButton"
-                      onClick={withdrawFees}
-                      disabled={!pool.pendingRewards}
-                    >
-                      Withdraw Rewards
-                    </button>
-                  </div>
-                  <div className="LiquidityrightText">
-                    {pool.pendingRewards} {pool.token}
-                  </div>
-                </li>
-              )}
 
               <li>
                 <div className="LiquidityleftText">Share of Pool</div>

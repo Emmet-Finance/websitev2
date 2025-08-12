@@ -1,5 +1,5 @@
 import { useAccount } from "wagmi";
-import { useAppDispatch } from "./storage";
+import { useAppDispatch, useAppSelector } from "./storage";
 import { useEthersSigner } from "./useEthersSigner";
 import { useEffect, useState } from "react";
 import { Helper, mainnetConfig, sleep, TAirdropPosition, testnetConfig, TokensaleHelper } from "tokensale.sdk";
@@ -10,6 +10,8 @@ export default function useClaming() {
     const { address, isConnected } = useAccount();
     const dispatch = useAppDispatch();
     const signer = useEthersSigner();
+    const tokensaleSlice = useAppSelector((state:any) => state.tokensale);
+
     const isTestnet: boolean = false;
     const decimals = 1e18;
 
@@ -31,7 +33,7 @@ export default function useClaming() {
     async function updateClaimable() {
         try {
             const tokensale: Helper = await getHelper();
-            const claimable = await tokensale.claimableAirdrop(address!);
+            const claimable = await tokensale.claimableAirdrop(address!, tokensaleSlice.cash);
 
             if (claimable) {
                 dispatch(setClaimable(Number(claimable.toString()) / decimals))
@@ -67,7 +69,7 @@ export default function useClaming() {
         try {
             setIsAwaiting(true);
             const tokensale: Helper = await getHelper();
-            const txHash = await tokensale.claim(signer as any);
+            const txHash = await tokensale.claimAirdrop(signer as any);
             setTxHash(txHash as string);
             setIsAwaiting(false);
         } catch (error: any) {

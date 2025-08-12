@@ -32,7 +32,7 @@ function IntroducingEMMET() {
                   <p>
                     EMMET native token unlocks the power of decentralized finance,
                     giving you access to a growing ecosystem of cutting-edge DeFi
-                    tools and innovative blockchain applicatios.
+                    tools and innovative blockchain applications. FYI, former $EMMET price was $0.0100.
                   </p>
                   <PricesTable />
 
@@ -49,7 +49,7 @@ function IntroducingEMMET() {
                   <p>
                     EMMET native token unlocks the power of decentralized finance,
                     giving you access to a growing ecosystem of cutting-edge DeFi
-                    tools and innovative blockchain applicatios.
+                    tools and innovative blockchain applicatios.  FYI, former $EMMET price was $0.0100.
                   </p>
                   <PricesTable />
                   <p></p>

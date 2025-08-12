@@ -116,14 +116,14 @@ const TableData = ({
               {loading ? (
                 <Skeleton height={16} width={80} />
               ) : (
-                `${data.totalSupply}`
+                `${data && data.totalSupply ? data.totalSupply : 0}`
               )}
             </h3>
           </div>
           <div className="col-6">
             <h4>APY</h4>
             <h3>
-              {loading ? <Skeleton height={16} width={80} /> : `${data.apy}%`}
+              {loading ? <Skeleton height={16} width={80} /> : `${data && data.apy ? data.apy : 0}%`}
             </h3>
           </div>
           <div className="addDeposit">

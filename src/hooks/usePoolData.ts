@@ -4,27 +4,22 @@ import { useLocation } from 'react-router-dom';
 import {
     setPoolApy,
     setPoolDataLoading,
-    setPoolFeeDecimals,
-    setPoolFeeGrowthGlobal,
     setPoolLiquidityInUSD,
     setPoolPendingRewards,
-    setPoolProtocolFee,
-    setPoolProtocolFeeAmount,
-    setPoolTokenFee,
     setPoolTotalSupply,
 } from "../store/poolSlice";
 import { sleep } from "emmet.js";
 import { useTonConnect } from "./useTonConnect";
-import { getData, getPositions } from "../utils/emmetjs";
+import { getData } from "../utils/emmetjs";
 
 
 export default function usePoolData() {
 
     const dispatch = useAppDispatch();
-    const { sender: tonSender } = useTonConnect();
+    const { tonSender } = useTonConnect();
 
-    const pool = useAppSelector((state) => state.pool);
-    const bridge = useAppSelector((state) => state.bridge);
+    const pool = useAppSelector((state:any) => state.pool);
+    const bridge = useAppSelector((state:any) => state.bridge);
 
     const location = useLocation();
     const isPoolPath = location.pathname.includes('/pool');
@@ -40,20 +35,14 @@ export default function usePoolData() {
         }
 
         if (data) {
-            dispatch(setPoolApy(data.apy));
-            dispatch(setPoolTotalSupply(data.totalSupply));
-            dispatch(setPoolProtocolFee(data.protocolFee));
-            dispatch(setPoolProtocolFeeAmount(data.protocolFeeAmount));
-            dispatch(setPoolTokenFee(data.tokenFee));
-            dispatch(setPoolFeeGrowthGlobal(data.feeGrowthGlobal));
-            dispatch(setPoolFeeDecimals(data.feeDecimals));
-            dispatch(setPoolPendingRewards(data.pendingRewards));
-            dispatch(setPoolLiquidityInUSD(data.totalSupply
-                // data.liquidityPoolInUSD
-            ));
+            data.apy && dispatch(setPoolApy(data.apy));
+            data.supply && dispatch(setPoolTotalSupply(data.supply));
+            data.balance && dispatch(setPoolPendingRewards(data.balance));
+            data.liquidityPoolInUSD && dispatch(setPoolLiquidityInUSD(data.liquidityPoolInUSD.toString()));
         }
 
         dispatch(setPoolDataLoading(false));
+        await sleep(1000);
     };
 
     useEffect(() => {
@@ -77,8 +66,7 @@ export default function usePoolData() {
     }, [pool.chain, pool.token, bridge.senderAddress]);
 
     return {
-        getData,
-        getPositions
+        getData
     }
 
 }
